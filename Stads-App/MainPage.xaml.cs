@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.ViewModels;
 using Stads_App.Views;
 
 namespace Stads_App
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = new MainViewModel();
         }
 
@@ -62,25 +61,17 @@ namespace Stads_App
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
             On_BackRequested();
 
-        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void On_BackRequested()
         {
-            On_BackRequested();
-            args.Handled = true;
-        }
-
-        private bool On_BackRequested()
-        {
-            if (!ContentFrame.CanGoBack)
-                return false;
+            if (!ContentFrame.CanGoBack) return;
 
             // Don't go back if the nav pane is overlayed
             if (NavView.IsPaneOpen &&
                 (NavView.DisplayMode == NavigationViewDisplayMode.Compact ||
                  NavView.DisplayMode == NavigationViewDisplayMode.Minimal))
-                return false;
+                return;
 
             ContentFrame.GoBack();
-            return true;
         }
 
         private void On_Navigated(object sender, NavigationEventArgs e)
