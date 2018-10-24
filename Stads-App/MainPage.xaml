@@ -8,7 +8,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <NavigationView x:Name="NavView" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" IsPaneOpen="True"
-                    ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" BackRequested="NavView_BackRequested">
+                    ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" BackRequested="NavView_BackRequested" Header="{Binding Path=Content.Header, ElementName=ContentFrame}">
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Home" Content="Home" Tag="home" />
             <NavigationViewItem Icon="Shop" Content="Alle Winkels" Tag="stores" />

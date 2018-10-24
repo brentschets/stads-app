@@ -2,6 +2,8 @@
 {
     public sealed partial class Events
     {
+        public override string Header => "Evenementen";
+
         public Events()
         {
             InitializeComponent();

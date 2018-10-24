@@ -23,7 +23,9 @@ namespace Stads_App
         private readonly IList<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
             ("home", typeof(Home)),
-            ("stores", typeof(Stores))
+            ("stores", typeof(Stores)),
+            ("promotions", typeof(Promotions)),
+            ("events", typeof(Events))
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
