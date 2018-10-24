@@ -8,7 +8,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-
-    </Grid>
+    <NavigationView IsSettingsVisible="False" IsBackButtonVisible="Collapsed" IsPaneOpen="True">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="Home" Content="Home"/>
+            <NavigationViewItem Icon="Shop" Content="Alle Handelaars"/>
+            <NavigationViewItem Icon="OutlineStar" Content="Promoties"/>
+            <NavigationViewItem Icon="Calendar" Content="Evenementen"/>
+            <NavigationViewItem Icon="Contact" Content="Aanmelden"/>
+        </NavigationView.MenuItems>
+        <Frame x:Name="MainFrame"/>
+    </NavigationView>
 </Page>
