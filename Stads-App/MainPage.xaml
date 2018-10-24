@@ -8,14 +8,12 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <NavigationView IsSettingsVisible="False" IsBackButtonVisible="Collapsed" IsPaneOpen="True">
+    <NavigationView x:Name="NavView" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" IsPaneOpen="True"
+                    ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" BackRequested="NavView_BackRequested">
         <NavigationView.MenuItems>
-            <NavigationViewItem Icon="Home" Content="Home"/>
-            <NavigationViewItem Icon="Shop" Content="Alle Handelaars"/>
-            <NavigationViewItem Icon="OutlineStar" Content="Promoties"/>
-            <NavigationViewItem Icon="Calendar" Content="Evenementen"/>
-            <NavigationViewItem Icon="Contact" Content="Aanmelden"/>
+            <NavigationViewItem Icon="Home" Content="Home" Tag="home" />
+            <NavigationViewItem Icon="Shop" Content="Alle Handelaars" Tag="stores" />
         </NavigationView.MenuItems>
-        <Frame x:Name="MainFrame"/>
+        <Frame x:Name="ContentFrame" />
     </NavigationView>
 </Page>
