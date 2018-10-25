@@ -407,12 +407,12 @@
 
         <NavigationView.HeaderTemplate>
             <DataTemplate>
-                <Grid>
+                <Grid MinHeight="200">
                     <Grid.Background>
-                        <ImageBrush ImageSource="Assets/header.png" />
+                        <ImageBrush ImageSource="Assets/header.jpg" />
                     </Grid.Background>
-                    <TextBlock Margin="24, 10, 0, 10" Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
-                               FontSize="28" Foreground="White" />
+                    <TextBlock Margin="24, 10, 24, 10" Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
+                               FontSize="80" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" />
                 </Grid>
             </DataTemplate>
         </NavigationView.HeaderTemplate>
