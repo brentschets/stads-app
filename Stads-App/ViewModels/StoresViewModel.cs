@@ -1,22 +1,27 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Stads_App.Models;
 
 namespace Stads_App.ViewModels
 {
     public class StoresViewModel
     {
-        public ObservableCollection<Store> Stores { get; }
+        private ObservableCollection<Store> _stores;
 
-        public StoresViewModel()
+        public ObservableCollection<Store> Stores
         {
-            Stores = new ObservableCollection<Store>
-            {
-                new Store{Name = "Mister Spaghetti"},
-                new Store{Name = "Lennert's Pleasure Palace"},
-                new Store{Name = "Winkel 3"},
-                new Store{Name = "Das Winkel"},
-                new Store{Name = "Jozef's Spijker Emporium"}
-            };
+            get => _stores ?? (_stores = GetStores());
+            set => _stores = value;
+        }
+
+
+        private ObservableCollection<Store> GetStores()
+        {
+            var client = new HttpClient();
+            return JsonConvert.DeserializeObject<ObservableCollection<Store>>(
+                client.GetStringAsync("https://stadsapprestapi.azurewebsites.net/api/stores").Result);
         }
     }
 }
