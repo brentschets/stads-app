@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Stads_App.Models;
 
@@ -17,7 +16,7 @@ namespace Stads_App.ViewModels
         }
 
 
-        private ObservableCollection<Store> GetStores()
+        private static ObservableCollection<Store> GetStores()
         {
             var client = new HttpClient();
             return JsonConvert.DeserializeObject<ObservableCollection<Store>>(
