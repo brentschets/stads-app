@@ -18,12 +18,12 @@ namespace RESTAPI.Data
             _context.Database.Migrate();
             var stores = new List<Store>
             {
-                new Store {StoreId = 1, Name = "Mister Spaghetti"},
-                new Store {StoreId = 2, Name = "Lennert's Pleasure Palace"},
-                new Store {StoreId = 3, Name = "Winkel nr. 3"},
-                new Store {StoreId = 4, Name = "Jozef's Spijker Emporium"},
-                new Store {StoreId = 5, Name = "Winkel nr. 5"},
-                new Store {StoreId = 6, Name = "De Zesde Winkel"}
+                new Store {StoreId = 1, Name = "Mister Spaghetti", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0005.jpg"},
+                new Store {StoreId = 2, Name = "Lennert's Pleasure Palace", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0012.jpg"},
+                new Store {StoreId = 3, Name = "Winkel nr. 3", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0035.jpg"},
+                new Store {StoreId = 4, Name = "Jozef's Spijker Emporium", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0012.jpg"},
+                new Store {StoreId = 5, Name = "Winkel nr. 5", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0005.jpg"},
+                new Store {StoreId = 6, Name = "De Zesde Winkel", ImgPath = "https://stadsapprestapi.azurewebsites.net/img/0035.jpg"}
             };
             foreach (var store in stores)
             {
@@ -35,7 +35,6 @@ namespace RESTAPI.Data
             _context.SaveChanges();
             _context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT Store OFF");
             _context.Database.CommitTransaction();
-            ;
         }
     }
 }

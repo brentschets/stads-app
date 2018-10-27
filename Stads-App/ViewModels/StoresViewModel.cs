@@ -1,26 +1,37 @@
-﻿using System.Collections.ObjectModel;
-using System.Net.Http;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using Stads_App.Models;
+using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
 {
     public class StoresViewModel
     {
-        private ObservableCollection<Store> _stores;
+        private IEnumerable<Store> _stores;
 
-        public ObservableCollection<Store> Stores
+        public IEnumerable<Store> Stores
         {
             get => _stores ?? (_stores = GetStores());
             set => _stores = value;
         }
 
+        private IEnumerable<Store> _popular;
 
-        private static ObservableCollection<Store> GetStores()
+        public IEnumerable<Store> Popular
         {
-            var client = new HttpClient();
-            return JsonConvert.DeserializeObject<ObservableCollection<Store>>(
-                client.GetStringAsync("https://stadsapprestapi.azurewebsites.net/api/stores").Result);
+            get => _popular ?? (_popular = GetPopular());
+            set => _popular = value;
+        }
+
+        private static IEnumerable<Store> GetStores()
+        {
+            var client = new StadsAppRestApiClient();
+            return client.GetList<Store>("stores").Result;
+        }
+
+        private static IEnumerable<Store> GetPopular()
+        {
+            var client = new StadsAppRestApiClient();
+            return client.GetList<Store>("stores/popular").Result;
         }
     }
 }
