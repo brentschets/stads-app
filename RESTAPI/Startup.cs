@@ -42,6 +42,7 @@ namespace RESTAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseStaticFiles();
 
             dummyDataInitialiser.Initialise();
         }
