@@ -9,16 +9,22 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
-                  SelectionMode="None" ItemsSource="{Binding Popular}" d:DataContext="{d:DesignData StoresViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <ProgressRing x:Name="ProgressRing" Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100" IsActive="True" />
+        <ListView Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding MostVisited}"
+                  d:DataContext="{d:DesignData StoresViewModel}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
-                <DataTemplate x:Name="StoresListViewDataTemplate">
+                <DataTemplate>
                     <StackPanel>
                         <Image Source="{Binding ImgPath}" Width="200" />
                         <TextBlock Text="{Binding Name}" />
@@ -26,9 +32,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
-                  SelectionMode="None" ItemsSource="{Binding Stores}" d:DataContext="{d:DesignData StoresViewModel}">
+        <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding Stores}"
+                  d:DataContext="{d:DesignData StoresViewModel}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />

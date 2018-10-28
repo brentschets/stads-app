@@ -14,24 +14,24 @@ namespace Stads_App.ViewModels
             set => _stores = value;
         }
 
-        private IEnumerable<Store> _popular;
+        private IEnumerable<Store> _mostVisited;
 
-        public IEnumerable<Store> Popular
+        public IEnumerable<Store> MostVisited
         {
-            get => _popular ?? (_popular = GetPopular());
-            set => _popular = value;
+            get => _mostVisited ?? (_mostVisited = GetPopular());
+            set => _mostVisited = value;
         }
 
         private static IEnumerable<Store> GetStores()
         {
             var client = new StadsAppRestApiClient();
-            return client.GetList<Store>("stores").Result;
+            return client.GetList<Store>("stores");
         }
 
         private static IEnumerable<Store> GetPopular()
         {
             var client = new StadsAppRestApiClient();
-            return client.GetList<Store>("stores/popular").Result;
+            return client.GetList<Store>("stores/mostvisited");
         }
     }
 }

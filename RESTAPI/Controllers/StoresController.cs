@@ -45,6 +45,14 @@ namespace RESTAPI.Controllers
             return Ok(store);
         }
 
+        // GET: api/Stores/Popular
+        [HttpGet("MostVisited")]
+        public IActionResult GetMostVisited()
+        {
+            var res =_context.Store.OrderByDescending(s => s.Visited).ToList();
+            return Ok(res);
+        }
+
         // PUT: api/Stores/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStore([FromRoute] int id, [FromBody] Store store)
