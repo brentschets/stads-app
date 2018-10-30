@@ -9,9 +9,9 @@ namespace Stads_App.Utils
     {
         private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
 
-        public List<T> GetList<T>(string relUri)
+        public async Task<List<T>> GetListAsync<T>(string relUri)
         {
-            return JsonConvert.DeserializeObject<List<T>>(GetStringAsync(Host + relUri).Result);
+            return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
         }
     }
 }

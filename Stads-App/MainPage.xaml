@@ -409,7 +409,7 @@
             <DataTemplate>
                 <Grid MinHeight="200">
                     <Grid.Background>
-                        <ImageBrush ImageSource="Assets/header.jpg" />
+                        <ImageBrush ImageSource="Assets/header.jpg" Stretch="UniformToFill" />
                     </Grid.Background>
                     <TextBlock Margin="24, 10, 24, 10" Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
                                FontSize="80" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" />

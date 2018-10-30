@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Stads_App.Models;
 using Stads_App.Utils;
 
@@ -6,32 +8,26 @@ namespace Stads_App.ViewModels
 {
     public class StoresViewModel
     {
-        private IEnumerable<Store> _stores;
+        public IEnumerable<Store> Stores { get; private set; }
 
-        public IEnumerable<Store> Stores
-        {
-            get => _stores ?? (_stores = GetStores());
-            set => _stores = value;
-        }
+        public IEnumerable<Store> MostVisited { get; private set; }
 
-        private IEnumerable<Store> _mostVisited;
-
-        public IEnumerable<Store> MostVisited
-        {
-            get => _mostVisited ?? (_mostVisited = GetPopular());
-            set => _mostVisited = value;
-        }
-
-        private static IEnumerable<Store> GetStores()
+        private static async Task<IEnumerable<Store>> GetStoresAsync()
         {
             var client = new StadsAppRestApiClient();
-            return client.GetList<Store>("stores");
+            return await client.GetListAsync<Store>("Stores");
         }
 
-        private static IEnumerable<Store> GetPopular()
+        private static async Task<IEnumerable<Store>> GetPopularAsync()
         {
             var client = new StadsAppRestApiClient();
-            return client.GetList<Store>("stores/mostvisited");
+            return await client.GetListAsync<Store>("Stores/MostVisited");
+        }
+
+        public async Task LoadData()
+        {
+            Stores = await GetStoresAsync();
+            MostVisited = await GetPopularAsync();
         }
     }
 }

@@ -16,8 +16,7 @@
         <ProgressRing x:Name="ProgressRing" Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100" IsActive="True" />
         <ListView Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding MostVisited}"
-                  d:DataContext="{d:DesignData StoresViewModel}">
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="MostVisitedListView">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
@@ -34,8 +33,7 @@
         </ListView>
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding Stores}"
-                  d:DataContext="{d:DesignData StoresViewModel}">
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="StoresListView">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
