@@ -15,15 +15,10 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-
-        <ProgressRing Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100"
+        <ProgressRing VerticalAlignment="Center" Width="100" Height="100"
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
-        <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
                   ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding Stores}">
