@@ -1,5 +1,6 @@
 ﻿<local:BasePage
     xmlns:local="using:Stads_App.Views"
+    xmlns:utils="using:Stads_App.Utils"
     x:Class="Stads_App.Views.Stores"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,18 +9,24 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignData StoresViewModel}">
 
+    <Page.Resources>
+        <utils:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <utils:BoolInvertConverter x:Key="BoolInvertConverter" />
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ProgressRing x:Name="ProgressRing" Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100" IsActive="True" />
+        <ProgressRing Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100"
+                      IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
-        <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
+        <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="StoresListView"
-                  ItemsSource="{Binding Stores}">
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding Stores}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />

@@ -1,5 +1,4 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Navigation;
 using Stads_App.ViewModels;
 
 namespace Stads_App.Views
@@ -21,8 +20,6 @@ namespace Stads_App.Views
         {
             base.OnNavigatedTo(e);
             await _viewModel.LoadDataAsync();
-            StoresListView.Visibility = Visibility.Visible;
-            ProgressRing.IsActive = false;
         }
     }
 }
