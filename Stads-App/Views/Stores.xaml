@@ -18,15 +18,10 @@
         <ProgressRing VerticalAlignment="Center" Width="100" Height="100"
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
-        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        <ListView ScrollViewer.VerticalScrollBarVisibility="Auto"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" ItemsSource="{Binding Stores}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
+                  ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="None" ItemsSource="{Binding Stores}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
