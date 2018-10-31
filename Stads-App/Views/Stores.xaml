@@ -6,34 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignData StoresViewModel}">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
         <ProgressRing x:Name="ProgressRing" Grid.RowSpan="2" Grid.Row="0" Width="100" Height="100" IsActive="True" />
-        <ListView Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="MostVisitedListView">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Image Source="{Binding ImgPath}" Width="200" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" Visibility="Collapsed"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="StoresListView">
+                  ScrollViewer.VerticalScrollMode="Disabled" SelectionMode="None" x:Name="StoresListView"
+                  ItemsSource="{Binding Stores}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />

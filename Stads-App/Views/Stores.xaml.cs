@@ -13,15 +13,13 @@ namespace Stads_App.Views
         public Stores()
         {
             InitializeComponent();
+            DataContext = _viewModel;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await _viewModel.LoadData();
-            MostVisitedListView.ItemsSource = _viewModel.MostVisited;
-            MostVisitedListView.Visibility = Visibility.Visible;
-            StoresListView.ItemsSource = _viewModel.Stores;
+            await _viewModel.LoadDataAsync();
             StoresListView.Visibility = Visibility.Visible;
             ProgressRing.IsActive = false;
         }
