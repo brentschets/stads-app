@@ -7,12 +7,13 @@ namespace Stads_App.ViewModels
 {
     public class StoresViewModel
     {
+        private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
+
         public List<Store> Stores { get; } = new List<Store>();
 
         private static async Task<List<Store>> GetStoresAsync()
         {
-            var client = new StadsAppRestApiClient();
-            return await client.GetListAsync<Store>("Stores");
+            return await Client.GetListAsync<Store>("Stores");
         }
 
         public async Task LoadDataAsync()
