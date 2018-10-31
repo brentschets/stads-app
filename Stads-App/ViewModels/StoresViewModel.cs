@@ -9,7 +9,12 @@ namespace Stads_App.ViewModels
     {
         private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
 
-        public List<Store> Stores { get; } = new List<Store>();
+        public List<Store> Stores { get; }
+
+        public StoresViewModel()
+        {
+            Stores = new List<Store>();
+        }
 
         private static async Task<List<Store>> GetStoresAsync()
         {
@@ -18,7 +23,7 @@ namespace Stads_App.ViewModels
 
         public async Task LoadDataAsync()
         {
-            if (Stores.Count == 0) Stores.AddRange(await GetStoresAsync());
+            if (Stores?.Count == 0) Stores.AddRange(await GetStoresAsync());
         }
     }
 }

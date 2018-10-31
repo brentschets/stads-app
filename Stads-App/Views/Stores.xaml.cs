@@ -8,11 +8,12 @@ namespace Stads_App.Views
     {
         public override string Header => "Winkels";
 
-        private readonly StoresViewModel _viewModel = new StoresViewModel();
+        private readonly StoresViewModel _viewModel;
 
         public Stores()
         {
             InitializeComponent();
+            _viewModel = new StoresViewModel();
             DataContext = _viewModel;
         }
 
