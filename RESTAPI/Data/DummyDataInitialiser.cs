@@ -28,6 +28,7 @@ namespace RESTAPI.Data
             foreach (var store in stores)
             {
                 if (_context.Store.Find(store.StoreId) == null) _context.Store.Add(store);
+                else _context.Store.Update(store);
             }
 
             _context.Database.BeginTransaction();
