@@ -22,15 +22,29 @@
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
                   ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Stores}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="{Binding ImgPath}" Width="200" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                        <TextBlock Text="{Binding Description}" TextWrapping="WrapWholeWords" />
-                    </StackPanel>
+                    <Grid Height="220">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
+                        <Image Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Source="{Binding ImgPath}"
+                               MaxWidth="200" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Description}"
+                                   TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
