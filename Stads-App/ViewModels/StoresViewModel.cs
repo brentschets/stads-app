@@ -12,7 +12,17 @@ namespace Stads_App.ViewModels
     {
         private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
 
-        public List<Store> Stores { get; }
+        private List<Store> _stores;
+
+        public List<Store> Stores
+        {
+            get => _stores;
+            set
+            {
+                _stores = value;
+                OnPropertyChanged(nameof(Stores));
+            }
+        }
 
         private bool _isLoaded;
 
@@ -28,7 +38,6 @@ namespace Stads_App.ViewModels
 
         public StoresViewModel()
         {
-            Stores = new List<Store>();
             IsLoaded = false;
         }
 
@@ -39,11 +48,8 @@ namespace Stads_App.ViewModels
 
         public async Task LoadDataAsync()
         {
-            if (Stores?.Count == 0)
-            {
-                Stores.AddRange(await GetStoresAsync());
-                IsLoaded = true;
-            }
+            Stores = await GetStoresAsync();
+            IsLoaded = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

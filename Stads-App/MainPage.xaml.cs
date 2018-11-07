@@ -14,7 +14,6 @@ namespace Stads_App
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
 
         private Type _currentPage;

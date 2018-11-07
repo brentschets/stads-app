@@ -105,7 +105,6 @@
     <Compile Include="Utils\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
     <Compile Include="Views\BasePage.cs" />
     <Compile Include="Views\Events.xaml.cs">
