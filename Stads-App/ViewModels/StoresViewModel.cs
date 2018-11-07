@@ -10,8 +10,6 @@ namespace Stads_App.ViewModels
 {
     public sealed class StoresViewModel : INotifyPropertyChanged
     {
-        private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
-
         private List<Store> _stores;
 
         public List<Store> Stores
@@ -43,7 +41,7 @@ namespace Stads_App.ViewModels
 
         private static async Task<List<Store>> GetStoresAsync()
         {
-            return await Client.GetListAsync<Store>("Stores");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
         }
 
         public async Task LoadDataAsync()

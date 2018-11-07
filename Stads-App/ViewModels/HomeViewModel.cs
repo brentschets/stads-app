@@ -10,8 +10,6 @@ namespace Stads_App.ViewModels
 {
     public class HomeViewModel : INotifyPropertyChanged
     {
-        private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
-
         private List<Store> _mostVisited;
 
         public List<Store> MostVisited
@@ -43,7 +41,7 @@ namespace Stads_App.ViewModels
 
         private static async Task<List<Store>> GetMostVisitedAsync()
         {
-            return await Client.GetListAsync<Store>("Stores/MostVisited");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/MostVisited");
         }
 
         public async void LoadDataAsync()
