@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -411,8 +412,12 @@
                     <Grid.Background>
                         <ImageBrush ImageSource="Assets/header.jpg" Stretch="UniformToFill" />
                     </Grid.Background>
-                    <TextBlock Margin="24, 10, 24, 10" Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
-                               FontSize="80" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <controls:DropShadowPanel Color="Black" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                              BlurRadius="0" OffsetX="28.0" OffsetY="13.0" OffsetZ="10.0">
+                        <TextBlock Margin="24, 10, 24, 10"
+                                   Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
+                                   FontSize="80" Foreground="White" />
+                    </controls:DropShadowPanel>
                 </Grid>
             </DataTemplate>
         </NavigationView.HeaderTemplate>

@@ -1,33 +1,57 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Stads_App.Annotations;
 using Stads_App.Models;
 using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
 {
-    public class StoresViewModel
+    public sealed class StoresViewModel : INotifyPropertyChanged
     {
-        public IEnumerable<Store> Stores { get; private set; }
+        private static readonly StadsAppRestApiClient Client = new StadsAppRestApiClient();
 
-        public IEnumerable<Store> MostVisited { get; private set; }
+        public List<Store> Stores { get; }
 
-        private static async Task<IEnumerable<Store>> GetStoresAsync()
+        private bool _isLoaded;
+
+        public bool IsLoaded
         {
-            var client = new StadsAppRestApiClient();
-            return await client.GetListAsync<Store>("Stores");
+            get => _isLoaded;
+            set
+            {
+                _isLoaded = value;
+                OnPropertyChanged(nameof(IsLoaded));
+            }
         }
 
-        private static async Task<IEnumerable<Store>> GetPopularAsync()
+        public StoresViewModel()
         {
-            var client = new StadsAppRestApiClient();
-            return await client.GetListAsync<Store>("Stores/MostVisited");
+            Stores = new List<Store>();
+            IsLoaded = false;
         }
 
-        public async Task LoadData()
+        private static async Task<List<Store>> GetStoresAsync()
         {
-            Stores = await GetStoresAsync();
-            MostVisited = await GetPopularAsync();
+            return await Client.GetListAsync<Store>("Stores");
+        }
+
+        public async Task LoadDataAsync()
+        {
+            if (Stores?.Count == 0)
+            {
+                Stores.AddRange(await GetStoresAsync());
+                IsLoaded = true;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
