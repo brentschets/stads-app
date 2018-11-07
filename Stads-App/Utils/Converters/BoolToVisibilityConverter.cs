@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Stads_App.Utils
+namespace Stads_App.Utils.Converters
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Stads_App.Utils
+namespace Stads_App.Utils.Converters
 {
     public class BoolInvertConverter : IValueConverter
     {
