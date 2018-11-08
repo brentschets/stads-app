@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Stads_App.ViewModels;
 
 namespace Stads_App.Views
@@ -20,6 +21,11 @@ namespace Stads_App.Views
         {
             base.OnNavigatedTo(e);
             await _viewModel.LoadDataAsync();
+        }
+
+        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            _viewModel.OnTextChanged(sender);
         }
     }
 }
