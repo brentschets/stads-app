@@ -26,6 +26,7 @@
             <Setter Property="Width" Value="48" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
             <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
             <Setter Property="Content" Value="&#xE72B;" />
             <Setter Property="Template">
@@ -87,7 +88,9 @@
         <Style x:Key="PaneToggleButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="FontFamily" Value="{StaticResource SymbolThemeFontFamily}" />
+            <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
             <Setter Property="MinHeight" Value="{StaticResource PaneToggleButtonHeight}" />
+            <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
             <Setter Property="MinWidth" Value="{StaticResource PaneToggleButtonWidth}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -211,7 +214,6 @@
         <Style x:Key="NavigationViewItemHeaderTextStyle" BasedOn="{StaticResource BaseTextBlockStyle}"
                TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="FontSize" Value="15" />
             <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
             <Setter Property="TextWrapping" Value="NoWrap" />
         </Style>
@@ -341,6 +343,7 @@
                                             <RowDefinition Height="8" />
                                         </Grid.RowDefinitions>
                                         <Grid x:Name="ContentPaneTopPadding" />
+                                        <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
                                         <Grid Height="{StaticResource PaneToggleButtonHeight}" Grid.Row="2">
                                             <TextBlock x:Name="PaneTitleTextBlock" HorizontalAlignment="Left"
                                                        Style="{StaticResource NavigationViewItemHeaderTextStyle}"
@@ -379,6 +382,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
+                                    <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
                                     <ContentControl x:Name="HeaderContent"
                                                     ContentTemplate="{TemplateBinding HeaderTemplate}"
                                                     Content="{TemplateBinding Header}"
@@ -414,6 +418,7 @@
                     </Grid.Background>
                     <controls:DropShadowPanel Color="Black" VerticalAlignment="Center" HorizontalAlignment="Right"
                                               BlurRadius="0" OffsetX="28.0" OffsetY="13.0" OffsetZ="10.0">
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                         <TextBlock Margin="24, 10, 24, 10"
                                    Text="{Binding Path=Content.Header, ElementName=ContentFrame}"
                                    FontSize="80" Foreground="White" />

@@ -8,10 +8,10 @@ namespace Stads_App.Utils
 {
     public class StadsAppRestApiClient : HttpClient
     {
-        private static readonly Lazy<StadsAppRestApiClient> lazy =
+        private static readonly Lazy<StadsAppRestApiClient> Lazy =
             new Lazy<StadsAppRestApiClient>(() => new StadsAppRestApiClient());
 
-        public static StadsAppRestApiClient Instance => lazy.Value;
+        public static StadsAppRestApiClient Instance => Lazy.Value;
 
         private StadsAppRestApiClient()
         {

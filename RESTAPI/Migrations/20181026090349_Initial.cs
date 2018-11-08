@@ -11,7 +11,7 @@ namespace RESTAPI.Migrations
                 name: "Store",
                 columns: table => new
                 {
-                    StoreId = table.Column<int>(nullable: false)
+                    StoreId = table.Column<int>()
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },

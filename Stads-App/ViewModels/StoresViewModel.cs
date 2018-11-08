@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Stads_App.Annotations;
 using Stads_App.Models;
+using Stads_App.Properties;
 using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
@@ -15,7 +15,7 @@ namespace Stads_App.ViewModels
         public List<Store> Stores
         {
             get => _stores;
-            set
+            private set
             {
                 _stores = value;
                 OnPropertyChanged(nameof(Stores));
@@ -27,7 +27,7 @@ namespace Stads_App.ViewModels
         public bool IsLoaded
         {
             get => _isLoaded;
-            set
+            private set
             {
                 _isLoaded = value;
                 OnPropertyChanged(nameof(IsLoaded));

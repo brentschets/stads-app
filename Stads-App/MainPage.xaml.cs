@@ -4,7 +4,6 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Stads_App.ViewModels;
 using Stads_App.Views;
 
 namespace Stads_App

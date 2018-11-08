@@ -100,6 +100,7 @@ namespace RESTAPI.Controllers
             _context.Store.Add(store);
             await _context.SaveChangesAsync();
 
+            // ReSharper disable once Mvc.ActionNotResolved
             return CreatedAtAction("GetStore", new { id = store.StoreId }, store);
         }
 

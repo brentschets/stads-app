@@ -3,6 +3,7 @@ using RESTAPI.Models;
 
 namespace RESTAPI.Data
 {
+    // ReSharper disable once InconsistentNaming
     public class RESTAPIContext : DbContext
     {
         public RESTAPIContext (DbContextOptions<RESTAPIContext> options)

@@ -2,20 +2,20 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Stads_App.Annotations;
 using Stads_App.Models;
+using Stads_App.Properties;
 using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
 {
-    public class HomeViewModel : INotifyPropertyChanged
+    public sealed class HomeViewModel : INotifyPropertyChanged
     {
         private List<Store> _mostVisited;
 
         public List<Store> MostVisited
         {
             get => _mostVisited;
-            set
+            private set
             {
                 _mostVisited = value;
                 OnPropertyChanged(nameof(MostVisited));
@@ -27,7 +27,7 @@ namespace Stads_App.ViewModels
         public bool IsLoaded
         {
             get => _isLoaded;
-            set
+            private set
             {
                 _isLoaded = value;
                 OnPropertyChanged(nameof(IsLoaded));
@@ -53,7 +53,7 @@ namespace Stads_App.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
