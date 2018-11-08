@@ -5,8 +5,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="using:Stads_App.Utils.Converters"
+    xmlns:viewModels="using:Stads_App.ViewModels"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DataContext="{d:DesignInstance viewModels:HomeViewModel}">
 
-    <Grid />
+    <Page.Resources>
+        <util:BoolInvertConverter x:Key="BoolInvertConverter" />
+        <util:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+    </Page.Resources>
+
+    <Grid>
+        <ProgressRing VerticalAlignment="Center" Width="100" Height="100"
+                      IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
+
+        <ListView Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
+                  ItemsSource="{Binding MostVisited}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Image Source="{Binding ImgPath}" Width="100" />
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </local:BasePage>

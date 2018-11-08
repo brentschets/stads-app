@@ -44,7 +44,7 @@ namespace Stads_App.ViewModels
             return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/MostVisited");
         }
 
-        public async void LoadDataAsync()
+        public async Task LoadDataAsync()
         {
             MostVisited = await GetMostVisitedAsync();
             IsLoaded = true;
