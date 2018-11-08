@@ -44,7 +44,7 @@
                         <Image Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Source="{Binding ImgPath}"
                                MaxWidth="200" />
                         <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Description}"
-                                   TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220" />
+                                   TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220" Padding="10" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
