@@ -41,7 +41,7 @@ namespace Stads_App.ViewModels
 
         private static async Task<List<Store>> GetMostVisitedAsync()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/MostVisited");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/MostVisited/10");
         }
 
         public async Task LoadDataAsync()
