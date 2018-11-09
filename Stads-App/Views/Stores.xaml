@@ -23,9 +23,16 @@
         </Grid.RowDefinitions>
         <ProgressRing VerticalAlignment="Center" Width="100" Height="100" Grid.RowSpan="2"
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <TextBox Grid.Row="0" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                 PlaceholderText="Zoeken..." TextChanged="TextBox_OnTextChanged"/>
+            <AutoSuggestBox Grid.Column="1" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
+                     PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
+        </Grid>
 
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"

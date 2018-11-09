@@ -23,9 +23,9 @@ namespace Stads_App.Views
             await _viewModel.LoadDataAsync();
         }
 
-        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void Search(AutoSuggestBox autoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs autoSuggestBoxQuerySubmittedEventArgs)
         {
-            _viewModel.OnTextChanged(sender);
+            _viewModel.Search(autoSuggestBoxQuerySubmittedEventArgs.QueryText);
         }
     }
 }
