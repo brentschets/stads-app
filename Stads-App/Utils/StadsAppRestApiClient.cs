@@ -17,7 +17,11 @@ namespace Stads_App.Utils
         {
         }
 
+        //deployed backend
         private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
+
+        //local backend
+        //private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
