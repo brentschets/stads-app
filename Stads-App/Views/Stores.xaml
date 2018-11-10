@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:util="using:Stads_App.Utils.Converters"
     xmlns:viewModels="using:Stads_App.ViewModels"
+    xmlns:custom="using:Stads_App.Views.Custom"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance viewModels:StoresViewModel}">
@@ -21,8 +22,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <ProgressRing VerticalAlignment="Center" Width="100" Height="100" Grid.RowSpan="2"
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
+
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -30,40 +33,50 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <AutoSuggestBox Grid.Column="1" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                     PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
+            <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
+                            Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
+                            PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
         </Grid>
 
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
                   ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Stores}">
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="10" />
                 </Style>
             </ListView.ItemContainerStyle>
+
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="220">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
-                        <Image Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Source="{Binding ImgPath}"
-                               MaxWidth="200" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Description}"
-                                   TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220"
-                                   Padding="10" />
-                    </Grid>
+                    <custom:StoresListItem />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchBox.(Grid.Column)" Value="0" />
+                        <Setter Target="SearchBox.(Grid.ColumnSpan)" Value="3" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchBox.(Grid.Column)" Value="1" />
+                        <Setter Target="SearchBox.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:BasePage>
