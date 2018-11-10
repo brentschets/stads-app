@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Stads_App.ViewModels
 {
-    class EventViewModel
+    public sealed class EventViewModel : INotifyPropertyChanged
     {
         private List<Store> _event;
 
