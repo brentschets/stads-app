@@ -106,6 +106,7 @@
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\PromotionViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
     <Compile Include="Views\BasePage.cs" />
     <Compile Include="Views\Events.xaml.cs">
