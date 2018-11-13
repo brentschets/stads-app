@@ -10,64 +10,56 @@ namespace RESTAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoresController : ControllerBase
+    public class EventsController : ControllerBase
     {
         private readonly RESTAPIContext _context;
 
-        public StoresController(RESTAPIContext context)
+        public EventsController(RESTAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Stores
+        // GET: api/Events
         [HttpGet]
-        public IEnumerable<Store> GetStore()
+        public IEnumerable<Event> GetEvent()
         {
-            return _context.Store;
+            return _context.Event;
         }
 
-        // GET: api/Stores/5
+        // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStore([FromRoute] int id)
+        public async Task<IActionResult> GetEvent([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.FindAsync(id);
+            var @event = await _context.Event.FindAsync(id);
 
-            if (store == null)
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return Ok(store);
+            return Ok(@event);
         }
 
-        // GET: api/Stores/MostVisited/10
-        [HttpGet("MostVisited/{limit}")]
-        public IActionResult GetMostVisited([FromRoute] int limit)
-        {
-            var res =_context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
-            return Ok(res);
-        }
-
-        // PUT: api/Stores/5
+        // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStore([FromRoute] int id, [FromBody] Store store)
+        public async Task<IActionResult> PutEvent([FromRoute] int id, [FromBody] Event @event)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != store.StoreId)
+            if (id != @event.EventId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(store).State = EntityState.Modified;
+            _context.Entry(@event).State = EntityState.Modified;
 
             try
             {
@@ -75,7 +67,7 @@ namespace RESTAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StoreExists(id))
+                if (!EventExists(id))
                 {
                     return NotFound();
                 }
@@ -88,46 +80,45 @@ namespace RESTAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Stores
+        // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> PostStore([FromBody] Store store)
+        public async Task<IActionResult> PostEvent([FromBody] Event @event)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Store.Add(store);
+            _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
-            // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetStore", new { id = store.StoreId }, store);
+            return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
         }
 
-        // DELETE: api/Stores/5
+        // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStore([FromRoute] int id)
+        public async Task<IActionResult> DeleteEvent([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.FindAsync(id);
-            if (store == null)
+            var @event = await _context.Event.FindAsync(id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            _context.Store.Remove(store);
+            _context.Event.Remove(@event);
             await _context.SaveChangesAsync();
 
-            return Ok(store);
+            return Ok(@event);
         }
 
-        private bool StoreExists(int id)
+        private bool EventExists(int id)
         {
-            return _context.Store.Any(e => e.StoreId == id);
+            return _context.Event.Any(e => e.EventId == id);
         }
     }
 }

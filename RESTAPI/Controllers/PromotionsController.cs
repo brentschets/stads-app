@@ -10,64 +10,56 @@ namespace RESTAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoresController : ControllerBase
+    public class PromotionsController : ControllerBase
     {
         private readonly RESTAPIContext _context;
 
-        public StoresController(RESTAPIContext context)
+        public PromotionsController(RESTAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Stores
+        // GET: api/Promotions
         [HttpGet]
-        public IEnumerable<Store> GetStore()
+        public IEnumerable<Promotion> GetPromotion()
         {
-            return _context.Store;
+            return _context.Promotion;
         }
 
-        // GET: api/Stores/5
+        // GET: api/Promotions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetStore([FromRoute] int id)
+        public async Task<IActionResult> GetPromotion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.FindAsync(id);
+            var promotion = await _context.Promotion.FindAsync(id);
 
-            if (store == null)
+            if (promotion == null)
             {
                 return NotFound();
             }
 
-            return Ok(store);
+            return Ok(promotion);
         }
 
-        // GET: api/Stores/MostVisited/10
-        [HttpGet("MostVisited/{limit}")]
-        public IActionResult GetMostVisited([FromRoute] int limit)
-        {
-            var res =_context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
-            return Ok(res);
-        }
-
-        // PUT: api/Stores/5
+        // PUT: api/Promotions/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStore([FromRoute] int id, [FromBody] Store store)
+        public async Task<IActionResult> PutPromotion([FromRoute] int id, [FromBody] Promotion promotion)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != store.StoreId)
+            if (id != promotion.PromotionId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(store).State = EntityState.Modified;
+            _context.Entry(promotion).State = EntityState.Modified;
 
             try
             {
@@ -75,7 +67,7 @@ namespace RESTAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StoreExists(id))
+                if (!PromotionExists(id))
                 {
                     return NotFound();
                 }
@@ -88,46 +80,45 @@ namespace RESTAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Stores
+        // POST: api/Promotions
         [HttpPost]
-        public async Task<IActionResult> PostStore([FromBody] Store store)
+        public async Task<IActionResult> PostPromotion([FromBody] Promotion promotion)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Store.Add(store);
+            _context.Promotion.Add(promotion);
             await _context.SaveChangesAsync();
 
-            // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetStore", new { id = store.StoreId }, store);
+            return CreatedAtAction("GetPromotion", new { id = promotion.PromotionId }, promotion);
         }
 
-        // DELETE: api/Stores/5
+        // DELETE: api/Promotions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStore([FromRoute] int id)
+        public async Task<IActionResult> DeletePromotion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.FindAsync(id);
-            if (store == null)
+            var promotion = await _context.Promotion.FindAsync(id);
+            if (promotion == null)
             {
                 return NotFound();
             }
 
-            _context.Store.Remove(store);
+            _context.Promotion.Remove(promotion);
             await _context.SaveChangesAsync();
 
-            return Ok(store);
+            return Ok(promotion);
         }
 
-        private bool StoreExists(int id)
+        private bool PromotionExists(int id)
         {
-            return _context.Store.Any(e => e.StoreId == id);
+            return _context.Promotion.Any(e => e.PromotionId == id);
         }
     }
 }
