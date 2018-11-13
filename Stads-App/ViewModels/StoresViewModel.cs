@@ -22,6 +22,8 @@ namespace Stads_App.ViewModels
             }
         }
 
+        private List<Store> AllStores { get; set; }
+        
         private bool _isLoaded;
 
         public bool IsLoaded
@@ -44,9 +46,15 @@ namespace Stads_App.ViewModels
             return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
         }
 
+        public void Search(string searchString)
+        {
+            Stores = AllStores.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
+        }
+
         public async Task LoadDataAsync()
         {
-            Stores = await GetStoresAsync();
+            AllStores = await GetStoresAsync();
+            if (Stores == null) Stores = AllStores;
             IsLoaded = true;
         }
 
