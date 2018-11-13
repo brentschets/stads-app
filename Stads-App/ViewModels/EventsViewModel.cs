@@ -22,6 +22,8 @@ namespace Stads_App.ViewModels
             }
         }
 
+        private List<Event> AllEvents { get; set; }
+
         private bool _isLoaded;
 
         public bool IsLoaded
@@ -46,8 +48,14 @@ namespace Stads_App.ViewModels
 
         public async Task LoadDataAsync()
         {
-            Events = await GetEvents();
+            AllEvents = await GetEvents();
+            if (Events == null) Events = AllEvents;
             IsLoaded = true;
+        }
+
+        public void Search(string searchString)
+        {
+            Events = AllEvents.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

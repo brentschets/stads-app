@@ -22,6 +22,8 @@ namespace Stads_App.ViewModels
             }
         }
 
+        private List<Promotion> AllPromotions { get; set; }
+
         private bool _isLoaded;
 
         public bool IsLoaded
@@ -44,9 +46,15 @@ namespace Stads_App.ViewModels
             return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions");
         }
 
+        public void Search(string searchString)
+        {
+            Promotions = AllPromotions.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
+        }
+
         public async Task LoadDataAsync()
         {
-            Promotions = await GetPromotions();
+            AllPromotions = await GetPromotions();
+            if (Promotions == null) Promotions = AllPromotions;
             IsLoaded = true;
         }
 

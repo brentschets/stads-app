@@ -17,10 +17,27 @@
     </Page.Resources>
 
     <Grid>
-        <ProgressRing VerticalAlignment="Center" Width="100" Height="100"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ProgressRing VerticalAlignment="Center" Width="100" Height="100" Grid.RowSpan="2"
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
-        <ListView ScrollViewer.VerticalScrollBarVisibility="Auto"
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
+                            Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
+                            PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
+        </Grid>
+
+        <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
                   ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Events}">
@@ -45,5 +62,28 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchBox.(Grid.Column)" Value="0" />
+                        <Setter Target="SearchBox.(Grid.ColumnSpan)" Value="3" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchBox.(Grid.Column)" Value="1" />
+                        <Setter Target="SearchBox.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:BasePage>
