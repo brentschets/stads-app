@@ -26,6 +26,22 @@ namespace RESTAPI.Controllers
             return _context.Store;
         }
 
+        // GET: api/Stores/Events
+        [HttpGet("Events")]
+        public IActionResult GetEvents()
+        {
+            var res =  _context.Store.Where(s => s.Event == 1).ToList();
+            return Ok(res);
+        }
+
+        // GET: api/Stores/Promotion
+        [HttpGet("Promotion")]
+        public IActionResult GetPromotion()
+        {
+            var res = _context.Store.Where(s => s.Promotion == 1).ToList();
+            return Ok(res);
+        }
+
         // GET: api/Stores/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStore([FromRoute] int id)

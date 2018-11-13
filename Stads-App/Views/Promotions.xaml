@@ -5,8 +5,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="using:Stads_App.Utils.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid />
+    <Page.Resources>
+        <util:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <util:BoolInvertConverter x:Key="BoolInvertConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <ProgressRing VerticalAlignment="Center" Width="100" Height="100"
+                      IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
+
+        <ListView ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
+                  ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Promotions}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="220">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
+                        <Image Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Source="{Binding ImgPath}"
+                               MaxWidth="200" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Description}"
+                                   TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220" Padding="10" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </local:BasePage>
