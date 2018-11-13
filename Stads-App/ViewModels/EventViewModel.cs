@@ -1,21 +1,18 @@
 ﻿using Stads_App.Models;
 using Stads_App.Properties;
 using Stads_App.Utils;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Stads_App.ViewModels
 {
     public sealed class EventViewModel : INotifyPropertyChanged
     {
-        private List<Store> _event;
+        private List<Event> _event;
 
-        public List<Store> Events
+        public List<Event> Events
         {
             get => _event;
             private set
@@ -42,9 +39,9 @@ namespace Stads_App.ViewModels
             IsLoaded = false;
         }
 
-        private static async Task<List<Store>> GetEvents()
+        private static async Task<List<Event>> GetEvents()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Events");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Event>("Events");
         }
 
         public async Task LoadDataAsync()
