@@ -1,29 +1,28 @@
 ﻿using Stads_App.Models;
 using Stads_App.Properties;
 using Stads_App.Utils;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Stads_App.ViewModels
 {
-    class PromotionViewModel : INotifyPropertyChanged
+    public sealed class EventsViewModel : INotifyPropertyChanged
     {
-        private List<Store> _promotion;
+        private List<Event> _event;
 
-        public List<Store> Promotions
+        public List<Event> Events
         {
-            get => _promotion;
+            get => _event;
             private set
             {
-                _promotion = value;
-                OnPropertyChanged(nameof(Promotions));
+                _event = value;
+                OnPropertyChanged(nameof(Events));
             }
         }
+
+        private List<Event> AllEvents { get; set; }
 
         private bool _isLoaded;
 
@@ -37,20 +36,26 @@ namespace Stads_App.ViewModels
             }
         }
 
-        public PromotionViewModel()
+        public EventsViewModel()
         {
             IsLoaded = false;
         }
 
-        private static async Task<List<Store>> GetPromotions()
+        private static async Task<List<Event>> GetEvents()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Promotion");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Event>("Events");
         }
 
         public async Task LoadDataAsync()
         {
-            Promotions = await GetPromotions();
+            AllEvents = await GetEvents();
+            if (Events == null) Events = AllEvents;
             IsLoaded = true;
+        }
+
+        public void Search(string searchString)
+        {
+            Events = AllEvents.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -62,4 +67,3 @@ namespace Stads_App.ViewModels
         }
     }
 }
-

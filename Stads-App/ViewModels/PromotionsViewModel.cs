@@ -1,29 +1,28 @@
-﻿using Stads_App.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Stads_App.Models;
 using Stads_App.Properties;
 using Stads_App.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stads_App.ViewModels
 {
-    public sealed class EventViewModel : INotifyPropertyChanged
+    public class PromotionsViewModel : INotifyPropertyChanged
     {
-        private List<Store> _event;
+        private List<Promotion> _promotions;
 
-        public List<Store> Events
+        public List<Promotion> Promotions
         {
-            get => _event;
+            get => _promotions;
             private set
             {
-                _event = value;
-                OnPropertyChanged(nameof(Events));
+                _promotions = value;
+                OnPropertyChanged(nameof(Promotions));
             }
         }
+
+        private List<Promotion> AllPromotions { get; set; }
 
         private bool _isLoaded;
 
@@ -37,19 +36,25 @@ namespace Stads_App.ViewModels
             }
         }
 
-        public EventViewModel()
+        public PromotionsViewModel()
         {
             IsLoaded = false;
         }
 
-        private static async Task<List<Store>> GetEvents()
+        private static async Task<List<Promotion>> GetPromotions()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Events");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions");
+        }
+
+        public void Search(string searchString)
+        {
+            Promotions = AllPromotions.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
         }
 
         public async Task LoadDataAsync()
         {
-            Events = await GetEvents();
+            AllPromotions = await GetPromotions();
+            if (Promotions == null) Promotions = AllPromotions;
             IsLoaded = true;
         }
 
