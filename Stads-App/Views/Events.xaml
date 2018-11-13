@@ -9,7 +9,7 @@
     xmlns:viewModels="using:Stads_App.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DataContext="{d:DesignInstance viewModels:EventViewModel}">
+    d:DataContext="{d:DesignInstance viewModels:EventsViewModel}">
 
     <Page.Resources>
         <util:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

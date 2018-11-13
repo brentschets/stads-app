@@ -1,24 +1,24 @@
-﻿using Stads_App.Models;
-using Stads_App.Properties;
-using Stads_App.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Stads_App.Models;
+using Stads_App.Properties;
+using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
 {
-    public sealed class EventViewModel : INotifyPropertyChanged
+    public class PromotionsViewModel : INotifyPropertyChanged
     {
-        private List<Event> _event;
+        private List<Promotion> _promotions;
 
-        public List<Event> Events
+        public List<Promotion> Promotions
         {
-            get => _event;
+            get => _promotions;
             private set
             {
-                _event = value;
-                OnPropertyChanged(nameof(Events));
+                _promotions = value;
+                OnPropertyChanged(nameof(Promotions));
             }
         }
 
@@ -34,19 +34,19 @@ namespace Stads_App.ViewModels
             }
         }
 
-        public EventViewModel()
+        public PromotionsViewModel()
         {
             IsLoaded = false;
         }
 
-        private static async Task<List<Event>> GetEvents()
+        private static async Task<List<Promotion>> GetPromotions()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Event>("Events");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions");
         }
 
         public async Task LoadDataAsync()
         {
-            Events = await GetEvents();
+            Promotions = await GetPromotions();
             IsLoaded = true;
         }
 

@@ -106,9 +106,9 @@
     <Compile Include="Utils\Converters\BoolInvertConverter.cs" />
     <Compile Include="Utils\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
-    <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\EventsViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="ViewModels\PromotionViewModel.cs" />
+    <Compile Include="ViewModels\PromotionsViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
     <Compile Include="Views\BasePage.cs" />
     <Compile Include="Views\Custom\StoresListItem.xaml.cs">

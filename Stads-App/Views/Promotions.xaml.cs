@@ -7,12 +7,12 @@ namespace Stads_App.Views
     {
         public override string Header => "Promoties";
 
-        private readonly PromotionViewModel _viewModel;
+        private readonly PromotionsViewModel _viewModel;
 
         public Promotions()
         {
             InitializeComponent();
-            _viewModel = new PromotionViewModel();
+            _viewModel = new PromotionsViewModel();
             DataContext = _viewModel;
         }
 

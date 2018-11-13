@@ -7,12 +7,12 @@ namespace Stads_App.Views
     {
         public override string Header => "Evenementen";
 
-        private readonly EventViewModel _viewModel;
+        private readonly EventsViewModel _viewModel;
 
         public Events()
         {
             InitializeComponent();
-            _viewModel = new EventViewModel();
+            _viewModel = new EventsViewModel();
             DataContext = _viewModel;
         }
 
