@@ -131,7 +131,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Stads-App_TemporaryKey.pfx" />
+    <Content Include="Stads-App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\header.jpg" />

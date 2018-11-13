@@ -13,14 +13,22 @@ namespace Stads_App.Utils
 
         public static StadsAppRestApiClient Instance => Lazy.Value;
 
+        //local
+        /*private StadsAppRestApiClient() : base(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        })
+        {
+        }*/
+
+        //deploy
         private StadsAppRestApiClient()
         {
         }
 
-        //deployed backend
+        //deploy
         private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
-
-        //local backend
+        //local
         //private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
