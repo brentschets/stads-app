@@ -111,6 +111,9 @@
     <Compile Include="ViewModels\PromotionsViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
     <Compile Include="Views\BasePage.cs" />
+    <Compile Include="Views\Custom\InlineStoreOverview.xaml.cs">
+      <DependentUpon>InlineStoreOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Custom\StoresListItem.xaml.cs">
       <DependentUpon>StoresListItem.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Custom\InlineStoreOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Custom\StoresListItem.xaml">
       <SubType>Designer</SubType>

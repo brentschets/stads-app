@@ -32,6 +32,10 @@ namespace Stads_App.Views.Details
             if (promotion == null) return;
             Header = promotion.Name;
             DataContext = promotion;
+            InlineStoreOverview.Frame = Frame;
+            InlineStoreOverview.Store = promotion.Store;
+            InlineStoreOverview.SetDataContext();
+            InitializeComponent();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

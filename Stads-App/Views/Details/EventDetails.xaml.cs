@@ -32,6 +32,9 @@ namespace Stads_App.Views.Details
             if (_event == null) return;
             Header = _event.Name;
             DataContext = _event;
+            InlineStoreOverview.Store = _event.Store;
+            InlineStoreOverview.Frame = Frame;
+            InlineStoreOverview.SetDataContext();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

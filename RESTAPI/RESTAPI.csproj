@@ -1,21 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>0e8667ca-5203-43cc-9530-8f81f1d7d09d</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/e3ece825-22a6-4f07-b3db-60a7c557ab51/resourcegroups/StadsApp/providers/microsoft.insights/components/StadsAppRESTAPI</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/e3ece825-22a6-4f07-b3db-60a7c557ab51/resourcegroups/StadsApp/providers/microsoft.insights/components/StadsAppRESTAPI</ApplicationInsightsAnnotationResourceId>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
   </ItemGroup>
-
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
 </Project>
