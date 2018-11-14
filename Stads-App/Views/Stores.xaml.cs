@@ -7,7 +7,7 @@ namespace Stads_App.Views
 {
     public sealed partial class Stores
     {
-        public override string Header => "Winkels";
+        public override string Header { get; protected set; } = "Winkels";
 
         private readonly StoresViewModel _viewModel;
 

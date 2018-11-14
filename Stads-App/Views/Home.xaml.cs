@@ -7,7 +7,7 @@ namespace Stads_App.Views
 {
     public sealed partial class Home
     {
-        public override string Header => "Home";
+        public override string Header { get; protected set; } = "Home";
 
         private readonly HomeViewModel _viewModel;
 

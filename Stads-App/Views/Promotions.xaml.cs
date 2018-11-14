@@ -7,7 +7,7 @@ namespace Stads_App.Views
 {
     public sealed partial class Promotions
     {
-        public override string Header => "Promoties";
+        public override string Header { get; protected set; } = "Promoties";
 
         private readonly PromotionsViewModel _viewModel;
 

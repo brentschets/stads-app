@@ -24,6 +24,6 @@
 
         <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImgPath}" MaxWidth="500" />
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Description}" />
+        <TextBlock Padding="35, 0, 0, 0" Grid.Row="1" Grid.Column="1" Text="{Binding Description}" TextWrapping="WrapWholeWords" />
     </Grid>
 </local:BasePage>
