@@ -92,6 +92,7 @@ namespace RESTAPI.Controllers
             _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
+            // ReSharper disable once Mvc.ActionNotResolved
             return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
         }
 

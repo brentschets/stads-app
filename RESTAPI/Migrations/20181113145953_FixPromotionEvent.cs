@@ -19,7 +19,7 @@ namespace RESTAPI.Migrations
                 name: "Event",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(nullable: false)
+                    EventId = table.Column<int>()
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -40,7 +40,7 @@ namespace RESTAPI.Migrations
                 name: "Promotion",
                 columns: table => new
                 {
-                    PromotionId = table.Column<int>(nullable: false)
+                    PromotionId = table.Column<int>()
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),

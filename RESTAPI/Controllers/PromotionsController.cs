@@ -92,6 +92,7 @@ namespace RESTAPI.Controllers
             _context.Promotion.Add(promotion);
             await _context.SaveChangesAsync();
 
+            // ReSharper disable once Mvc.ActionNotResolved
             return CreatedAtAction("GetPromotion", new { id = promotion.PromotionId }, promotion);
         }
 

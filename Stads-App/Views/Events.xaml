@@ -32,6 +32,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- ReSharper disable once UnusedMember.Local -->
             <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
                             Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                             PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
