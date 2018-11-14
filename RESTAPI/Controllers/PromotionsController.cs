@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Promotion> GetPromotion()
         {
-            return _context.Promotion;
+            return _context.Promotion.Include(p => p.Store);
         }
 
         // GET: api/Promotions/5

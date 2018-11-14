@@ -5,7 +5,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Views;
-using Stads_App.Views.Details;
 
 namespace Stads_App
 {
@@ -25,7 +24,6 @@ namespace Stads_App
             ("stores", typeof(Stores)),
             ("promotions", typeof(Promotions)),
             ("events", typeof(Events)),
-            ("storedetails", typeof(StoreDetails))
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
@@ -80,8 +78,9 @@ namespace Stads_App
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
 
-            var item = _pages.First(p => p.Page == e.SourcePageType);
+            var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
 
+            if (item.Tag == null) return;
             var selectedItem = NavView.MenuItems.OfType<NavigationViewItem>()
                 .FirstOrDefault(n => n.Tag.Equals(item.Tag));
             if (selectedItem != null) NavView.SelectedItem = selectedItem;
