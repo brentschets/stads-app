@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Event> GetEvent()
         {
-            return _context.Event;
+            return _context.Event.Include(e => e.Store);
         }
 
         // GET: api/Events/5
