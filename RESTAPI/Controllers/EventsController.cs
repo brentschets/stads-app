@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Event> GetEvent()
         {
-            return _context.Event;
+            return _context.Event.Include(e => e.Store);
         }
 
         // GET: api/Events/5
@@ -92,6 +92,7 @@ namespace RESTAPI.Controllers
             _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
+            // ReSharper disable once Mvc.ActionNotResolved
             return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
         }
 

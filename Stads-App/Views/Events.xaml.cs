@@ -1,12 +1,13 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Stads_App.ViewModels;
 using Windows.UI.Xaml.Navigation;
+using Stads_App.Views.Details;
 
 namespace Stads_App.Views
 {
     public sealed partial class Events
     {
-        public override string Header => "Evenementen";
+        public override string Header { get; protected set; } = "Evenementen";
 
         private readonly EventsViewModel _viewModel;
 
@@ -26,6 +27,11 @@ namespace Stads_App.Views
         private void Search(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             _viewModel.Search(args.QueryText);
+        }
+
+        private void Details(object sender, SelectionChangedEventArgs e)
+        {
+            Frame.Navigate(typeof(EventDetails), ((ListView) sender).SelectedItem);
         }
     }
 }

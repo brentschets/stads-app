@@ -32,6 +32,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- ReSharper disable once UnusedMember.Local -->
             <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
                             Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                             PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
@@ -40,7 +41,8 @@
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
-                  ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Events}">
+                  ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Events}"
+                  SelectionChanged="Details">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="10" />

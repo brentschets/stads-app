@@ -13,8 +13,8 @@ namespace RESTAPI.Data
 
         public DbSet<Store> Store { get; set; }
 
-        public DbSet<RESTAPI.Models.Event> Event { get; set; }
+        public DbSet<Event> Event { get; set; }
 
-        public DbSet<RESTAPI.Models.Promotion> Promotion { get; set; }
+        public DbSet<Promotion> Promotion { get; set; }
     }
 }

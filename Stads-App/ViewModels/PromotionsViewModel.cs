@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Stads_App.Models;
-using Stads_App.Properties;
+using Stads_App.Annotations;
 using Stads_App.Utils;
 
 namespace Stads_App.ViewModels

@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Promotion> GetPromotion()
         {
-            return _context.Promotion;
+            return _context.Promotion.Include(p => p.Store);
         }
 
         // GET: api/Promotions/5
@@ -92,6 +92,7 @@ namespace RESTAPI.Controllers
             _context.Promotion.Add(promotion);
             await _context.SaveChangesAsync();
 
+            // ReSharper disable once Mvc.ActionNotResolved
             return CreatedAtAction("GetPromotion", new { id = promotion.PromotionId }, promotion);
         }
 

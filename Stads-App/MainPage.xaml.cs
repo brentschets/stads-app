@@ -23,7 +23,7 @@ namespace Stads_App
             ("home", typeof(Home)),
             ("stores", typeof(Stores)),
             ("promotions", typeof(Promotions)),
-            ("events", typeof(Events))
+            ("events", typeof(Events)),
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
@@ -78,11 +78,12 @@ namespace Stads_App
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
 
-            var item = _pages.First(p => p.Page == e.SourcePageType);
+            var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
 
-            NavView.SelectedItem = NavView.MenuItems
-                .OfType<NavigationViewItem>()
-                .First(n => n.Tag.Equals(item.Tag));
+            if (item.Tag == null) return;
+            var selectedItem = NavView.MenuItems.OfType<NavigationViewItem>()
+                .FirstOrDefault(n => n.Tag.Equals(item.Tag));
+            if (selectedItem != null) NavView.SelectedItem = selectedItem;
         }
     }
 }

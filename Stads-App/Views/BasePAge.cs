@@ -4,6 +4,6 @@ namespace Stads_App.Views
 {
     public class BasePage: Page
     {
-        public virtual string Header => "";
+        public virtual string Header { get; protected set; }
     }
 }

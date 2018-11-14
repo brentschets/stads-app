@@ -1,11 +1,13 @@
-﻿using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Stads_App.ViewModels;
+using Stads_App.Views.Details;
 
 namespace Stads_App.Views
 {
     public sealed partial class Home
     {
-        public override string Header => "Home";
+        public override string Header { get; protected set; } = "Home";
 
         private readonly HomeViewModel _viewModel;
 
@@ -20,6 +22,11 @@ namespace Stads_App.Views
         {
             base.OnNavigatedTo(e);
             await _viewModel.LoadDataAsync();
+        }
+
+        private void Details(object sender, SelectionChangedEventArgs e)
+        {
+            Frame.Navigate(typeof(StoreDetails), ((ListView) sender).SelectedItem);
         }
     }
 }

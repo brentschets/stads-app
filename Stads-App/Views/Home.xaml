@@ -22,7 +22,7 @@
                       IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
         <ListView Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                  ItemsSource="{Binding MostVisited}">
+                  ItemsSource="{Binding MostVisited}" SelectionChanged="Details">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
