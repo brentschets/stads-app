@@ -1,5 +1,5 @@
 ﻿using Stads_App.Models;
-using Stads_App.Properties;
+using Stads_App.Annotations;
 using Stads_App.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;

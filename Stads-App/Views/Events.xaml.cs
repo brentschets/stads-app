@@ -6,7 +6,7 @@ namespace Stads_App.Views
 {
     public sealed partial class Events
     {
-        public override string Header => "Evenementen";
+        protected override string Header { get; set; } = "Evenementen";
 
         private readonly EventsViewModel _viewModel;
 
