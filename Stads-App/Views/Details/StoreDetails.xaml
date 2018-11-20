@@ -28,7 +28,7 @@
         <TextBlock Padding="35, 0, 0, 0" Grid.Row="1" Grid.Column="1" Text="{Binding Description}"
                    TextWrapping="WrapWholeWords" />
 
-        <StackPanel Grid.Row="2" Grid.Column="1">
+        <StackPanel Grid.Row="2" Grid.Column="1" Padding="35, 0, 0, 0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Address.Street}" />
                 <TextBlock Text="{Binding Address.Number}" />
