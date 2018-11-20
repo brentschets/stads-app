@@ -30,8 +30,10 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1" Padding="35, 0, 0, 0">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Address.Street}" />
-                <TextBlock Text="{Binding Address.Number}" />
+                <TextBlock>
+                    <Run Text="{Binding Address.Street}" />
+                    <Run Text="{Binding Address.Number}" />
+                </TextBlock>
             </StackPanel>
             <TextBlock Text="9300 Aalst" />
         </StackPanel>
