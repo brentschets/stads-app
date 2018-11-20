@@ -401,7 +401,7 @@
     </Page.Resources>
 
     <NavigationView Style="{StaticResource NavigationViewStyle}" x:Name="NavView" IsSettingsVisible="False"
-                    IsBackButtonVisible="Collapsed" IsPaneOpen="True" ItemInvoked="NavView_ItemInvoked"
+                    IsBackButtonVisible="Visible" IsPaneOpen="True" ItemInvoked="NavView_ItemInvoked"
                     Loaded="NavView_Loaded" BackRequested="NavView_BackRequested">
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Home" Content="Home" Tag="home" />
