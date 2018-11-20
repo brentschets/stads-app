@@ -35,7 +35,8 @@ namespace RESTAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var promotion = await _context.Promotion.FindAsync(id);
+            var promotion = await _context.Promotion.Include(p => p.Store)
+                .FirstOrDefaultAsync(p => p.PromotionId == id);
 
             if (promotion == null)
             {
@@ -93,7 +94,7 @@ namespace RESTAPI.Controllers
             await _context.SaveChangesAsync();
 
             // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetPromotion", new { id = promotion.PromotionId }, promotion);
+            return CreatedAtAction("GetPromotion", new {id = promotion.PromotionId}, promotion);
         }
 
         // DELETE: api/Promotions/5

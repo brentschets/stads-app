@@ -35,7 +35,7 @@ namespace RESTAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var @event = await _context.Event.FindAsync(id);
+            var @event = await _context.Event.Include(e => e.Store).FirstOrDefaultAsync(e => e.EventId == id);
 
             if (@event == null)
             {
@@ -93,7 +93,7 @@ namespace RESTAPI.Controllers
             await _context.SaveChangesAsync();
 
             // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
+            return CreatedAtAction("GetEvent", new {id = @event.EventId}, @event);
         }
 
         // DELETE: api/Events/5

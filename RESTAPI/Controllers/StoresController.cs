@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Store> GetStore()
         {
-            return _context.Store.Include(s => s.Address);
+            return _context.Store;
         }
 
         // GET: api/Stores/5
