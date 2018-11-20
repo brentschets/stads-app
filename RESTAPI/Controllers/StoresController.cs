@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Store> GetStore()
         {
-            return _context.Store;
+            return _context.Store.Include(s => s.Address);
         }
 
         // GET: api/Stores/5
@@ -35,7 +35,7 @@ namespace RESTAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.FindAsync(id);
+            var store = await _context.Store.Include(s => s.Address).FirstOrDefaultAsync(s => s.StoreId == id);
 
             if (store == null)
             {

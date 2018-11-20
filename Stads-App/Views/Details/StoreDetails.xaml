@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -22,8 +23,17 @@
 
         <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" Grid.ColumnSpan="2" />
 
-        <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImgPath}" MaxWidth="500" />
+        <Image Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Source="{Binding ImgPath}" MaxWidth="500" />
 
-        <TextBlock Padding="35, 0, 0, 0" Grid.Row="1" Grid.Column="1" Text="{Binding Description}" TextWrapping="WrapWholeWords" />
+        <TextBlock Padding="35, 0, 0, 0" Grid.Row="1" Grid.Column="1" Text="{Binding Description}"
+                   TextWrapping="WrapWholeWords" />
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Address.Street}" />
+                <TextBlock Text="{Binding Address.Number}" />
+            </StackPanel>
+            <TextBlock Text="9300 Aalst" />
+        </StackPanel>
     </Grid>
 </local:BasePage>

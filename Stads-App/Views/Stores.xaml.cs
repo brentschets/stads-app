@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Stads_App.Models;
 using Stads_App.ViewModels;
 using Stads_App.Views.Details;
 
@@ -31,7 +32,9 @@ namespace Stads_App.Views
 
         private void Details(object sender, SelectionChangedEventArgs e)
         {
-            Frame.Navigate(typeof(StoreDetails), ((ListView) sender).SelectedItem);
+            var selectedItem = ((ListView) sender).SelectedItem;
+            if (selectedItem != null)
+                Frame.Navigate(typeof(StoreDetails), ((Store) selectedItem).StoreId);
         }
     }
 }

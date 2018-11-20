@@ -24,12 +24,10 @@ namespace RESTAPI
 
             services.AddDbContext<RESTAPIContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Deploy")));
-
-            services.AddScoped<DummyDataInitialiser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DummyDataInitialiser dummyDataInitialiser)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -43,8 +41,6 @@ namespace RESTAPI
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseStaticFiles();
-
-            dummyDataInitialiser.Initialise();
         }
     }
 }

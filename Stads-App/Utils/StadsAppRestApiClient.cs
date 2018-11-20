@@ -14,12 +14,12 @@ namespace Stads_App.Utils
         public static StadsAppRestApiClient Instance => Lazy.Value;
 
         //local
-        /*private StadsAppRestApiClient() : base(new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
-        })
-        {
-        }*/
+        //private StadsAppRestApiClient() : base(new HttpClientHandler
+        //{
+        //    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        //})
+        //{
+        //}
 
         //deploy
         private StadsAppRestApiClient()
@@ -34,6 +34,11 @@ namespace Stads_App.Utils
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
             return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
+        }
+
+        public async Task<T> GetSingleObjectAsync<T>(string relUri)
+        {
+            return JsonConvert.DeserializeObject<T>(await GetStringAsync(Host + relUri));
         }
     }
 }
