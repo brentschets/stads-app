@@ -16,5 +16,7 @@ namespace RESTAPI.Data
         public DbSet<Event> Event { get; set; }
 
         public DbSet<Promotion> Promotion { get; set; }
+
+        public DbSet<Category> Category { get; set; }
     }
 }

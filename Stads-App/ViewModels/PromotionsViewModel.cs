@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 using Stads_App.Models;
 using Stads_App.Annotations;
 using Stads_App.Utils;
@@ -36,6 +38,8 @@ namespace Stads_App.ViewModels
             }
         }
 
+        public ICommand SearchCommand => new RelayCommand(Search);
+
         public PromotionsViewModel()
         {
             IsLoaded = false;
@@ -46,9 +50,11 @@ namespace Stads_App.ViewModels
             return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions");
         }
 
-        public void Search(string searchString)
+        public void Search(object o)
         {
-            Promotions = AllPromotions.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            var args = o as AutoSuggestBoxQuerySubmittedEventArgs;
+            Promotions =
+                AllPromotions.FindAll(s => args != null && s.Name.ToLower().Contains(args.QueryText.ToLower()));
         }
 
         public async Task LoadDataAsync()

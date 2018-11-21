@@ -1,6 +1,11 @@
 ﻿<Application
     x:Class="Stads_App.App"
+    xmlns:converters="using:Stads_App.Utils.Converters"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Application.Resources>
+        <converters:BoolInvertConverter x:Key="BoolInvertConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Application.Resources>
 </Application>

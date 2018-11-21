@@ -23,6 +23,7 @@ namespace Stads_App
         {
             ("home", typeof(Home)),
             ("stores", typeof(Stores)),
+            ("categories", typeof(Categories)),
             ("promotions", typeof(Promotions)),
             ("events", typeof(Events)),
         };
@@ -86,7 +87,9 @@ namespace Stads_App
             if (item.Tag == null) return;
             var selectedItem = NavView.MenuItems.OfType<NavigationViewItem>()
                 .FirstOrDefault(n => n.Tag.Equals(item.Tag));
-            if (selectedItem != null) NavView.SelectedItem = selectedItem;
+            if (selectedItem == null) return;
+            NavView.SelectedItem = selectedItem;
+            if (e.SourcePageType != null && _currentPage != e.SourcePageType) _currentPage = e.SourcePageType;
         }
     }
 }

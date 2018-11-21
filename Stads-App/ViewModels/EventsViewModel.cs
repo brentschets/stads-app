@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace Stads_App.ViewModels
 {
@@ -36,6 +38,8 @@ namespace Stads_App.ViewModels
             }
         }
 
+        public ICommand SearchCommand => new RelayCommand(Search);
+
         public EventsViewModel()
         {
             IsLoaded = false;
@@ -53,9 +57,10 @@ namespace Stads_App.ViewModels
             IsLoaded = true;
         }
 
-        public void Search(string searchString)
+        public void Search(object o)
         {
-            Events = AllEvents.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            var args = o as AutoSuggestBoxQuerySubmittedEventArgs;
+            Events = AllEvents.FindAll(s => args != null && s.Name.ToLower().Contains(args.QueryText.ToLower()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

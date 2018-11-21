@@ -406,6 +406,7 @@
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Home" Content="Home" Tag="home" />
             <NavigationViewItem Icon="Shop" Content="Alle Winkels" Tag="stores" />
+            <NavigationViewItem Icon="AllApps" Content="Categorieën" Tag="categories" />
             <NavigationViewItem Icon="OutlineStar" Content="Promoties" Tag="promotions" />
             <NavigationViewItem Icon="Calendar" Content="Evenementen" Tag="events" />
         </NavigationView.MenuItems>
