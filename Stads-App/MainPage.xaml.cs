@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -29,6 +30,7 @@ namespace Stads_App
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             ContentFrame.Navigated += On_Navigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += NavView_BackRequested;
 
             // NavView doesn't load any page by default, specify Home
             NavView_Navigate("home");
@@ -58,7 +60,7 @@ namespace Stads_App
             _currentPage = item.Page;
         }
 
-        private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) =>
+        private void NavView_BackRequested(object sender, BackRequestedEventArgs args) =>
             On_BackRequested();
 
         private void On_BackRequested()
@@ -76,7 +78,8 @@ namespace Stads_App
 
         private void On_Navigated(object sender, NavigationEventArgs e)
         {
-            NavView.IsBackEnabled = ContentFrame.CanGoBack;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
             var item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
 
