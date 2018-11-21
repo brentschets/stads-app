@@ -10,15 +10,39 @@ namespace Stads_App.ViewModels
 {
     public sealed class HomeViewModel : INotifyPropertyChanged
     {
-        private List<Store> _mostVisited;
+        private List<Store> _popularStores;
 
-        public List<Store> MostVisited
+        public List<Store> PopularStores
         {
-            get => _mostVisited;
+            get => _popularStores;
             private set
             {
-                _mostVisited = value;
-                OnPropertyChanged(nameof(MostVisited));
+                _popularStores = value;
+                OnPropertyChanged(nameof(PopularStores));
+            }
+        }
+
+        private List<Event> _popularEvents;
+
+        public List<Event> PopularEvents
+        {
+            get => _popularEvents;
+            private set
+            {
+                _popularEvents = value;
+                OnPropertyChanged(nameof(PopularEvents));
+            }
+        }
+
+        private List<Promotion> _popularPromotions;
+
+        public List<Promotion> PopularPromotions
+        {
+            get => _popularPromotions;
+            private set
+            {
+                _popularPromotions = value;
+                OnPropertyChanged(nameof(PopularPromotions));
             }
         }
 
@@ -39,14 +63,28 @@ namespace Stads_App.ViewModels
             IsLoaded = false;
         }
 
-        private static async Task<List<Store>> GetMostVisitedAsync()
+        #region Data loaders
+        private static async Task<List<Store>> GetPopularStoresAsync()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/MostVisited/10");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Popular/10");
         }
+
+        private static async Task<List<Event>> GetPopularEventsAsync()
+        {
+            return await StadsAppRestApiClient.Instance.GetListAsync<Event>("Events/Popular/10");
+        }
+
+        private static async Task<List<Promotion>> GetPopularPromotionsAsync()
+        {
+            return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions/Popular/10");
+        }
+        #endregion
 
         public async Task LoadDataAsync()
         {
-            MostVisited = await GetMostVisitedAsync();
+            PopularStores = await GetPopularStoresAsync();
+            PopularEvents = await GetPopularEventsAsync();
+            PopularPromotions = await GetPopularPromotionsAsync();
             IsLoaded = true;
         }
 

@@ -25,11 +25,25 @@ namespace Stads_App.Views
             await _viewModel.LoadDataAsync();
         }
 
-        private void Details(object sender, SelectionChangedEventArgs e)
+        private void StoreDetails(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = ((ListView) sender).SelectedItem;
             if (selectedItem != null)
                 Frame.Navigate(typeof(StoreDetails), ((Store) selectedItem).StoreId);
+        }
+
+        private void EventDetails(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = ((ListView) sender).SelectedItem;
+            if (selectedItem != null)
+                Frame.Navigate(typeof(EventDetails), ((Event) selectedItem).EventId);
+        }
+
+        private void PromotionDetails(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = ((ListView) sender).SelectedItem;
+            if (selectedItem != null)
+                Frame.Navigate(typeof(PromotionDetails), ((Promotion) selectedItem).PromotionId);
         }
     }
 }
