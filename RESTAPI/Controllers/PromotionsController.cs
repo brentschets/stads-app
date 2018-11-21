@@ -46,6 +46,14 @@ namespace RESTAPI.Controllers
             return Ok(promotion);
         }
 
+        // GET: api/Promotions/Popular/10
+        [HttpGet("Popular/{limit}")]
+        public IActionResult GetPopular([FromRoute] int limit)
+        {
+            var res =_context.Promotion.Include(p => p.Store).OrderByDescending(p => p.Visited).Take(limit).ToList();
+            return Ok(res);
+        }
+
         // PUT: api/Promotions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPromotion([FromRoute] int id, [FromBody] Promotion promotion)

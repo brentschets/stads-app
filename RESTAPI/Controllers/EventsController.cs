@@ -45,6 +45,14 @@ namespace RESTAPI.Controllers
             return Ok(@event);
         }
 
+        // GET: api/Events/Popular/10
+        [HttpGet("Popular/{limit}")]
+        public IActionResult GetPopular([FromRoute] int limit)
+        {
+            var res =_context.Event.Include(e => e.Store).OrderByDescending(e => e.Visited).Take(limit).ToList();
+            return Ok(res);
+        }
+
         // PUT: api/Events/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent([FromRoute] int id, [FromBody] Event @event)

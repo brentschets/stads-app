@@ -45,9 +45,9 @@ namespace RESTAPI.Controllers
             return Ok(store);
         }
 
-        // GET: api/Stores/MostVisited/10
-        [HttpGet("MostVisited/{limit}")]
-        public IActionResult GetMostVisited([FromRoute] int limit)
+        // GET: api/Stores/Popular/10
+        [HttpGet("Popular/{limit}")]
+        public IActionResult GetPopular([FromRoute] int limit)
         {
             var res =_context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
             return Ok(res);
