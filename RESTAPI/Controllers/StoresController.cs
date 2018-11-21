@@ -35,7 +35,8 @@ namespace RESTAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var store = await _context.Store.Include(s => s.Address).FirstOrDefaultAsync(s => s.StoreId == id);
+            var store = await _context.Store.Include(s => s.Address).Include(s => s.Category)
+                .FirstOrDefaultAsync(s => s.StoreId == id);
 
             if (store == null)
             {
@@ -49,7 +50,15 @@ namespace RESTAPI.Controllers
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
-            var res =_context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
+            var res = _context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
+            return Ok(res);
+        }
+
+        // GET: api/Stores/ByCategory/5
+        [HttpGet("ByCategory/{id}")]
+        public IActionResult GetByCategory([FromRoute] int id)
+        {
+            var res = _context.Store.Include(s => s.Category).Where(s => s.Category.CategoryId == id);
             return Ok(res);
         }
 
@@ -101,7 +110,7 @@ namespace RESTAPI.Controllers
             await _context.SaveChangesAsync();
 
             // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetStore", new { id = store.StoreId }, store);
+            return CreatedAtAction("GetStore", new {id = store.StoreId}, store);
         }
 
         // DELETE: api/Stores/5

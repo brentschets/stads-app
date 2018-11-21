@@ -22,12 +22,8 @@ namespace Stads_App.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await _viewModel.LoadDataAsync();
-        }
-
-        private void Search(AutoSuggestBox autoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs autoSuggestBoxQuerySubmittedEventArgs)
-        {
-            _viewModel.Search(autoSuggestBoxQuerySubmittedEventArgs.QueryText);
+            if (e.Parameter != null) await _viewModel.LoadDataAsync((int) e.Parameter);
+            else await _viewModel.LoadDataAsync(null);
         }
 
         private void Details(object sender, SelectionChangedEventArgs e)

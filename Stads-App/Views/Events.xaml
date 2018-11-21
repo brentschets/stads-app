@@ -5,16 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:util="using:Stads_App.Utils.Converters"
     xmlns:viewModels="using:Stads_App.ViewModels"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance viewModels:EventsViewModel}">
-
-    <Page.Resources>
-        <util:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <util:BoolInvertConverter x:Key="BoolInvertConverter" />
-    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -32,10 +28,15 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- ReSharper disable once UnusedMember.Local -->
             <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
                             Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                            PlaceholderText="Zoeken..." QuerySubmitted="Search" QueryIcon="Zoom" />
+                            PlaceholderText="Zoeken..." QueryIcon="Zoom">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{Binding SearchCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AutoSuggestBox>
         </Grid>
 
         <ListView Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"

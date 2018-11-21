@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 using Stads_App.Models;
 using Stads_App.Annotations;
 using Stads_App.Utils;
@@ -23,7 +25,7 @@ namespace Stads_App.ViewModels
         }
 
         private List<Store> AllStores { get; set; }
-        
+
         private bool _isLoaded;
 
         public bool IsLoaded
@@ -36,25 +38,55 @@ namespace Stads_App.ViewModels
             }
         }
 
+        private bool _isLimitedList;
+
+        public bool IsLimitedList
+        {
+            get => _isLimitedList;
+            private set
+            {
+                _isLimitedList = value;
+                OnPropertyChanged(nameof(IsLimitedList));
+            }
+        }
+
+        public ICommand SearchCommand => new RelayCommand(Search);
+
+        public ICommand ShowAllStoresCommand
+        {
+            get { return new RelayCommand(o => ShowAllStores()); }
+        }
+
         public StoresViewModel()
         {
             IsLoaded = false;
         }
 
-        private static async Task<List<Store>> GetStoresAsync()
+        private async void ShowAllStores()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
+            IsLoaded = false;
+            Stores = null;
+            await LoadDataAsync(null);
         }
 
-        public void Search(string searchString)
+        private static async Task<List<Store>> GetStoresAsync(int? categoryId)
         {
-            Stores = AllStores.FindAll(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            return await StadsAppRestApiClient.Instance.GetListAsync<Store>(categoryId != null
+                ? $"Stores/ByCategory/{categoryId}"
+                : "Stores");
         }
 
-        public async Task LoadDataAsync()
+        private void Search(object o)
         {
-            AllStores = await GetStoresAsync();
+            var args = o as AutoSuggestBoxQuerySubmittedEventArgs;
+            Stores = AllStores.FindAll(s => args != null && s.Name.ToLower().Contains(args.QueryText.ToLower()));
+        }
+
+        public async Task LoadDataAsync(int? categoryId)
+        {
+            AllStores = await GetStoresAsync(categoryId);
             if (Stores == null) Stores = AllStores;
+            IsLimitedList = categoryId != null;
             IsLoaded = true;
         }
 
