@@ -50,6 +50,8 @@ namespace Stads_App.Views
             if (_selectedStore != null)
             {
                 StoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);
+                // undo focus
+                StoresCollection.SelectedItem = null;
                 StoresCollection.UpdateLayout();
                 var connectedAnimation =
                     ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
