@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -11,6 +14,11 @@ namespace Stads_App.Views.Details
     public sealed partial class StoreDetails : INotifyPropertyChanged
     {
         private string _header;
+
+        private static readonly IEnumerable<Type> AnimatedViews = new List<Type>
+        {
+            typeof(Stores)
+        };
 
         public override string Header
         {
@@ -43,7 +51,8 @@ namespace Stads_App.Views.Details
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", DetailedImg);
+            if (e.NavigationMode == NavigationMode.Back && AnimatedViews.Contains(e.SourcePageType))
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", DetailedImg);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
