@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
 using Stads_App.Models;
@@ -34,6 +35,18 @@ namespace Stads_App.Views.Details
             var store = await StadsAppRestApiClient.Instance.GetSingleObjectAsync<Store>($"Stores/{storeId}");
             Header = store.Name;
             DataContext = store;
+            var connectedAnimation =
+                ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
+            if (connectedAnimation != null)
+            {
+                connectedAnimation.TryStart(DetailedImg);
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", DetailedImg);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

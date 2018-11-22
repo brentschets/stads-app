@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.Foundation.Metadata;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Models;
 using Stads_App.ViewModels;
@@ -11,6 +15,8 @@ namespace Stads_App.Views
         public override string Header { get; protected set; } = "Winkels";
 
         private readonly StoresViewModel _viewModel;
+
+        private Store _selectedStore;
 
         public Stores()
         {
@@ -26,11 +32,15 @@ namespace Stads_App.Views
             else await _viewModel.LoadDataAsync(null);
         }
 
-        private void Details(object sender, SelectionChangedEventArgs e)
+        private void Details(object sender, ItemClickEventArgs e)
         {
-            var selectedItem = ((ListView) sender).SelectedItem;
-            if (selectedItem != null)
-                Frame.Navigate(typeof(StoreDetails), ((Store) selectedItem).StoreId);
+            var container = StoresCollection.ContainerFromItem(e.ClickedItem) as ListViewItem;
+            if (container != null)
+            {
+                _selectedStore = container.Content as Store;
+                StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "storeImg");
+                Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
+            }
         }
     }
 }

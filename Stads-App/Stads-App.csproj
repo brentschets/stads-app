@@ -121,9 +121,6 @@
     <Compile Include="Views\Custom\InlineStoreOverview.xaml.cs">
       <DependentUpon>InlineStoreOverview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Custom\StoresListItem.xaml.cs">
-      <DependentUpon>StoresListItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Details\EventDetails.xaml.cs">
       <DependentUpon>EventDetails.xaml</DependentUpon>
     </Compile>
@@ -183,10 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Custom\InlineStoreOverview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Custom\StoresListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
