@@ -21,6 +21,8 @@ namespace Stads_App.Views
         public Stores()
         {
             InitializeComponent();
+            // Ensure the page is only created once, and cached during navigation (required for back connected animation)
+            NavigationCacheMode = NavigationCacheMode.Enabled;
             _viewModel = new StoresViewModel();
             DataContext = _viewModel;
         }
@@ -40,6 +42,22 @@ namespace Stads_App.Views
                 _selectedStore = container.Content as Store;
                 StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "storeImg");
                 Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
+            }
+        }
+
+        private async void StoresCollection_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (_selectedStore != null)
+            {
+                StoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);
+                StoresCollection.UpdateLayout();
+                var connectedAnimation =
+                    ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+                if (connectedAnimation != null)
+                {
+                    await StoresCollection.TryStartConnectedAnimationAsync(connectedAnimation, _selectedStore,
+                        "storeImg");
+                }
             }
         }
     }
