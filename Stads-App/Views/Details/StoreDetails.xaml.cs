@@ -17,7 +17,8 @@ namespace Stads_App.Views.Details
 
         private static readonly IEnumerable<Type> AnimatedViews = new List<Type>
         {
-            typeof(Stores)
+            typeof(Stores),
+            typeof(Home)
         };
 
         public override string Header

@@ -37,7 +37,7 @@ namespace Stads_App.Views
         {
             if (!(StoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
             _selectedStore = container.Content as Store;
-            StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "storeImg");
+            StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "StoreImg");
             if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
         }
 
@@ -53,7 +53,7 @@ namespace Stads_App.Views
             if (connectedAnimation != null)
             {
                 await StoresCollection.TryStartConnectedAnimationAsync(connectedAnimation, _selectedStore,
-                    "storeImg");
+                    "StoreImg");
             }
         }
     }

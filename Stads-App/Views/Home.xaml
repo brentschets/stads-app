@@ -31,9 +31,9 @@
             <ListView Grid.Row="0" ItemsSource="{Binding PopularStores}" ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
-                      Height="160" SelectionChanged="StoreDetails"
+                      Height="160" ItemClick="StoreDetails" IsItemClickEnabled="True" x:Name="PopularStoresCollection"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                      Margin="0, 10, 0, 10">
+                      Margin="0, 10, 0, 10" Loaded="PopularStoresCollection_OnLoaded">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -42,7 +42,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="200">
-                            <Image Source="{Binding ImgPath}" Width="150" Margin="25, 0, 25, 0" />
+                            <Image x:Name="StoreImg" Source="{Binding ImgPath}" Width="150" Margin="25, 0, 25, 0" />
                             <TextBlock FontSize="16" Text="{Binding Name}"
                                        Margin="5, 0, 5, 0" TextTrimming="CharacterEllipsis" MaxLines="1" />
                         </StackPanel>

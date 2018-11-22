@@ -67,7 +67,7 @@
 
                         <StackPanel>
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
-                            <Image x:Name="storeImg" HorizontalAlignment="Left" Source="{Binding ImgPath}"
+                            <Image x:Name="StoreImg" HorizontalAlignment="Left" Source="{Binding ImgPath}"
                                    MaxWidth="200" />
                         </StackPanel>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}"
