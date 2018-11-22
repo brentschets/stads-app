@@ -22,7 +22,7 @@
                           IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
             <ListView Grid.Row="0" ItemsSource="{Binding PopularStores}" ScrollViewer.HorizontalScrollMode="Enabled"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="160" ItemClick="StoreDetails" IsItemClickEnabled="True" x:Name="PopularStoresCollection"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -44,7 +44,7 @@
             </ListView>
 
             <ListView Grid.Row="1" ItemsSource="{Binding PopularEvents}" ScrollViewer.HorizontalScrollMode="Enabled"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="175" SelectionChanged="EventDetails"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -69,7 +69,7 @@
 
             <ListView Grid.Row="2" ItemsSource="{Binding PopularPromotions}"
                       ScrollViewer.HorizontalScrollMode="Enabled"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="175" SelectionChanged="PromotionDetails"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
