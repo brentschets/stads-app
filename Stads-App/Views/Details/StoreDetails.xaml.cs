@@ -37,10 +37,7 @@ namespace Stads_App.Views.Details
             DataContext = store;
             var connectedAnimation =
                 ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            if (connectedAnimation != null)
-            {
-                connectedAnimation.TryStart(DetailedImg);
-            }
+            connectedAnimation?.TryStart(DetailedImg);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

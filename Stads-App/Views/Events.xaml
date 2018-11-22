@@ -28,6 +28,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- ReSharper disable once NotAccessedField.Local -->
             <AutoSuggestBox Grid.Column="1" x:Name="SearchBox"
                             Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                             PlaceholderText="Zoeken..." QueryIcon="Zoom">

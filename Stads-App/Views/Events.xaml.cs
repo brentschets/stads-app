@@ -25,11 +25,6 @@ namespace Stads_App.Views
             await _viewModel.LoadDataAsync();
         }
 
-        private void Search(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            _viewModel.Search(args.QueryText);
-        }
-
         private void Details(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = ((ListView) sender).SelectedItem;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -36,30 +35,25 @@ namespace Stads_App.Views
 
         private void Details(object sender, ItemClickEventArgs e)
         {
-            var container = StoresCollection.ContainerFromItem(e.ClickedItem) as ListViewItem;
-            if (container != null)
-            {
-                _selectedStore = container.Content as Store;
-                StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "storeImg");
-                Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
-            }
+            if (!(StoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
+            _selectedStore = container.Content as Store;
+            StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "storeImg");
+            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
         }
 
         private async void StoresCollection_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (_selectedStore != null)
+            if (_selectedStore == null) return;
+            StoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);
+            // undo focus
+            StoresCollection.SelectedItem = null;
+            StoresCollection.UpdateLayout();
+            var connectedAnimation =
+                ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+            if (connectedAnimation != null)
             {
-                StoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);
-                // undo focus
-                StoresCollection.SelectedItem = null;
-                StoresCollection.UpdateLayout();
-                var connectedAnimation =
-                    ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
-                if (connectedAnimation != null)
-                {
-                    await StoresCollection.TryStartConnectedAnimationAsync(connectedAnimation, _selectedStore,
-                        "storeImg");
-                }
+                await StoresCollection.TryStartConnectedAnimationAsync(connectedAnimation, _selectedStore,
+                    "storeImg");
             }
         }
     }
