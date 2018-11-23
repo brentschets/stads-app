@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
 using Stads_App.Models;
-using Stads_App.Utils;
 
 namespace Stads_App.Views.Details
 {
@@ -26,15 +25,17 @@ namespace Stads_App.Views.Details
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
-            var eventId = (int) e.Parameter;
-            var _event = await StadsAppRestApiClient.Instance.GetSingleObjectAsync<Event>($"Events/{eventId}");
-            Header = _event.Name;
-            DataContext = _event;
-            InlineStoreOverview.Store = _event.Store;
+            if (e.Parameter is Event _event)
+            {
+                Header = _event.Name;
+                DataContext = _event;
+                InlineStoreOverview.Store = _event.Store;
+            }
+
             InlineStoreOverview.Frame = Frame;
             InlineStoreOverview.SetDataContext();
         }

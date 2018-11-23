@@ -29,7 +29,7 @@ namespace Stads_App.Views
         {
             var selectedItem = ((ListView) sender).SelectedItem;
             if (selectedItem != null)
-                Frame.Navigate(typeof(PromotionDetails), ((Promotion) selectedItem).PromotionId);
+                Frame.Navigate(typeof(PromotionDetails), selectedItem as Promotion);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Stads_App.Views
             if (!(StoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
             _selectedStore = container.Content as Store;
             StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "StoreImg");
-            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
+            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
         }
 
         private async void StoresCollection_OnLoaded(object sender, RoutedEventArgs e)

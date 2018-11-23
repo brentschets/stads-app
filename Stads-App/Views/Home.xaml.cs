@@ -38,21 +38,21 @@ namespace Stads_App.Views
             if (!(PopularStoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
             _selectedStore = container.Content as Store;
             PopularStoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "StoreImg");
-            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore.StoreId);
+            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
         }
 
         private void EventDetails(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = ((ListView) sender).SelectedItem;
             if (selectedItem != null)
-                Frame.Navigate(typeof(EventDetails), ((Event) selectedItem).EventId);
+                Frame.Navigate(typeof(EventDetails), selectedItem as Event);
         }
 
         private void PromotionDetails(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = ((ListView) sender).SelectedItem;
             if (selectedItem != null)
-                Frame.Navigate(typeof(PromotionDetails), ((Promotion) selectedItem).PromotionId);
+                Frame.Navigate(typeof(PromotionDetails), selectedItem as Promotion);
         }
 
         private async void PopularStoresCollection_OnLoaded(object sender, RoutedEventArgs e)
