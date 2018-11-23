@@ -25,11 +25,10 @@ namespace Stads_App.Views
             await _viewModel.LoadDataAsync();
         }
 
-        private void Details(object sender, SelectionChangedEventArgs e)
+        private void Details(object sender, ItemClickEventArgs e)
         {
-            var selectedItem = ((ListView) sender).SelectedItem;
-            if (selectedItem != null)
-                Frame.Navigate(typeof(EventDetails), selectedItem as Event);
+            if (!(EventsCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
+            if (container.Content is Event selectedEvent) Frame.Navigate(typeof(EventDetails), selectedEvent);
         }
     }
 }

@@ -41,18 +41,17 @@ namespace Stads_App.Views
             if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
         }
 
-        private void EventDetails(object sender, SelectionChangedEventArgs e)
+        private void EventDetails(object sender, ItemClickEventArgs e)
         {
-            var selectedItem = ((ListView) sender).SelectedItem;
-            if (selectedItem != null)
-                Frame.Navigate(typeof(EventDetails), selectedItem as Event);
+            if (!(PopularEventsCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
+            if (container.Content is Event selectedEvent) Frame.Navigate(typeof(EventDetails), selectedEvent);
         }
 
-        private void PromotionDetails(object sender, SelectionChangedEventArgs e)
+        private void PromotionDetails(object sender, ItemClickEventArgs e)
         {
-            var selectedItem = ((ListView) sender).SelectedItem;
-            if (selectedItem != null)
-                Frame.Navigate(typeof(PromotionDetails), selectedItem as Promotion);
+            if (!(PopularPromotionsCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
+            if (container.Content is Promotion selectedPromotion)
+                Frame.Navigate(typeof(PromotionDetails), selectedPromotion);
         }
 
         private async void PopularStoresCollection_OnLoaded(object sender, RoutedEventArgs e)
