@@ -36,7 +36,7 @@
                     <DataTemplate>
                         <StackPanel Width="200">
                             <Image x:Name="StoreImg" Source="{Binding ImgPath}" Width="150" Margin="25, 0, 25, 0" />
-                            <TextBlock FontSize="16" Text="{Binding Name}"
+                            <TextBlock FontSize="16" Text="{Binding Name}" x:Name="StoreName"
                                        Margin="5, 0, 5, 0" TextTrimming="CharacterEllipsis" MaxLines="1" />
                         </StackPanel>
                     </DataTemplate>

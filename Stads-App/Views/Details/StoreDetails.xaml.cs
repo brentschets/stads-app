@@ -45,16 +45,22 @@ namespace Stads_App.Views.Details
                 DataContext = store;
             }
 
-            var connectedAnimation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            connectedAnimation?.TryStart(DetailedImg);
+            var storeImgForwaredConnectedAnimation =
+                ConnectedAnimationService.GetForCurrentView().GetAnimation("StoreImgForwardConnectedAnimation");
+            storeImgForwaredConnectedAnimation?.TryStart(DetailedImg);
+            var storeNameForwardConnectedAnimation = ConnectedAnimationService.GetForCurrentView()
+                .GetAnimation("StoreNameForwardConnectedAnimation");
+            storeNameForwardConnectedAnimation?.TryStart(DetailedName);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            if (e.NavigationMode == NavigationMode.Back && AnimatedViews.Contains(e.SourcePageType))
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", DetailedImg);
+            if (e.NavigationMode != NavigationMode.Back || !AnimatedViews.Contains(e.SourcePageType)) return;
+            ConnectedAnimationService.GetForCurrentView()
+                .PrepareToAnimate("StoreImgBackConnectedAnimation", DetailedImg);
+            ConnectedAnimationService.GetForCurrentView()
+                .PrepareToAnimate("StoreNameBackConnectedAnimation", DetailedName);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

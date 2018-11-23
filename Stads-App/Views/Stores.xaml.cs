@@ -37,7 +37,9 @@ namespace Stads_App.Views
         {
             if (!(StoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
             _selectedStore = container.Content as Store;
-            StoresCollection.PrepareConnectedAnimation("ForwardConnectedAnimation", _selectedStore, "StoreImg");
+            StoresCollection.PrepareConnectedAnimation("StoreImgForwardConnectedAnimation", _selectedStore, "StoreImg");
+            StoresCollection.PrepareConnectedAnimation("StoreNameForwardConnectedAnimation", _selectedStore,
+                "StoreName");
             if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
         }
 
@@ -48,12 +50,20 @@ namespace Stads_App.Views
             // undo focus
             StoresCollection.SelectedItem = null;
             StoresCollection.UpdateLayout();
-            var connectedAnimation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
-            if (connectedAnimation != null)
+            var storeImgBackConnectedAnimation =
+                ConnectedAnimationService.GetForCurrentView().GetAnimation("StoreImgBackConnectedAnimation");
+            if (storeImgBackConnectedAnimation != null)
             {
-                await StoresCollection.TryStartConnectedAnimationAsync(connectedAnimation, _selectedStore,
+                await StoresCollection.TryStartConnectedAnimationAsync(storeImgBackConnectedAnimation, _selectedStore,
                     "StoreImg");
+            }
+
+            var storeNameBackConnectedAnimation = ConnectedAnimationService.GetForCurrentView()
+                .GetAnimation("StoreNameBackConnectedAnimation");
+            if (storeNameBackConnectedAnimation != null)
+            {
+                await StoresCollection.TryStartConnectedAnimationAsync(storeNameBackConnectedAnimation, _selectedStore,
+                    "StoreName");
             }
         }
     }
