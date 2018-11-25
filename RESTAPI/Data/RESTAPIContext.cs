@@ -18,5 +18,7 @@ namespace RESTAPI.Data
         public DbSet<Promotion> Promotion { get; set; }
 
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<User> User { get; set; }
     }
 }
