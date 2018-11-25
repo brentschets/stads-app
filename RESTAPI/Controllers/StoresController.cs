@@ -23,7 +23,7 @@ namespace RESTAPI.Controllers
         [HttpGet]
         public IEnumerable<Store> GetStore()
         {
-            return _context.Store;
+            return _context.Store.Include(s => s.Address).Include(s => s.Category);
         }
 
         // GET: api/Stores/5
@@ -50,7 +50,8 @@ namespace RESTAPI.Controllers
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
-            var res = _context.Store.OrderByDescending(s => s.Visited).Take(limit).ToList();
+            var res = _context.Store.Include(s => s.Address).Include(s => s.Category).OrderByDescending(s => s.Visited)
+                .Take(limit).ToList();
             return Ok(res);
         }
 

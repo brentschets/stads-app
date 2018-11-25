@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Stads_App.ViewModels"
-    xmlns:custom="using:Stads_App.Views.Custom"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
@@ -46,11 +45,11 @@
             </AutoSuggestBox>
         </Grid>
 
-        <ListView Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto"
+        <ListView Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto" IsItemClickEnabled="True"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
                   ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Stores}"
-                  SelectionChanged="Details">
+                  ItemClick="Details" x:Name="StoresCollection" Loaded="StoresCollection_OnLoaded">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -60,7 +59,43 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <custom:StoresListItem />
+                    <Grid Height="220">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" x:Name="DescriptionCol" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBlock x:Name="StoreName" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
+                            <Image x:Name="StoreImg" HorizontalAlignment="Left" Source="{Binding ImgPath}"
+                                   MaxWidth="200" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}"
+                                   TextWrapping="WrapWholeWords"
+                                   TextTrimming="WordEllipsis" MaxHeight="220" Padding="10" />
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState>
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="0" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="DescriptionCol.Width" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState>
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="640" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="DescriptionCol.Width" Value="*" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

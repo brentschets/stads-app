@@ -23,7 +23,7 @@ namespace Stads_App.Views.Custom
 
         private void GoToStore(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(StoreDetails), Store.StoreId);
+            Frame.Navigate(typeof(StoreDetails), Store);
         }
     }
 }
