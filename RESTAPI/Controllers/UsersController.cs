@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using RESTAPI.DTOs;
 using RESTAPI.Exceptions;
 using RESTAPI.Models;
 using RESTAPI.Repositories;

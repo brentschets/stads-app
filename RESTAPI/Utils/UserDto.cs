@@ -1,4 +1,4 @@
-﻿namespace RESTAPI.DTOs
+﻿namespace RESTAPI.Utils
 {
     public class UserDto
     {
