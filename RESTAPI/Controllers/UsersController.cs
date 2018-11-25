@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RESTAPI.Data;
-using RESTAPI.Models;
+using Microsoft.IdentityModel.Tokens;
+using RESTAPI.DTOs;
+using RESTAPI.Repositories;
 
 namespace RESTAPI.Controllers
 {
@@ -14,114 +15,45 @@ namespace RESTAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly RESTAPIContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(RESTAPIContext context)
+        public UsersController(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public IEnumerable<User> GetUser()
+        [AllowAnonymous]
+        [HttpPost("Authenticate")]
+        public IActionResult Authenticate([FromBody] UserDto userDto)
         {
-            return _context.User;
-        }
+            var user = _userRepository.Authenticate(userDto.Username, userDto.Password);
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
+            if (user == null) return BadRequest(new {message = "Username or password is incorrect"});
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.User.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
+                Subject = new ClaimsIdentity(new[]
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials =
+                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
 
-            return NoContent();
-        }
-
-        // POST: api/Users
-        [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
-        {
-            if (!ModelState.IsValid)
+            // return basic user info and token to client
+            return Ok(new
             {
-                return BadRequest(ModelState);
-            }
-
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-
-            // ReSharper disable once Mvc.ActionNotResolved
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(user);
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.User.Any(e => e.UserId == id);
+                user.UserId,
+                user.Username,
+                user.FirstName,
+                user.LastName,
+                Token = tokenString
+            });
         }
     }
 }
