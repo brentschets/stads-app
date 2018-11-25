@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RESTAPI.Data;
 using RESTAPI.Repositories;
+using RESTAPI.Utils;
 
 namespace RESTAPI
 {
@@ -43,7 +44,8 @@ namespace RESTAPI
 
             services.AddScoped<IUserRepository, UserRepository>();
 
-            var key = Encoding.ASCII.GetBytes(Configuration["JWTSecret"]);
+            AppSettings.Secret = Configuration["JWTSecret"];
+            var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
             services.AddAuthentication(ao =>
                 {
                     ao.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

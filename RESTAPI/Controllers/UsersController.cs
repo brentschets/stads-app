@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RESTAPI.DTOs;
+using RESTAPI.Exceptions;
+using RESTAPI.Models;
 using RESTAPI.Repositories;
+using RESTAPI.Utils;
 
 namespace RESTAPI.Controllers
 {
@@ -55,5 +58,80 @@ namespace RESTAPI.Controllers
                 Token = tokenString
             });
         }
+
+        [AllowAnonymous]
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] UserDto userDto)
+        {
+            var user = UserFromDto(userDto);
+
+            try
+            {
+                _userRepository.Create(user, userDto.Password);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            var user = _userRepository.GetById(id);
+            var userDto = DtoFromUser(user);
+            return Ok(userDto);
+        }
+
+        [HttpPost("Update/{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UserDto userDto)
+        {
+            var user = UserFromDto(userDto);
+            user.UserId = id;
+
+            try
+            {
+                _userRepository.Update(user, userDto.Password);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            _userRepository.Delete(id);
+            return Ok();
+        }
+
+        #region Helpers
+
+        private static User UserFromDto(UserDto dto)
+        {
+            return new User
+            {
+                UserId = dto.UserId,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Username = dto.Username
+            };
+        }
+
+        private static UserDto DtoFromUser(User user)
+        {
+            return new UserDto
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.Username
+            };
+        }
+
+        #endregion
     }
 }

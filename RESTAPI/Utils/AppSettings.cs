@@ -1,6 +1,6 @@
-﻿namespace RESTAPI
+﻿namespace RESTAPI.Utils
 {
-    public static class AppSettings
+    public class AppSettings
     {
         public static string Secret { get;set; }
     }
