@@ -409,6 +409,7 @@
             <NavigationViewItem Icon="AllApps" Content="Categorieën" Tag="categories" />
             <NavigationViewItem Icon="OutlineStar" Content="Promoties" Tag="promotions" />
             <NavigationViewItem Icon="Calendar" Content="Evenementen" Tag="events" />
+            <NavigationViewItem x:Name="HiddenItem" Tag="Hidden" Visibility="Collapsed" />
         </NavigationView.MenuItems>
 
         <NavigationView.HeaderTemplate>
@@ -427,6 +428,9 @@
                 </Grid>
             </DataTemplate>
         </NavigationView.HeaderTemplate>
+        <NavigationView.PaneFooter>
+            <NavigationViewItem Tapped="NavView_FooterItemTapped" Icon="Contact" Content="Account" Tag="account" />
+        </NavigationView.PaneFooter>
 
         <Frame x:Name="ContentFrame" Margin="24" />
     </NavigationView>
