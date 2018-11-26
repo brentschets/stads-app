@@ -19,18 +19,16 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="7" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding ErrorMsg}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center" />
         <TextBlock Text="Gebruikersnaam: " Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
-        <TextBox Text="{Binding Username, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" />
-        <TextBlock Text="Wachtwoord: " Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
-        <PasswordBox Password="{Binding Password, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" />
-        <Grid Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <TextBox Text="{Binding Username, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Margin="0, 5, 0, 5"/>
+        <TextBlock Text="Wachtwoord: " Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+        <PasswordBox Password="{Binding Password, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" Margin="0, 5, 0, 5"/>
+        <Grid Grid.Row="3" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="10" />
@@ -42,7 +40,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Button Content="Aanmelden" Command="{Binding LoginCommand}" Grid.Row="0" Grid.Column="0"
-                    VerticalAlignment="Top" HorizontalAlignment="Center" />
+                    VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 5, 0, 5"/>
             <Button Content="Registreren" Grid.Row="0" Grid.Column="2" Click="Register" />
             <Button Content="Registreer als handelaar" Grid.Row="0" Grid.Column="4" />
         </Grid>
