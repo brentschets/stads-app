@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="Stads_App.Views.Register.RegisterUser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Stads_App.Views.Register"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto" MinWidth="150"/>
+            <ColumnDefinition Width="*" MaxWidth="500"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="errorMsg" Grid.Row="0" Grid.ColumnSpan="4" Text="" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="succesMsg" Grid.Row="0" Grid.ColumnSpan="4" Text="" HorizontalAlignment="Center"/>
+
+        <TextBlock Text="Voornaam: " Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="firstName" Grid.Row="1" Grid.Column="2" Margin="0, 5, 0, 5"/>
+
+        <TextBlock Text="Achternaam: " Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="lastName" Grid.Row="2" Grid.Column="2" Margin="0, 5, 0, 5"/>
+
+        <TextBlock Text="Gebruikersnaam: " Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="username" Grid.Row="3" Grid.Column="2" Margin="0, 5, 0, 5"/>
+
+        <TextBlock Text="Wachtwoord: " Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
+        <PasswordBox x:Name="password" Grid.Row="4" Grid.Column="2" Margin="0, 5, 0, 5"/>
+
+        <TextBlock Text="Herhaal wachtwoord: " Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"/>
+        <PasswordBox x:Name="cpassword" Grid.Row="5" Grid.Column="2" Margin="0, 5, 0, 10"/>
+
+        <Button Content="Registreer" Grid.ColumnSpan="4" Grid.Row="6" HorizontalAlignment="Center" Click="Button_Click"/>
+    </Grid>
+</Page>

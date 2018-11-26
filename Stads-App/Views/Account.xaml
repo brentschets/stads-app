@@ -9,6 +9,38 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto" MinWidth="150"/>
+            <ColumnDefinition Width="*" MaxWidth="500"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Gebruikersnaam: " Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="username" Grid.Row="0" Grid.Column="2"/>
+        <TextBlock Text="Wachtwoord: " Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="password" Grid.Row="2" Grid.Column="2"/>
+        <Grid Grid.Row="4" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button Content="Aanmelden" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Button Content="Registreren" Grid.Row="0" Grid.Column="2" Click="Button_Click"/>
+            <Button Content="Registreer als handelaar" Grid.Row="0" Grid.Column="4"/>
+        </Grid>
     </Grid>
 </local:BasePage>

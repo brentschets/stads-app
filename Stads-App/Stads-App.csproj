@@ -146,6 +146,9 @@
     <Compile Include="Views\Promotions.xaml.cs">
       <DependentUpon>Promotions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Register\RegisterUser.xaml.cs">
+      <DependentUpon>RegisterUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Stores.xaml.cs">
       <DependentUpon>Stores.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Promotions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Register\RegisterUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
