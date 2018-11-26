@@ -5,7 +5,21 @@ namespace Stads_App.Utils.Authentication
 {
     public class UserManager
     {
-        public static User CurrentUser { get; private set; }
+        public delegate void ChangeEvent(User user);
+
+        public static event ChangeEvent AccountChanged;
+
+        private static User _currentUser;
+
+        public static User CurrentUser
+        {
+            get => _currentUser?.Clone() as User;
+            private set
+            {
+                _currentUser = value;
+                AccountChanged?.Invoke(value);
+            }
+        }
 
         public static bool IsLoggedIn()
         {
@@ -16,7 +30,7 @@ namespace Stads_App.Utils.Authentication
         {
             if (user == null) throw new ArgumentException("User cannot be null", nameof(user));
 
-            return CurrentUser.UserId == user.UserId;
+            return CurrentUser?.UserId == user.UserId;
         }
 
         public AuthenticationResult Authenticate(string username, string password)

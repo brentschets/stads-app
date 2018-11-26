@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Stads_App.Utils.Authentication;
 using Stads_App.Views;
 using Stads_App.Views.Account;
 
@@ -13,9 +14,21 @@ namespace Stads_App
 {
     public sealed partial class MainPage
     {
+        private event UserManager.ChangeEvent AccountChangedEvent;
+
         public MainPage()
         {
             InitializeComponent();
+            AccountChangedEvent = u =>
+                AccountNavViewItem.Content =
+                    UserManager.IsLoggedIn() && UserManager.IsLoggedIn(u) ? u.Username : "Aanmelden";
+            AccountChangedEvent.Invoke(UserManager.CurrentUser);
+            UserManager.AccountChanged += AccountChangedEvent;
+        }
+
+        ~MainPage()
+        {
+            UserManager.AccountChanged -= AccountChangedEvent;
         }
 
         private Type _currentPage;

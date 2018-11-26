@@ -429,7 +429,8 @@
             </DataTemplate>
         </NavigationView.HeaderTemplate>
         <NavigationView.PaneFooter>
-            <NavigationViewItem Tapped="NavView_FooterItemTapped" Icon="Contact" Content="Account" Tag="account" />
+            <NavigationViewItem Tapped="NavView_FooterItemTapped" Icon="Contact" Tag="account"
+                                x:Name="AccountNavViewItem" />
         </NavigationView.PaneFooter>
 
         <Frame x:Name="ContentFrame" Margin="24" />
