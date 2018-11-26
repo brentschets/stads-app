@@ -23,9 +23,7 @@ namespace Stads_App.Utils.Authentication
         {
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
 
-            var task = StadsAppRestApiClient.Instance.AuthenticateUserAsync(username, password);
-            task.Wait();
-            var result = task.Result;
+            var result = StadsAppRestApiClient.Instance.AuthenticateUser(username, password);
 
             if (result.Success) CurrentUser = result.User;
 
@@ -49,10 +47,7 @@ namespace Stads_App.Utils.Authentication
                 Password = password
             };
 
-            var task = StadsAppRestApiClient.Instance.RegisterUserAsync(user);
-            task.Wait();
-
-            return task.Result;
+            return StadsAppRestApiClient.Instance.RegisterUser(user);
         }
 
         public AuthenticationResult Update(User user)
@@ -61,17 +56,13 @@ namespace Stads_App.Utils.Authentication
             if (CurrentUser.UserId != user.UserId)
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
-            var task = StadsAppRestApiClient.Instance.UpdateUserAsync(user);
-            task.Wait();
-
-            return task.Result;
+            return StadsAppRestApiClient.Instance.UpdateUser(user);
         }
 
         public void Delete(User user)
         {
             if (!IsLoggedIn(user)) throw new InvalidOperationException("The deleted user must be logged in");
-            var task = StadsAppRestApiClient.Instance.DeleteUserAsync(user.UserId);
-            task.Wait();
+            StadsAppRestApiClient.Instance.DeleteUser(user.UserId);
         }
     }
 }

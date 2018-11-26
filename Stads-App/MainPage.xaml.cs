@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Views;
+using Stads_App.Views.Account;
 
 namespace Stads_App
 {
@@ -27,7 +28,7 @@ namespace Stads_App
             ("categories", typeof(Categories)),
             ("promotions", typeof(Promotions)),
             ("events", typeof(Events)),
-            ("account", typeof(Account))
+            ("account", typeof(Login))
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)

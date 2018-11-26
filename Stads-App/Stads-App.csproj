@@ -113,13 +113,15 @@
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
     <Compile Include="Utils\Authentication\UserManager.cs" />
+    <Compile Include="ViewModels\Account\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Account\RegisterUserViewModel.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\EventsViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\PromotionsViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
-    <Compile Include="Views\Account.xaml.cs">
-      <DependentUpon>Account.xaml</DependentUpon>
+    <Compile Include="Views\Account\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BasePage.cs" />
     <Compile Include="Views\Categories.xaml.cs">
@@ -146,7 +148,7 @@
     <Compile Include="Views\Promotions.xaml.cs">
       <DependentUpon>Promotions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Register\RegisterUser.xaml.cs">
+    <Compile Include="Views\Account\RegisterUser.xaml.cs">
       <DependentUpon>RegisterUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Stores.xaml.cs">
@@ -185,7 +187,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Account.xaml">
+    <Page Include="Views\Account\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,7 +223,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Register\RegisterUser.xaml">
+    <Page Include="Views\Account\RegisterUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

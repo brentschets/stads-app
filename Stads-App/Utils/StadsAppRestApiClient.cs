@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Stads_App.Models;
@@ -38,36 +39,41 @@ namespace Stads_App.Utils
             return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
         }
 
-        public async Task<AuthenticationResult> AuthenticateUserAsync(string username, string password)
+        public AuthenticationResult AuthenticateUser(string username, string password)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(new {username, password}));
-            var response = await PostAsync($"{Host}/Users/Authenticate", content);
-
-            return ProcessResponse(response);
+            var task = PostAsync($"{Host}Users/Authenticate", PrepareContent(new {Username = username, Password = password}));
+            task.Wait();
+            return ProcessResponse(task.Result);
         }
 
-        public async Task<AuthenticationResult> RegisterUserAsync(User user)
+        public AuthenticationResult RegisterUser(User user)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(user));
-            var response = await PostAsync($"{Host}/Users/Register", content);
-
-            return ProcessResponse(response);
+            var task = PostAsync($"{Host}Users/Register", PrepareContent(user));
+            task.Wait();
+            return new AuthenticationResult {Success = task.Result.IsSuccessStatusCode};
         }
 
-        public async Task<AuthenticationResult> UpdateUserAsync(User user)
+        public AuthenticationResult UpdateUser(User user)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(user));
-            var response = await PostAsync($"{Host}/Users/Update/{user.UserId}", content);
-
-            return ProcessResponse(response);
+            var task = PostAsync($"{Host}Users/Update", PrepareContent(user));
+            task.Wait();
+            return ProcessResponse(task.Result);
         }
 
-        public async Task DeleteUserAsync(int userId)
+        public void DeleteUser(int userId)
         {
-            await DeleteAsync($"{Host}/Users/Delete/{userId}");
+            var task = DeleteAsync($"{Host}Users/Delete/{userId}");
+            task.Wait();
         }
 
         #region Helpers
+
+        private static HttpContent PrepareContent(object o)
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(o));
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            return content;
+        }
 
         private static AuthenticationResult ProcessResponse(HttpResponseMessage response)
         {
@@ -76,12 +82,16 @@ namespace Stads_App.Utils
             if (response.IsSuccessStatusCode)
             {
                 result.Success = true;
-                result.User = JsonConvert.DeserializeObject<User>(response.Content.ToString());
+                var task = response.Content.ReadAsStringAsync();
+                task.Wait();
+                result.User = JsonConvert.DeserializeObject<User>(task.Result);
             }
             else
             {
                 result.Success = false;
-                result.Error = JsonConvert.DeserializeObject<AuthenticationError>(response.Content.ToString());
+                var task = response.Content.ReadAsStringAsync();
+                task.Wait();
+                result.Error = JsonConvert.DeserializeObject<AuthenticationError>(task.Result);
             }
 
             return result;
