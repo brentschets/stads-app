@@ -113,6 +113,7 @@
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
     <Compile Include="Utils\Authentication\UserManager.cs" />
+    <Compile Include="ViewModels\Account\AccountViewModel.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="ViewModels\Account\RegisterUserViewModel.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
@@ -120,6 +121,9 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\PromotionsViewModel.cs" />
     <Compile Include="ViewModels\StoresViewModel.cs" />
+    <Compile Include="Views\Account\Account.xaml.cs">
+      <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Account\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -186,6 +190,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Account\Account.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Account\Login.xaml">
       <SubType>Designer</SubType>
