@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding ErrorMsg}"
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Center" Foreground="Red" FontSize="20" Margin="0 0 0 10 " />
 
         <TextBlock Text="Voornaam: " Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
         <TextBox Text="{Binding FirstName, Mode=TwoWay}" Grid.Row="1" Grid.Column="2"
