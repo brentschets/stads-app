@@ -29,7 +29,7 @@ namespace RESTAPI.Repositories
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) return null;
 
-            var user = _context.User.SingleOrDefault(u => u.Username == username);
+            var user = _context.User.SingleOrDefault(u => string.CompareOrdinal(u.Username, username) == 0);
 
             // user does not exist
             if (user == null) return null;
