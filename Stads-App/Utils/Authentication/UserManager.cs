@@ -17,7 +17,7 @@ namespace Stads_App.Utils.Authentication
             private set
             {
                 _currentUser = value;
-                AccountChanged?.Invoke(value);
+                AccountChanged?.Invoke(CurrentUser);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Stads_App.Utils.Authentication
         public AuthenticationResult Update(User user)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
-            if (CurrentUser.UserId != user.UserId)
+            if (IsLoggedIn(user))
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
             return StadsAppRestApiClient.Instance.UpdateUser(user);
