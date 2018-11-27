@@ -1,4 +1,5 @@
-﻿using Stads_App.ViewModels.Account;
+﻿using Windows.UI.Xaml.Navigation;
+using Stads_App.ViewModels.Account;
 
 namespace Stads_App.Views.Account
 {
@@ -13,6 +14,12 @@ namespace Stads_App.Views.Account
             InitializeComponent();
             _viewModel = new RegisterUserViewModel();
             DataContext = _viewModel;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            _viewModel.Frame = Frame;
         }
     }
 }

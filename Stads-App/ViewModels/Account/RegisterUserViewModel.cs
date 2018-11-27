@@ -1,14 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
+using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
     public sealed class RegisterUserViewModel : INotifyPropertyChanged
     {
+        public Frame Frame { private get; set; }
+
         private string _errorMsg;
 
         public string ErrorMsg
@@ -55,7 +59,7 @@ namespace Stads_App.ViewModels.Account
             }
 
             var result = _userManager.Register(Username, Password, FirstName, LastName);
-            if (result.Success) ErrorMsg = "Nieuwe gebruiker geregistreerd";
+            if (result.Success) Frame.Navigate(typeof(Login));
             else ErrorMsg = result.Error.Message;
         }
 
