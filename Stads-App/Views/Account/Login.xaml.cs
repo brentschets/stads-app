@@ -13,7 +13,6 @@ namespace Stads_App.Views.Account
         public Login()
         {
             InitializeComponent();
-            var frame = Frame;
             _viewModel = new LoginViewModel();
             DataContext = _viewModel;
         }

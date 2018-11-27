@@ -50,7 +50,7 @@ namespace Stads_App.Utils
         {
             var task = PostAsync($"{Host}Users/Register", PrepareContent(user));
             task.Wait();
-            return new AuthenticationResult {Success = task.Result.IsSuccessStatusCode};
+            return ProcessResponse(task.Result);
         }
 
         public AuthenticationResult UpdateUser(User user)

@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
+using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
@@ -40,7 +41,15 @@ namespace Stads_App.ViewModels.Account
         private void Login()
         {
             var result = _userManager.Authenticate(Username, Password);
-            if (result.Success) Frame.Navigate(typeof(Views.Account.Account));
+            if (result.Success)
+            {
+                Frame.Navigate(typeof(Views.Account.Account));
+                // disable going back to login page
+                foreach (var pageStackEntry in Frame.BackStack)
+                {
+                    if (pageStackEntry.SourcePageType == typeof(Login)) Frame.BackStack.Remove(pageStackEntry);
+                }
+            }
             else ErrorMsg = result.Error.Message;
         }
 

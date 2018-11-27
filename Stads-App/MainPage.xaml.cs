@@ -20,8 +20,11 @@ namespace Stads_App
         {
             InitializeComponent();
             AccountChangedEvent = u =>
+            {
                 AccountNavViewItem.Content =
                     UserManager.IsLoggedIn() && UserManager.IsLoggedIn(u) ? u.Username : "Aanmelden";
+
+            };
             AccountChangedEvent.Invoke(UserManager.CurrentUser);
             UserManager.AccountChanged += AccountChangedEvent;
         }
