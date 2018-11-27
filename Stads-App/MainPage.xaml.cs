@@ -16,6 +16,8 @@ namespace Stads_App
     {
         private event UserManager.ChangeEvent AccountChangedEvent;
 
+        private event UserManager.UserUpdateEvent UserUpdateEvent;
+
         public MainPage()
         {
             InitializeComponent();
@@ -36,13 +38,16 @@ namespace Stads_App
                     _pages.Add(accountPage);
                 }
             };
+            UserUpdateEvent = u => AccountNavViewItem.Content = u.Username;
             AccountChangedEvent.Invoke(UserManager.CurrentUser);
             UserManager.AccountChanged += AccountChangedEvent;
+            UserManager.UserUpdated += UserUpdateEvent;
         }
 
         ~MainPage()
         {
             UserManager.AccountChanged -= AccountChangedEvent;
+            UserManager.UserUpdated -= UserUpdateEvent;
         }
 
         private Type _currentPage;

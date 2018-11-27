@@ -41,7 +41,8 @@ namespace Stads_App.Utils
 
         public AuthenticationResult AuthenticateUser(string username, string password)
         {
-            var task = PostAsync($"{Host}Users/Authenticate", PrepareContent(new {Username = username, Password = password}));
+            var task = PostAsync($"{Host}Users/Authenticate",
+                PrepareContent(new {Username = username, Password = password}));
             task.Wait();
             return ProcessResponse(task.Result);
         }
@@ -55,7 +56,7 @@ namespace Stads_App.Utils
 
         public AuthenticationResult UpdateUser(User user)
         {
-            var task = PostAsync($"{Host}Users/Update", PrepareContent(user));
+            var task = PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user));
             task.Wait();
             return ProcessResponse(task.Result);
         }
@@ -68,13 +69,13 @@ namespace Stads_App.Utils
 
         #region Helpers
 
-        private static HttpContent PrepareContent(object o)
+        private HttpContent PrepareContent(object o)
         {
             var content = new StringContent(JsonConvert.SerializeObject(o));
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            if (!UserManager.IsLoggedIn()) return content;
-            var user = UserManager.CurrentUser;
-            content.Headers.Add("Authorization", $"Bearer {user.Token}");
+            DefaultRequestHeaders.Authorization = UserManager.IsLoggedIn()
+                ? new AuthenticationHeaderValue("Bearer", UserManager.CurrentUser.Token)
+                : null;
             return content;
         }
 

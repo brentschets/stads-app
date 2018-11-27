@@ -13,30 +13,52 @@ namespace Stads_App.ViewModels.Account
     {
         public Frame Frame { private get; set; }
         private readonly UserManager _userManager;
+
         private string _username;
         private string _firstName;
         private string _lastName;
+        private string _errorMsg;
 
         public ICommand LogoutCommand => new RelayCommand(o => LogoutUser());
+
+        public ICommand UpdateCommand => new RelayCommand(o => UpdateUser());
+
+        public string ErrorMsg
+        {
+            get => _errorMsg;
+            private set
+            {
+                _errorMsg = value;
+                OnPropertyChanged(nameof(ErrorMsg));
+            }
+        }
 
         public string LastName
         {
             get => _lastName;
-            private set { _lastName = value; OnPropertyChanged(nameof(LastName)); }
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged(nameof(LastName));
+            }
         }
 
 
         public string FirstName
         {
             get => _firstName;
-            private set { _firstName = value; OnPropertyChanged(nameof(FirstName)); }
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged(nameof(FirstName));
+            }
         }
 
 
         public string Username
         {
             get => _username;
-            private set
+            set
             {
                 _username = value;
                 OnPropertyChanged(nameof(Username));
@@ -52,11 +74,20 @@ namespace Stads_App.ViewModels.Account
             Username = user.Username;
         }
 
-        public void LogoutUser()
+        private void LogoutUser()
         {
             _userManager.Logout();
             Frame.Navigate(typeof(Login));
+        }
 
+        private void UpdateUser()
+        {
+            var user = UserManager.CurrentUser;
+            user.FirstName = FirstName;
+            user.LastName = LastName;
+            user.Username = Username;
+            var result = _userManager.Update(user);
+            if (!result.Success) ErrorMsg = result.Error.Message;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -9,6 +9,10 @@ namespace Stads_App.Utils.Authentication
 
         public static event ChangeEvent AccountChanged;
 
+        public delegate void UserUpdateEvent(User user);
+
+        public static event UserUpdateEvent UserUpdated;
+
         private static User _currentUser;
 
         public static User CurrentUser
@@ -16,8 +20,10 @@ namespace Stads_App.Utils.Authentication
             get => _currentUser?.Clone() as User;
             private set
             {
+                var prev = _currentUser;
                 _currentUser = value;
-                AccountChanged?.Invoke(CurrentUser);
+                if (prev?.UserId == value?.UserId) UserUpdated?.Invoke(CurrentUser);
+                else AccountChanged?.Invoke(CurrentUser);
             }
         }
 
@@ -67,10 +73,16 @@ namespace Stads_App.Utils.Authentication
         public AuthenticationResult Update(User user)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
-            if (IsLoggedIn(user))
+            if (!IsLoggedIn(user))
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
-            return StadsAppRestApiClient.Instance.UpdateUser(user);
+            var result = StadsAppRestApiClient.Instance.UpdateUser(user);
+            if (result.Success)
+            {
+                CurrentUser = user;
+            }
+
+            return result;
         }
 
         public void Delete(User user)
