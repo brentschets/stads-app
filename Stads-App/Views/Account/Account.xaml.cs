@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Stads_App.Annotations;
+using Stads_App.ViewModels.Account;
 
 namespace Stads_App.Views.Account
 {
@@ -22,6 +23,7 @@ namespace Stads_App.Views.Account
         public Account()
         {
             InitializeComponent();
+            DataContext = new AccountViewModel();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

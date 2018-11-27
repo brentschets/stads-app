@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Stads_App.Annotations;
+using Stads_App.Utils.Authentication;
 
 namespace Stads_App.ViewModels.Account
 {
@@ -34,6 +35,13 @@ namespace Stads_App.ViewModels.Account
             }
         }
 
+        public AccountViewModel()
+        {
+            var user = UserManager.CurrentUser;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Username = user.Username;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
