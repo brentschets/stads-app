@@ -72,6 +72,9 @@ namespace Stads_App.Utils
         {
             var content = new StringContent(JsonConvert.SerializeObject(o));
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            if (!UserManager.IsLoggedIn()) return content;
+            var user = UserManager.CurrentUser;
+            content.Headers.Add("Authorization", $"Bearer {user.Token}");
             return content;
         }
 
