@@ -28,7 +28,7 @@
         <TextBox Text="{Binding Username, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Margin="0, 5, 0, 5"/>
         <TextBlock Text="Wachtwoord: " Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
         <PasswordBox Password="{Binding Password, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" Margin="0, 5, 0, 5"/>
-        <Grid Grid.Row="3" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="10" />
