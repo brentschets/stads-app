@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
 using Stads_App.ViewModels.Account;
 
@@ -9,6 +10,7 @@ namespace Stads_App.Views.Account
     public sealed partial class Account: INotifyPropertyChanged
     {
         private string _header;
+        private readonly AccountViewModel _viewModel;
 
         public override string Header
         {
@@ -21,9 +23,16 @@ namespace Stads_App.Views.Account
         }
 
         public Account()
-        {
+        {   
             InitializeComponent();
-            DataContext = new AccountViewModel();
+            _viewModel = new AccountViewModel();
+            DataContext = _viewModel;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            _viewModel.Frame = Frame;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
