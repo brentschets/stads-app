@@ -10,7 +10,7 @@ namespace Stads_App.ViewModels.Account
 {
     public sealed class LoginViewModel : INotifyPropertyChanged
     {
-        private readonly Frame _frame;
+        public Frame Frame { private get; set; }
 
         private readonly UserManager _userManager;
 
@@ -32,17 +32,16 @@ namespace Stads_App.ViewModels.Account
 
         public ICommand LoginCommand => new RelayCommand(o => Login());
 
-        public LoginViewModel(Frame parentFrame)
+        public LoginViewModel()
         {
-            _frame = parentFrame;
             _userManager = new UserManager();
         }
 
         private void Login()
         {
             var result = _userManager.Authenticate(Username, Password);
-            if (result.Success) _frame.Navigate(typepof(Account));
-            ErrorMsg = result.Error.Message;
+            if (result.Success) Frame.Navigate(typeof(Views.Account.Account));
+            else ErrorMsg = result.Error.Message;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
