@@ -48,13 +48,13 @@ namespace Stads_App.ViewModels.Account
         {
             if (string.IsNullOrWhiteSpace(Password))
             {
-                ErrorMsg = "Paswoord kan niet leeg zijn";
+                ErrorMsg = "Wachtwoord kan niet leeg zijn";
                 return;
             }
 
             if (Password != ConfirmPassword)
             {
-                ErrorMsg = "Paswoorden komen niet overeen";
+                ErrorMsg = "Wachtwoorden komen niet overeen";
                 return;
             }
 
