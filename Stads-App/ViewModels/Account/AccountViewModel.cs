@@ -9,7 +9,7 @@ using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
-    public class AccountViewModel : INotifyPropertyChanged
+    public sealed class AccountViewModel : INotifyPropertyChanged
     {
         public Frame Frame { private get; set; }
         private readonly UserManager _userManager;
@@ -86,6 +86,11 @@ namespace Stads_App.ViewModels.Account
             user.FirstName = FirstName;
             user.LastName = LastName;
             user.Username = Username;
+            if (user.Equals(UserManager.CurrentUser))
+            {
+                ErrorMsg = "Geen aanpassingen";
+                return;
+            }
             var result = _userManager.Update(user);
             if (!result.Success) ErrorMsg = result.Error.Message;
         }
@@ -93,7 +98,7 @@ namespace Stads_App.ViewModels.Account
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
