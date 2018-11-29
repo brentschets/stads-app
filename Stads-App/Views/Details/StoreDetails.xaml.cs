@@ -48,7 +48,7 @@ namespace Stads_App.Views.Details
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            if (e.NavigationMode != NavigationMode.Back || !AnimatedViews.All.Contains(e.SourcePageType)) return;
+            if (e.NavigationMode != NavigationMode.Back || !AnimatedViews.Contains(e.SourcePageType)) return;
             ConnectedAnimationService.GetForCurrentView()
                 .PrepareToAnimate("StoreImgBackConnectedAnimation", DetailedImg);
             ConnectedAnimationService.GetForCurrentView()
