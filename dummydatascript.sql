@@ -8,7 +8,8 @@ INSERT INTO Category(CategoryId, Name) VALUES
 (4, 'Elektronica'),
 (5, 'Kleding'),
 (6, 'Wonen'),
-(7, 'Andere')
+(7, 'Speelgoed'),
+(8, 'Andere')
 SET IDENTITY_INSERT Category OFF
 
 SET IDENTITY_INSERT Address ON
@@ -30,7 +31,7 @@ SET IDENTITY_INSERT Store ON
 INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (1, 'Mister Spaghetti', 'A Yummy Spaghetti and Pasta Restaurant in Aalst? Dat is onze focus bij Mister Spaghetti Aalst.', 'https://stadsapprestapi.azurewebsites.net/img/1.jpg', 1),
 (2, 'H&M', 'H&M biedt een uitgebreid assortiment mode voor dames, heren, jongeren en kinderen. We bieden mode en kwaliteit tegen de beste prijs op een duurzamere manier.', 'https://stadsapprestapi.azurewebsites.net/img/2.jpg', 5),
-(3, 'Kruidvat', 'Onder het motto ‘Steeds verrassend, altijd voordelig’ is Kruidvat de onbetwiste marktleider binnen de drogisterijbranche. Ook online hanteert Kruidvat lage prijzen en een aantrekkelijk en verrassend assortiment.', 'https://stadsapprestapi.azurewebsites.net/img/3.jpg', 7),
+(3, 'Kruidvat', 'Onder het motto ‘Steeds verrassend, altijd voordelig’ is Kruidvat de onbetwiste marktleider binnen de drogisterijbranche. Ook online hanteert Kruidvat lage prijzen en een aantrekkelijk en verrassend assortiment.', 'https://stadsapprestapi.azurewebsites.net/img/3.jpg', 8),
 (4, 'Brantano', 'Ruim aanbod schoenen, diverse merken & de nieuwste modetrends. Koop of reserveer je schoenen online bij schoenenwinkel Brantano.', 'https://stadsapprestapi.azurewebsites.net/img/4.png', 5),
 (5, 'Standaard Boekhandel', 'Standaard Boekhandel: Ruim aanbod aan Boeken, E-books, Muziek, Film, Games, Fotos. Altijd een Standaard Boekhandel dicht in je buurt, bestel ook online.', 'https://stadsapprestapi.azurewebsites.net/img/5.jpg', 2),
 (6, 'Tom & Co', 'In onze winkel ontmoet je dynamische en gepassioneerde experts. Ze zullen je helpen het beste te kiezen voor je huisdier of zijn komst voor te bereiden!', 'https://stadsapprestapi.azurewebsites.net/img/6.jpg', 3),

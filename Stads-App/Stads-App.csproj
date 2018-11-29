@@ -171,6 +171,7 @@
     <Content Include="Assets\Categories\5.jpg" />
     <Content Include="Assets\Categories\6.jpg" />
     <Content Include="Assets\Categories\2.jpg" />
+    <Content Include="Assets\Categories\8.jpg" />
     <Content Include="Assets\Categories\7.jpg" />
     <Content Include="Stads-App_TemporaryKey.pfx" />
   </ItemGroup>
