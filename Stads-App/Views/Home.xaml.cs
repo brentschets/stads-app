@@ -15,7 +15,7 @@ namespace Stads_App.Views
 
         private readonly HomeViewModel _viewModel;
 
-        private Store _selectedStore;
+        private Establishment _selectedEstablishment;
 
         public Home()
         {
@@ -33,15 +33,15 @@ namespace Stads_App.Views
                 await _viewModel.LoadDataAsync();
         }
 
-        private void StoreDetails(object sender, ItemClickEventArgs e)
+        private void EstablishmentDetails(object sender, ItemClickEventArgs e)
         {
             if (!(PopularStoresCollection.ContainerFromItem(e.ClickedItem) is ListViewItem container)) return;
-            _selectedStore = container.Content as Store;
-            PopularStoresCollection.PrepareConnectedAnimation("StoreImgForwardConnectedAnimation", _selectedStore,
+            _selectedEstablishment = container.Content as Establishment;
+            PopularStoresCollection.PrepareConnectedAnimation("StoreImgForwardConnectedAnimation", _selectedEstablishment,
                 "StoreImg");
-            PopularStoresCollection.PrepareConnectedAnimation("StoreNameForwardConnectedAnimation", _selectedStore,
+            PopularStoresCollection.PrepareConnectedAnimation("StoreNameForwardConnectedAnimation", _selectedEstablishment,
                 "StoreName");
-            if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
+            if (_selectedEstablishment != null) Frame.Navigate(typeof(EstablishmentDetails), _selectedEstablishment);
         }
 
         private void EventDetails(object sender, ItemClickEventArgs e)
@@ -59,8 +59,8 @@ namespace Stads_App.Views
 
         private async void PopularStoresCollection_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (_selectedStore == null) return;
-            PopularStoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);
+            if (_selectedEstablishment == null) return;
+            PopularStoresCollection.ScrollIntoView(_selectedEstablishment, ScrollIntoViewAlignment.Default);
             // undo focus
             PopularStoresCollection.SelectedItem = null;
             PopularStoresCollection.UpdateLayout();
@@ -69,7 +69,7 @@ namespace Stads_App.Views
             if (storeImgBackConnectedAnimation != null)
             {
                 await PopularStoresCollection.TryStartConnectedAnimationAsync(storeImgBackConnectedAnimation,
-                    _selectedStore,
+                    _selectedEstablishment,
                     "StoreImg");
             }
 
@@ -78,7 +78,7 @@ namespace Stads_App.Views
             if (storeNameBackConnectedAnimation != null)
             {
                 await PopularStoresCollection.TryStartConnectedAnimationAsync(storeNameBackConnectedAnimation,
-                    _selectedStore, "StoreName");
+                    _selectedEstablishment, "StoreName");
             }
         }
     }

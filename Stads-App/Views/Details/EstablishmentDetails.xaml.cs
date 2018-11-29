@@ -8,7 +8,7 @@ using Stads_App.Models;
 
 namespace Stads_App.Views.Details
 {
-    public sealed partial class StoreDetails : INotifyPropertyChanged
+    public sealed partial class EstablishmentDetails : INotifyPropertyChanged
     {
         private string _header;
 
@@ -22,7 +22,7 @@ namespace Stads_App.Views.Details
             }
         }
 
-        public StoreDetails()
+        public EstablishmentDetails()
         {
             InitializeComponent();
         }
@@ -31,10 +31,10 @@ namespace Stads_App.Views.Details
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
-            if (e.Parameter is Store store)
+            if (e.Parameter is Establishment establishment)
             {
-                Header = store.Name;
-                DataContext = store;
+                Header = establishment.Store.Name;
+                DataContext = establishment;
             }
 
             var storeImgForwaredConnectedAnimation =

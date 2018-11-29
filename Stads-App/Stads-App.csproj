@@ -128,9 +128,13 @@
     <Compile Include="Views\Account\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AnimatedViews.cs" />
     <Compile Include="Views\BasePage.cs" />
     <Compile Include="Views\Categories.xaml.cs">
       <DependentUpon>Categories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Details\EstablishmentDetails.xaml.cs">
+      <DependentUpon>EstablishmentDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Details\EventDetails.xaml.cs">
       <DependentUpon>EventDetails.xaml</DependentUpon>
@@ -199,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Categories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Details\EstablishmentDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
