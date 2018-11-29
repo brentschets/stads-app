@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Stads_App.Models"
-    xmlns:custom="using:Stads_App.Views.Custom"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance models:Promotion}">
@@ -24,9 +23,9 @@
         <TextBlock Padding="0, 0, 0, 35" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}"
                    Grid.ColumnSpan="2" />
 
-        <TextBlock Padding="0, 0, 35, 0" Grid.Row="1" Grid.Column="0" Text="{Binding Description}"
-                   TextWrapping="WrapWholeWords" />
-
-        <custom:InlineStoreOverview Grid.Column="1" Grid.Row="1" x:Name="InlineStoreOverview" />
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Image Source="{Binding Store.ImgPath}" MaxWidth="500" />
+            <TextBlock Text="{Binding Store.Name}" />
+        </StackPanel>
     </Grid>
 </local:BasePage>

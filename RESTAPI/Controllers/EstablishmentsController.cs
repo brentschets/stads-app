@@ -9,46 +9,45 @@ namespace RESTAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class EstablishmentsController : ControllerBase
     {
         private readonly RESTAPIContext _context;
 
-        public EventsController(RESTAPIContext context)
+        public EstablishmentsController(RESTAPIContext context)
         {
             _context = context;
         }
 
         // GET: api/Establishments
         [HttpGet]
-        public IEnumerable<Event> GetEstablishment()
+        public IEnumerable<Establishment> GetEstablishment()
         {
-            return _context.Event;
+            return _context.Establishment;
         }
 
-        // GET: api/Events/Popular/10
+        // GET: api/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (limit < 0) return BadRequest(new {Message = $"Limit must not be less than 0, got {limit}"});
 
-            var popularEvents = _context.Event.Include(e => e.Establishment).ThenInclude(e => e.Address)
-                .Include(e => e.Establishment).ThenInclude(e => e.Store)
+            var popularEstablishments = _context.Establishment.Include(e => e.Store).Include(e => e.Address)
                 .OrderByDescending(e => e.Visited).Take(limit);
 
-            return Ok(popularEvents);
+            return Ok(popularEstablishments);
         }
 
-        // GET: api/Events/ForEstablishment/2
-        [HttpGet("ForEstablishment/{estalishmentId}")]
-        public IActionResult GetForEstablishment([FromRoute] int establishmentId)
+        // GET: api/Establishments/ForStore/4
+        [HttpGet("ForStore/{storeId}")]
+        public IActionResult GetEstablishmentsForStore([FromRoute] int storeId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var events = _context.Event.Include(e => e.Establishment)
-                .Where(e => e.Establishment.EstablishmentId == establishmentId);
+            var establishments = _context.Establishment.Include(e => e.Address).Include(e => e.Store)
+                .Where(e => e.Store.StoreId == storeId);
 
-            return Ok(events);
+            return Ok(establishments);
         }
     }
 }

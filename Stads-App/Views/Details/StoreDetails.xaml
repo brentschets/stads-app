@@ -30,15 +30,5 @@
 
         <TextBlock Padding="35, 0, 0, 0" Grid.Row="1" Grid.Column="1" Text="{Binding Description}"
                    TextWrapping="WrapWholeWords" />
-
-        <StackPanel Grid.Row="2" Grid.Column="1" Padding="35, 0, 0, 0">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock>
-                    <Run Text="{Binding Address.Street}" />
-                    <Run Text="{Binding Address.Number}" />
-                </TextBlock>
-            </StackPanel>
-            <TextBlock Text="9300 Aalst" />
-        </StackPanel>
     </Grid>
 </local:BasePage>

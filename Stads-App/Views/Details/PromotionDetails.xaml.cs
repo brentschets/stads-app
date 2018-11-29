@@ -29,15 +29,9 @@ namespace Stads_App.Views.Details
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
-            var promotion = e.Parameter as Promotion;
-            InlineStoreOverview.Frame = Frame;
-            if (promotion != null)
-            {
-                InlineStoreOverview.Store = promotion.Store;
-                DataContext = promotion;
-            }
-            InlineStoreOverview.SetDataContext();
-            InitializeComponent();
+            if (!(e.Parameter is Promotion promotion)) return;
+            Header = promotion.Name;
+            DataContext = promotion;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

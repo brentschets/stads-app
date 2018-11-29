@@ -25,7 +25,10 @@ namespace RESTAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Store>().Ignore(s => s.Establishments);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
         }
+
+        public DbSet<Establishment> Establishment { get; set; }
     }
 }

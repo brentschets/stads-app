@@ -10,15 +10,15 @@ namespace Stads_App.ViewModels
 {
     public sealed class HomeViewModel : INotifyPropertyChanged
     {
-        private List<Store> _popularStores;
+        private List<Establishment> _popularEstablishments;
 
-        public List<Store> PopularStores
+        public List<Establishment> PopularEstablishments
         {
-            get => _popularStores;
+            get => _popularEstablishments;
             private set
             {
-                _popularStores = value;
-                OnPropertyChanged(nameof(PopularStores));
+                _popularEstablishments = value;
+                OnPropertyChanged(nameof(PopularEstablishments));
             }
         }
 
@@ -64,9 +64,9 @@ namespace Stads_App.ViewModels
         }
 
         #region Data loaders
-        private static async Task<List<Store>> GetPopularStoresAsync()
+        private static async Task<List<Establishment>> GetPopularEstablishmentsAsync()
         {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Popular/10");
+            return await StadsAppRestApiClient.Instance.GetListAsync<Establishment>("Establishments/Popular/10");
         }
 
         private static async Task<List<Event>> GetPopularEventsAsync()
@@ -82,7 +82,7 @@ namespace Stads_App.ViewModels
 
         public async Task LoadDataAsync()
         {
-            PopularStores = await GetPopularStoresAsync();
+            PopularEstablishments = await GetPopularEstablishmentsAsync();
             PopularEvents = await GetPopularEventsAsync();
             PopularPromotions = await GetPopularPromotionsAsync();
             IsLoaded = true;

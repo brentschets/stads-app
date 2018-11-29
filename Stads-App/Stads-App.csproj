@@ -132,9 +132,6 @@
     <Compile Include="Views\Categories.xaml.cs">
       <DependentUpon>Categories.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Custom\InlineStoreOverview.xaml.cs">
-      <DependentUpon>InlineStoreOverview.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Details\EventDetails.xaml.cs">
       <DependentUpon>EventDetails.xaml</DependentUpon>
     </Compile>
@@ -170,6 +167,7 @@
     <Content Include="Assets\Categories\5.jpg" />
     <Content Include="Assets\Categories\6.jpg" />
     <Content Include="Assets\Categories\2.jpg" />
+    <Content Include="Assets\Categories\7.jpg" />
     <Content Include="Stads-App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -201,10 +199,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Categories.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Custom\InlineStoreOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

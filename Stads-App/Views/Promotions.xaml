@@ -59,7 +59,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}"
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Store.Name}"
                                    TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" MaxHeight="220"
                                    Padding="10" />
                     </Grid>

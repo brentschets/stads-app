@@ -29,15 +29,9 @@ namespace Stads_App.Views.Details
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
-            if (e.Parameter is Event _event)
-            {
-                Header = _event.Name;
-                DataContext = _event;
-                InlineStoreOverview.Store = _event.Store;
-            }
-
-            InlineStoreOverview.Frame = Frame;
-            InlineStoreOverview.SetDataContext();
+            if (!(e.Parameter is Event _event)) return;
+            Header = _event.Name;
+            DataContext = _event;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
