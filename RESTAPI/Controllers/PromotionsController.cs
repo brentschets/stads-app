@@ -20,18 +20,45 @@ namespace RESTAPI.Controllers
 
         // GET: api/Promotions
         [HttpGet]
-        public IEnumerable<Promotion> GetPromotion()
+        public IEnumerable<Promotion> GetEstablishment()
         {
-            return _context.Promotion.Include(p => p.Store).ThenInclude(s => s.Address).Include(p => p.Store)
-                .ThenInclude(s => s.Category);
+            return _context.Promotion;
         }
 
         // GET: api/Promotions/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
-            var res = _context.Promotion.Include(p => p.Store).OrderByDescending(p => p.Visited).Take(limit).ToList();
-            return Ok(res);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (limit < 0) return BadRequest(new {Message = $"Limit must not be less than 0, got {limit}"});
+
+            var popularPromotions =
+                _context.Promotion.Include(p => p.Store).OrderByDescending(p => p.Visited).Take(limit);
+
+            return Ok(popularPromotions);
+        }
+
+        // GET: api/Promotions/ForStore
+        [HttpGet("Popular/{storeId}")]
+        public IActionResult GetForStore([FromRoute] int storeId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var promotions = _context.Promotion.Include(p => p.Store).Where(p => p.Store.StoreId == storeId);
+
+            return Ok(promotions);
+        }
+
+        // GET: api/Promotions/ForEstablishment
+        [HttpGet("ForEstablishment/{establishmentId}")]
+        public IActionResult GetForEstablishment([FromRoute] int establishmentId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var promotions = _context.Promotion.Include(p => p.Store).ThenInclude(s => s.Establishments)
+                .Where(p => p.Store.Establishments.Any(e => e.EstablishmentId == establishmentId));
+
+            return Ok(promotions);
         }
     }
 }

@@ -4,16 +4,50 @@ using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Stads_App.Utils.Authentication;
 using Stads_App.Views;
+using Stads_App.Views.Account;
 
 namespace Stads_App
 {
     public sealed partial class MainPage
     {
+        private event UserManager.ChangeEvent AccountChangedEvent;
+
+        private event UserManager.UserUpdateEvent UserUpdateEvent;
+
         public MainPage()
         {
             InitializeComponent();
+            AccountChangedEvent = u =>
+            {
+                var loginPage = ("account", typeof(Login));
+                var accountPage = ("account", typeof(Account));
+                if (UserManager.IsLoggedIn())
+                {
+                    AccountNavViewItem.Content = u.Username;
+                    _pages.Remove(loginPage);
+                    _pages.Add(accountPage);
+                }
+                else
+                {
+                    AccountNavViewItem.Content = "Aanmelden";
+                    _pages.Remove(accountPage);
+                    _pages.Add(accountPage);
+                }
+            };
+            UserUpdateEvent = u => AccountNavViewItem.Content = u.Username;
+            AccountChangedEvent.Invoke(UserManager.CurrentUser);
+            UserManager.AccountChanged += AccountChangedEvent;
+            UserManager.UserUpdated += UserUpdateEvent;
+        }
+
+        ~MainPage()
+        {
+            UserManager.AccountChanged -= AccountChangedEvent;
+            UserManager.UserUpdated -= UserUpdateEvent;
         }
 
         private Type _currentPage;
@@ -26,6 +60,7 @@ namespace Stads_App
             ("categories", typeof(Categories)),
             ("promotions", typeof(Promotions)),
             ("events", typeof(Events)),
+            ("account", typeof(Login))
         };
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
@@ -48,6 +83,13 @@ namespace Stads_App
                 .First(i => args.InvokedItem.Equals(i.Content))
                 .Tag.ToString();
 
+            NavView_Navigate(navItemTag);
+        }
+
+        private void NavView_FooterItemTapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!(sender is NavigationViewItem navViewItem)) return;
+            var navItemTag = navViewItem.Tag as string;
             NavView_Navigate(navItemTag);
         }
 
@@ -87,7 +129,12 @@ namespace Stads_App
             if (item.Tag == null) return;
             var selectedItem = NavView.MenuItems.OfType<NavigationViewItem>()
                 .FirstOrDefault(n => n.Tag.Equals(item.Tag));
-            if (selectedItem == null) return;
+            if (selectedItem == null)
+            {
+                // clear selection
+                NavView.SelectedItem = HiddenItem;
+            }
+
             NavView.SelectedItem = selectedItem;
             if (e.SourcePageType != null && _currentPage != e.SourcePageType) _currentPage = e.SourcePageType;
         }

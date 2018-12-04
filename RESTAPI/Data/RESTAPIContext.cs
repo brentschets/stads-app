@@ -18,5 +18,17 @@ namespace RESTAPI.Data
         public DbSet<Promotion> Promotion { get; set; }
 
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<User> User { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Store>().Ignore(s => s.Establishments);
+            modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
+        }
+
+        public DbSet<Establishment> Establishment { get; set; }
     }
 }

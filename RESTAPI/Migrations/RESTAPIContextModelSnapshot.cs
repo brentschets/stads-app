@@ -9,7 +9,7 @@ namespace RESTAPI.Migrations
 {
     [DbContext(typeof(RESTAPIContext))]
     // ReSharper disable once InconsistentNaming
-    internal class RESTAPIContextModelSnapshot : ModelSnapshot
+    class RESTAPIContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,131 +20,173 @@ namespace RESTAPI.Migrations
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("RESTAPI.Models.Address", b =>
-            {
-                b.Property<int>("AddressId")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<string>("Number");
+                    b.Property<string>("Number");
 
-                b.Property<string>("Street");
+                    b.Property<string>("Street");
 
-                b.HasKey("AddressId");
+                    b.HasKey("AddressId");
 
-                b.ToTable("Address");
-            });
+                    b.ToTable("Address");
+                });
 
             modelBuilder.Entity("RESTAPI.Models.Category", b =>
-            {
-                b.Property<int>("CategoryId")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<string>("Name");
+                    b.Property<string>("Name");
 
-                b.HasKey("CategoryId");
+                    b.HasKey("CategoryId");
 
-                b.ToTable("Category");
-            });
+                    b.ToTable("Category");
+                });
 
-            modelBuilder.Entity("RESTAPI.Models.Event", b =>
-            {
-                b.Property<int>("EventId")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
+            modelBuilder.Entity("RESTAPI.Models.Establishment", b =>
+                {
+                    b.Property<int>("EstablishmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<string>("Description");
+                    b.Property<int?>("AddressId");
 
-                b.Property<string>("Name");
+                    b.Property<string>("ImgPath");
 
-                b.Property<int?>("StoreId");
+                    b.Property<int?>("StoreId");
 
-                b.Property<int>("Visited");
+                    b.Property<int>("Visited");
 
-                b.HasKey("EventId");
+                    b.HasKey("EstablishmentId");
 
-                b.HasIndex("StoreId");
+                    b.HasIndex("AddressId");
 
-                b.ToTable("Event");
-            });
+                    b.HasIndex("StoreId");
 
-            modelBuilder.Entity("RESTAPI.Models.Promotion", b =>
-            {
-                b.Property<int>("PromotionId")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
-
-                b.Property<string>("Description");
-
-                b.Property<string>("Name");
-
-                b.Property<int?>("StoreId");
-
-                b.Property<int>("Visited");
-
-                b.HasKey("PromotionId");
-
-                b.HasIndex("StoreId");
-
-                b.ToTable("Promotion");
-            });
-
-            modelBuilder.Entity("RESTAPI.Models.Store", b =>
-            {
-                b.Property<int>("StoreId")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
-
-                b.Property<int?>("AddressId");
-
-                b.Property<int?>("CategoryId");
-
-                b.Property<string>("Description");
-
-                b.Property<string>("ImgPath");
-
-                b.Property<string>("Name");
-
-                b.Property<int>("Visited");
-
-                b.HasKey("StoreId");
-
-                b.HasIndex("AddressId");
-
-                b.HasIndex("CategoryId");
-
-                b.ToTable("Store");
-            });
+                    b.ToTable("Establishment");
+                });
 
             modelBuilder.Entity("RESTAPI.Models.Event", b =>
-            {
-                b.HasOne("RESTAPI.Models.Store", "Store")
-                    .WithMany()
-                    .HasForeignKey("StoreId");
-            });
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("EstablishmentId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Visited");
+
+                    b.HasKey("EventId");
+
+                    b.HasIndex("EstablishmentId");
+
+                    b.ToTable("Event");
+                });
 
             modelBuilder.Entity("RESTAPI.Models.Promotion", b =>
-            {
-                b.HasOne("RESTAPI.Models.Store", "Store")
-                    .WithMany()
-                    .HasForeignKey("StoreId");
-            });
+                {
+                    b.Property<int>("PromotionId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("StoreId");
+
+                    b.Property<int>("Visited");
+
+                    b.HasKey("PromotionId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("Promotion");
+                });
 
             modelBuilder.Entity("RESTAPI.Models.Store", b =>
-            {
-                b.HasOne("RESTAPI.Models.Address", "Address")
-                    .WithMany()
-                    .HasForeignKey("AddressId");
+                {
+                    b.Property<int>("StoreId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.HasOne("RESTAPI.Models.Category", "Category")
-                    .WithMany("Stores")
-                    .HasForeignKey("CategoryId");
-            });
+                    b.Property<int?>("CategoryId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImgPath");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("StoreId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Store");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("Username")
+                        .IsUnique()
+                        .HasFilter("[Username] IS NOT NULL");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Establishment", b =>
+                {
+                    b.HasOne("RESTAPI.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("RESTAPI.Models.Store", "Store")
+                        .WithMany("Establishments")
+                        .HasForeignKey("StoreId");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Event", b =>
+                {
+                    b.HasOne("RESTAPI.Models.Establishment", "Establishment")
+                        .WithMany()
+                        .HasForeignKey("EstablishmentId");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Promotion", b =>
+                {
+                    b.HasOne("RESTAPI.Models.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId");
+                });
+
+            modelBuilder.Entity("RESTAPI.Models.Store", b =>
+                {
+                    b.HasOne("RESTAPI.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+                });
 #pragma warning restore 612, 618
         }
     }
