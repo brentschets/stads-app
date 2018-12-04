@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
 using Stads_App.Models;
+using Stads_App.Utils;
 
 namespace Stads_App.Views.Details
 {
@@ -27,13 +28,20 @@ namespace Stads_App.Views.Details
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
             if (e.Parameter is Store store)
             {
                 Header = store.Name;
+                if (store.Establishments == null || store.Establishments.Count == 0)
+                {
+                    store.Establishments =
+                        await StadsAppRestApiClient.Instance.GetListAsync<Establishment>(
+                            $"Establishments/ForStore/{store.StoreId}");
+                }
+
                 DataContext = store;
             }
 
