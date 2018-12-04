@@ -31,28 +31,9 @@ namespace Stads_App.Views.Details
         {
             base.OnNavigatedTo(e);
             if (e.Parameter == null) return;
-            if (e.Parameter is Establishment establishment)
-            {
-                Header = establishment.Store.Name;
-                DataContext = establishment;
-            }
-
-            var storeImgForwaredConnectedAnimation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("StoreImgForwardConnectedAnimation");
-            storeImgForwaredConnectedAnimation?.TryStart(DetailedImg);
-            var storeNameForwardConnectedAnimation = ConnectedAnimationService.GetForCurrentView()
-                .GetAnimation("StoreNameForwardConnectedAnimation");
-            storeNameForwardConnectedAnimation?.TryStart(DetailedName);
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-            if (e.NavigationMode != NavigationMode.Back || !AnimatedViews.Contains(e.SourcePageType)) return;
-            ConnectedAnimationService.GetForCurrentView()
-                .PrepareToAnimate("StoreImgBackConnectedAnimation", DetailedImg);
-            ConnectedAnimationService.GetForCurrentView()
-                .PrepareToAnimate("StoreNameBackConnectedAnimation", DetailedName);
+            if (!(e.Parameter is Establishment establishment)) return;
+            Header = establishment.Store.Name;
+            DataContext = establishment;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
