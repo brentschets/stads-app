@@ -12,8 +12,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" MaxWidth="500" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -24,13 +24,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding ErrorMsg}" />
+        <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Voornaam" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Achternaam" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Padding="20 0 20 0" Grid.Row="3" Grid.Column="0" Text="Gebruikersnaam" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, Mode=TwoWay}" Margin="0 5 0 5" />
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LastName, Mode=TwoWay}" Margin="0 5 0 5" />
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Username, Mode=TwoWay}" Margin="0 5 0 5" />
-        <Button Content="Update" Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Center"
+        <Button Content="Update" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center"
                 Margin="0 5 0 5" Command="{Binding UpdateCommand}" />
-        <Button Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Center"
+        <Button Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center"
                 Command="{Binding LogoutCommand}" Content="Afmelden" />
     </Grid>
 </local:BasePage>

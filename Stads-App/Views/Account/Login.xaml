@@ -42,7 +42,6 @@
             <Button Content="Aanmelden" Command="{Binding LoginCommand}" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 5, 0, 5"/>
             <Button Content="Registreren" Grid.Row="0" Grid.Column="2" Click="Register" />
-            <Button Content="Registreer als handelaar" Grid.Row="0" Grid.Column="4" />
         </Grid>
     </Grid>
 </local:BasePage>

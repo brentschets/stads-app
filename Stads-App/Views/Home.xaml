@@ -17,11 +17,15 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ProgressRing VerticalAlignment="Center" Width="100" Height="100" Grid.RowSpan="3"
                           IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}" />
 
-            <ListView Grid.Row="0" ItemsSource="{Binding PopularEstablishments}"
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="0" Text="Populaire winkels"/>
+            <ListView Grid.Row="1" ItemsSource="{Binding PopularEstablishments}"
                       ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
@@ -48,7 +52,8 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ListView Grid.Row="1" ItemsSource="{Binding PopularEvents}" ScrollViewer.HorizontalScrollMode="Enabled"
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="2" Text="Evenementen"/>
+            <ListView Grid.Row="3" ItemsSource="{Binding PopularEvents}" ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="175" ItemClick="EventDetails" IsItemClickEnabled="True" x:Name="PopularEventsCollection"
@@ -76,7 +81,8 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ListView Grid.Row="2" ItemsSource="{Binding PopularPromotions}"
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="4" Text="Promoties"/>
+            <ListView Grid.Row="5" ItemsSource="{Binding PopularPromotions}"
                       ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
