@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
@@ -69,6 +70,11 @@ namespace Stads_App.Views.Details
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void EstablishmentDetails(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(EstablishmentDetails), e.ClickedItem);
         }
     }
 }

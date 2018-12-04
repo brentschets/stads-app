@@ -32,8 +32,8 @@
         <StackPanel Grid.Row="1" Grid.Column="1" Padding="35, 0, 0, 0">
             <TextBlock Text="{Binding Description}" TextWrapping="WrapWholeWords" />
 
-            <ListView ItemsSource="{Binding Establishments}" Margin="0, 25, 0, 0" SelectionMode="None"
-                      ScrollViewer.HorizontalScrollMode="Disabled"
+            <ListView ItemsSource="{Binding Establishments}" Margin="0, 25, 0, 0" IsItemClickEnabled="True"
+                      ScrollViewer.HorizontalScrollMode="Disabled" ItemClick="EstablishmentDetails"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
