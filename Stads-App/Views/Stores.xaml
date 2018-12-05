@@ -8,6 +8,7 @@
     xmlns:viewModels="using:Stads_App.ViewModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:userControls="using:Stads_App.Views.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance viewModels:StoresViewModel}">
@@ -54,48 +55,13 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="10" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="220">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300" />
-                            <ColumnDefinition Width="*" x:Name="DescriptionCol" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel>
-                            <TextBlock x:Name="StoreName" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
-                            <Image x:Name="StoreImg" HorizontalAlignment="Left" Source="{Binding ImgPath}"
-                                   MaxWidth="200" />
-                        </StackPanel>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}"
-                                   TextWrapping="WrapWholeWords"
-                                   TextTrimming="WordEllipsis" MaxHeight="220" Padding="10" />
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState>
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="0" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="DescriptionCol.Width" Value="0" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                                <VisualState>
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="640" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="DescriptionCol.Width" Value="*" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
+                    <userControls:StoresListViewItem DataContext="{Binding}" HorizontalAlignment="Center" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

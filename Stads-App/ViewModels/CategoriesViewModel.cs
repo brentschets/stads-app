@@ -8,7 +8,7 @@ using Stads_App.Utils;
 
 namespace Stads_App.ViewModels
 {
-    public class CategoriesViewModel : INotifyPropertyChanged
+    public sealed class CategoriesViewModel : INotifyPropertyChanged
     {
         private List<Category> _categories;
 
@@ -52,7 +52,7 @@ namespace Stads_App.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
