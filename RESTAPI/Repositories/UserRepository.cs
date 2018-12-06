@@ -16,7 +16,7 @@ namespace RESTAPI.Repositories
         void Update(User userParam, string password = null);
         void Delete(int id);
         void Subscribe(int userId, int establishmentId);
-        void UnSubscribe(int userId, int establishmentId);
+        void Unsubscribe(int userId, int establishmentId);
     }
 
     public class UserRepository : IUserRepository
@@ -127,7 +127,7 @@ namespace RESTAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void UnSubscribe(int userId, int establishmentId)
+        public void Unsubscribe(int userId, int establishmentId)
         {
             var user = _context.User.Include(u => u.Subscriptions).SingleOrDefault(u => userId == u.UserId);
             var establishment = _context.Establishment.Find(establishmentId);

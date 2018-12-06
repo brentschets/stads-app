@@ -17,22 +17,22 @@ namespace Stads_App.Utils
         public static StadsAppRestApiClient Instance => Lazy.Value;
 
         //local
-        //private StadsAppRestApiClient() : base(new HttpClientHandler
-        //{
-        //    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
-        //})
-        //{
-        //}
-
-        //deploy
-        private StadsAppRestApiClient()
+        private StadsAppRestApiClient() : base(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        })
         {
         }
 
         //deploy
-        private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
+        //private StadsAppRestApiClient()
+        //{
+        //}
+
+        //deploy
+        //private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
         //local
-        //private const string Host = "https://localhost:44301/api/";
+        private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
@@ -65,6 +65,20 @@ namespace Stads_App.Utils
         {
             var task = DeleteAsync($"{Host}Users/Delete/{userId}");
             task.Wait();
+        }
+
+        public AuthenticationResult Subscribe(int userId, int establishmentId)
+        {
+            var task = PostAsync($"{Host}Users/Subscribe/{userId}", PrepareContent(establishmentId));
+            task.Wait();
+            return ProcessResponse(task.Result);
+        }
+
+        public AuthenticationResult Unsubscribe(int userId, int establishmentId)
+        {
+            var task = PostAsync($"{Host}Users/Unsubsribe/{userId}", PrepareContent(establishmentId));
+            task.Wait();
+            return ProcessResponse(task.Result);
         }
 
         #region Helpers

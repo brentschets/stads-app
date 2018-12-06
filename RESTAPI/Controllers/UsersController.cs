@@ -123,14 +123,14 @@ namespace RESTAPI.Controllers
             }
         }
 
-        [HttpPost("UnSubscribe/{userId}")]
-        public IActionResult UnSubscribe([FromRoute] int userId, [FromBody] int establishmentId)
+        [HttpPost("Unsubscribe/{userId}")]
+        public IActionResult Unsubscribe([FromRoute] int userId, [FromBody] int establishmentId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
-                _userRepository.UnSubscribe(userId, establishmentId);
+                _userRepository.Unsubscribe(userId, establishmentId);
                 return Ok();
             }
             catch (AuthenticationException e)

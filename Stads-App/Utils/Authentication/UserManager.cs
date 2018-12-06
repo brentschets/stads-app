@@ -39,6 +39,11 @@ namespace Stads_App.Utils.Authentication
             return CurrentUser?.UserId == user.UserId;
         }
 
+        public static bool IsLoggedIn(int userId)
+        {
+            return CurrentUser?.UserId == userId;
+        }
+
         public AuthenticationResult Authenticate(string username, string password)
         {
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
@@ -89,6 +94,25 @@ namespace Stads_App.Utils.Authentication
         {
             if (!IsLoggedIn(user)) throw new InvalidOperationException("The deleted user must be logged in");
             StadsAppRestApiClient.Instance.DeleteUser(user.UserId);
+            Logout();
+        }
+
+        public AuthenticationResult Subscribe(int userId, int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+            if (!IsLoggedIn(userId))
+                throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
+
+            return StadsAppRestApiClient.Instance.Subscribe(userId, establishmentId);
+        }
+
+        public AuthenticationResult Unsubscribe(int userId, int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+            if (!IsLoggedIn(userId))
+                throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
+
+            return StadsAppRestApiClient.Instance.Unsubscribe(userId, establishmentId);
         }
     }
 }
