@@ -10,6 +10,6 @@ namespace RESTAPI.Models
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public IEnumerable<UserEstablishment> Subscriptions { get; set; }
+        public IList<UserEstablishment> Subscriptions { get; set; }
     }
 }

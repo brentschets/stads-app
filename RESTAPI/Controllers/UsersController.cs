@@ -107,6 +107,38 @@ namespace RESTAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("Subscribe/{userId}")]
+        public IActionResult Subscribe([FromRoute] int userId, [FromBody] int establishmentId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            try
+            {
+                _userRepository.Subscribe(userId, establishmentId);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        [HttpPost("UnSubscribe/{userId}")]
+        public IActionResult UnSubscribe([FromRoute] int userId, [FromBody] int establishmentId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            try
+            {
+                _userRepository.UnSubscribe(userId, establishmentId);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
         #region Helpers
 
         private static User UserFromDto(UserDto dto)
@@ -116,7 +148,7 @@ namespace RESTAPI.Controllers
                 UserId = dto.UserId,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                Username = dto.Username
+                Username = dto.Username,
             };
         }
 
@@ -127,7 +159,8 @@ namespace RESTAPI.Controllers
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.Username
+                Username = user.Username,
+                Subscriptions = user.Subscriptions
             };
         }
 

@@ -9,6 +9,6 @@ namespace RESTAPI.Models
         public int Visited { get; set; }
         public Address Address { get; set; }
         public Store Store { get; set; }
-        public IEnumerable<UserEstablishment> SubscribedUsers { get; set; }
+        public IList<UserEstablishment> SubscribedUsers { get; set; }
     }
 }
