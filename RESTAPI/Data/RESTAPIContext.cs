@@ -27,6 +27,15 @@ namespace RESTAPI.Data
 
             modelBuilder.Entity<Store>().Ignore(s => s.Establishments);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
+
+            modelBuilder.Entity<UserEstablishment>()
+                .HasKey(ue => new {ue.UserId, ue.EstablishmentId});
+            modelBuilder.Entity<UserEstablishment>()
+                .HasOne(ue => ue.User)
+                .WithMany(u => u.Subscriptions);
+            modelBuilder.Entity<UserEstablishment>()
+                .HasOne(ue => ue.Establishment)
+                .WithMany(e => e.SubscribedUsers);
         }
 
         public DbSet<Establishment> Establishment { get; set; }
