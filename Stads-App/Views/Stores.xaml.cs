@@ -43,7 +43,7 @@ namespace Stads_App.Views
             if (_selectedStore != null) Frame.Navigate(typeof(StoreDetails), _selectedStore);
         }
 
-        private async void StoresCollection_OnLoaded(object sender, RoutedEventArgs e)
+        private async void StoresCollectionLoaded(object sender, RoutedEventArgs e)
         {
             if (_selectedStore == null) return;
             StoresCollection.ScrollIntoView(_selectedStore, ScrollIntoViewAlignment.Default);

@@ -50,7 +50,7 @@
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollMode="Disabled"
                   ScrollViewer.VerticalScrollMode="Enabled" SelectionMode="Single" ItemsSource="{Binding Stores}"
-                  ItemClick="Details" x:Name="StoresCollection" Loaded="StoresCollection_OnLoaded">
+                  ItemClick="Details" x:Name="StoresCollection" Loaded="StoresCollectionLoaded">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
