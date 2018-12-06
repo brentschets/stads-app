@@ -1,8 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
+using Stads_App.Models;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
 using Stads_App.Views.Account;
@@ -18,10 +22,14 @@ namespace Stads_App.ViewModels.Account
         private string _firstName;
         private string _lastName;
         private string _errorMsg;
+        private ObservableCollection<Establishment> _subscriptions;
+        private bool _isLoaded;
 
         public ICommand LogoutCommand => new RelayCommand(o => LogoutUser());
 
-        public ICommand UpdateCommand => new RelayCommand(o => UpdateUser());
+        public ICommand UpdateCommand => new RelayCommand(o => UpdateUserAsync());
+
+        public ICommand UnsubscribeCommand => new RelayCommand(Unsubscribe);
 
         public string ErrorMsg
         {
@@ -43,7 +51,6 @@ namespace Stads_App.ViewModels.Account
             }
         }
 
-
         public string FirstName
         {
             get => _firstName;
@@ -53,7 +60,6 @@ namespace Stads_App.ViewModels.Account
                 OnPropertyChanged(nameof(FirstName));
             }
         }
-
 
         public string Username
         {
@@ -65,13 +71,41 @@ namespace Stads_App.ViewModels.Account
             }
         }
 
+        public ObservableCollection<Establishment> Subscriptions
+        {
+            get => _subscriptions;
+            private set
+            {
+                _subscriptions = value;
+                OnPropertyChanged(nameof(Subscriptions));
+            }
+        }
+
+        public bool IsLoaded
+        {
+            get => _isLoaded;
+            private set
+            {
+                _isLoaded = value;
+                OnPropertyChanged(nameof(IsLoaded));
+            }
+        }
+
         public AccountViewModel()
         {
             _userManager = new UserManager();
+        }
+
+        public async Task LoadDataAsync()
+        {
             var user = UserManager.CurrentUser;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.Username;
+            Subscriptions = new ObservableCollection<Establishment>(
+                await StadsAppRestApiClient.Instance.GetListAsync<Establishment>(
+                    $"Establishments/ForUser/{user.UserId}"));
+            IsLoaded = true;
         }
 
         private void LogoutUser()
@@ -80,7 +114,7 @@ namespace Stads_App.ViewModels.Account
             Frame.Navigate(typeof(Login));
         }
 
-        private void UpdateUser()
+        private async void UpdateUserAsync()
         {
             var user = UserManager.CurrentUser;
             user.FirstName = FirstName;
@@ -91,8 +125,27 @@ namespace Stads_App.ViewModels.Account
                 ErrorMsg = "Geen aanpassingen";
                 return;
             }
-            var result = _userManager.Update(user);
+
+            var result = await _userManager.UpdateAsync(user);
             if (!result.Success) ErrorMsg = result.Error.Message;
+        }
+
+        private async void Unsubscribe(object args)
+        {
+            var establishmentId = (int) args;
+
+            var user = UserManager.CurrentUser;
+
+            var result = await _userManager.UnsubscribeAsync(user.UserId, establishmentId);
+
+            if (!result.Success)
+            {
+                ErrorMsg = result.Error.Message;
+                return;
+            }
+
+            var establishment = Subscriptions.First(e => e.EstablishmentId == establishmentId);
+            Subscriptions.Remove(establishment);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

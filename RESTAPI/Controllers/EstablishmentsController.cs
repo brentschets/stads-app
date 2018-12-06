@@ -49,5 +49,18 @@ namespace RESTAPI.Controllers
 
             return Ok(establishments);
         }
+
+        // GET: api/Establishments/ForUser/2
+        [HttpGet("ForUser/{userId}")]
+        public IActionResult GetEstablishmentsForUser([FromRoute] int userId)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var establishments = _context.Establishment.Include(e => e.Address).Include(e => e.Store)
+                .Where(e => e.SubscribedUsers.Any(ue => ue.UserId == userId))
+                .Distinct();
+
+            return Ok(establishments);
+        }
     }
 }

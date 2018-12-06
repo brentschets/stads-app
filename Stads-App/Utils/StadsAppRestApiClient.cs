@@ -39,46 +39,37 @@ namespace Stads_App.Utils
             return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
         }
 
-        public AuthenticationResult AuthenticateUser(string username, string password)
+        public async Task<AuthenticationResult> AuthenticateUserAsync(string username, string password)
         {
-            var task = PostAsync($"{Host}Users/Authenticate",
-                PrepareContent(new {Username = username, Password = password}));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Authenticate",
+                PrepareContent(new {username, password})));
         }
 
-        public AuthenticationResult RegisterUser(User user)
+        public async Task<AuthenticationResult> RegisterUserAsync(User user)
         {
-            var task = PostAsync($"{Host}Users/Register", PrepareContent(user));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Register", PrepareContent(user)));
         }
 
-        public AuthenticationResult UpdateUser(User user)
+        public async Task<AuthenticationResult> UpdateUserAsync(User user)
         {
-            var task = PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user)));
         }
 
-        public void DeleteUser(int userId)
+        public async Task DeleteUserAsync(int userId)
         {
-            var task = DeleteAsync($"{Host}Users/Delete/{userId}");
-            task.Wait();
+            await DeleteAsync($"{Host}Users/Delete/{userId}");
         }
 
-        public AuthenticationResult Subscribe(int userId, int establishmentId)
+        public async Task<AuthenticationResult> SubscribeAsync(int userId, int establishmentId)
         {
-            var task = PostAsync($"{Host}Users/Subscribe/{userId}", PrepareContent(establishmentId));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Subscribe",
+                PrepareContent(new {userId, establishmentId})));
         }
 
-        public AuthenticationResult Unsubscribe(int userId, int establishmentId)
+        public async Task<AuthenticationResult> UnsubscribeAsync(int userId, int establishmentId)
         {
-            var task = PostAsync($"{Host}Users/Unsubsribe/{userId}", PrepareContent(establishmentId));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Unsubscribe",
+                PrepareContent(new {userId, establishmentId})));
         }
 
         #region Helpers

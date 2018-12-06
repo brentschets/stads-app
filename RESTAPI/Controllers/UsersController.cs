@@ -107,9 +107,12 @@ namespace RESTAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("Subscribe/{userId}")]
-        public IActionResult Subscribe([FromRoute] int userId, [FromBody] int establishmentId)
+        [HttpPost("Subscribe")]
+        public IActionResult Subscribe([FromBody] SubscriptionDto subscriptionDto)
         {
+            var userId = subscriptionDto.UserId;
+            var establishmentId = subscriptionDto.EstablishmentId;
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
@@ -123,9 +126,12 @@ namespace RESTAPI.Controllers
             }
         }
 
-        [HttpPost("Unsubscribe/{userId}")]
-        public IActionResult Unsubscribe([FromRoute] int userId, [FromBody] int establishmentId)
+        [HttpPost("Unsubscribe")]
+        public IActionResult Unsubscribe([FromBody] SubscriptionDto subscriptionDto)
         {
+            var userId = subscriptionDto.UserId;
+            var establishmentId = subscriptionDto.EstablishmentId;
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Stads_App.Models
 {
@@ -11,7 +10,6 @@ namespace Stads_App.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Token { get; set; }
-        public IEnumerable<UserEstablishment> Subscribtions { get; set; }
 
         public object Clone()
         {
@@ -22,8 +20,7 @@ namespace Stads_App.Models
                 Username = Username,
                 Password = Password,
                 UserId = UserId,
-                Token = Token,
-                Subscribtions = new List<UserEstablishment>(Subscribtions)
+                Token = Token
             };
         }
     }

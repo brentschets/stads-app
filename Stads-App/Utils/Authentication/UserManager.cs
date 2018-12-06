@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Stads_App.Models;
 
 namespace Stads_App.Utils.Authentication
@@ -44,11 +45,11 @@ namespace Stads_App.Utils.Authentication
             return CurrentUser?.UserId == userId;
         }
 
-        public AuthenticationResult Authenticate(string username, string password)
+        public async Task<AuthenticationResult> AuthenticateAsync(string username, string password)
         {
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
 
-            var result = StadsAppRestApiClient.Instance.AuthenticateUser(username, password);
+            var result = await StadsAppRestApiClient.Instance.AuthenticateUserAsync(username, password);
 
             if (result.Success) CurrentUser = result.User;
 
@@ -62,7 +63,7 @@ namespace Stads_App.Utils.Authentication
             CurrentUser = null;
         }
 
-        public AuthenticationResult Register(string username, string password, string firstName, string lastName)
+        public async Task<AuthenticationResult> RegisterAsync(string username, string password, string firstName, string lastName)
         {
             var user = new User
             {
@@ -72,16 +73,16 @@ namespace Stads_App.Utils.Authentication
                 Password = password
             };
 
-            return StadsAppRestApiClient.Instance.RegisterUser(user);
+            return await StadsAppRestApiClient.Instance.RegisterUserAsync(user);
         }
 
-        public AuthenticationResult Update(User user)
+        public async Task<AuthenticationResult> UpdateAsync(User user)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
             if (!IsLoggedIn(user))
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
-            var result = StadsAppRestApiClient.Instance.UpdateUser(user);
+            var result = await StadsAppRestApiClient.Instance.UpdateUserAsync(user);
             if (result.Success)
             {
                 CurrentUser = user;
@@ -90,29 +91,29 @@ namespace Stads_App.Utils.Authentication
             return result;
         }
 
-        public void Delete(User user)
+        public async void DeleteAsync(User user)
         {
             if (!IsLoggedIn(user)) throw new InvalidOperationException("The deleted user must be logged in");
-            StadsAppRestApiClient.Instance.DeleteUser(user.UserId);
+            await StadsAppRestApiClient.Instance.DeleteUserAsync(user.UserId);
             Logout();
         }
 
-        public AuthenticationResult Subscribe(int userId, int establishmentId)
+        public async Task<AuthenticationResult> SubscribeAsync(int userId, int establishmentId)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
             if (!IsLoggedIn(userId))
                 throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
 
-            return StadsAppRestApiClient.Instance.Subscribe(userId, establishmentId);
+            return await StadsAppRestApiClient.Instance.SubscribeAsync(userId, establishmentId);
         }
 
-        public AuthenticationResult Unsubscribe(int userId, int establishmentId)
+        public async Task<AuthenticationResult> UnsubscribeAsync(int userId, int establishmentId)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
             if (!IsLoggedIn(userId))
                 throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
 
-            return StadsAppRestApiClient.Instance.Unsubscribe(userId, establishmentId);
+            return await StadsAppRestApiClient.Instance.UnsubscribeAsync(userId, establishmentId);
         }
     }
 }

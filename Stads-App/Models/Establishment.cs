@@ -9,6 +9,6 @@ namespace Stads_App.Models
         public int Visited { get; set; }
         public Address Address { get; set; }
         public Store Store { get;set; }
-        public IEnumerable<UserEstablishment> SubscribedUsers { get; set; }
+        public IEnumerable<User> SubscribedUsers { get; set; }
     }
 }

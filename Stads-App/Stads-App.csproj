@@ -105,7 +105,6 @@
     <Compile Include="Models\Promotion.cs" />
     <Compile Include="Models\Store.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserEstablishment.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Authentication\AuthenticationError.cs" />
@@ -176,6 +175,7 @@
     <Content Include="Assets\Categories\2.jpg" />
     <Content Include="Assets\Categories\8.jpg" />
     <Content Include="Assets\Categories\7.jpg" />
+    <Content Include="Assets\delete_icon.png" />
     <Content Include="Stads-App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

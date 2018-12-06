@@ -1,4 +1,4 @@
-USE StadsApp;
+USE StadsApp
 
 SET IDENTITY_INSERT Category ON
 INSERT INTO Category(CategoryId, Name) VALUES
@@ -35,7 +35,7 @@ INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (4, 'Brantano', 'Ruim aanbod schoenen, diverse merken & de nieuwste modetrends. Koop of reserveer je schoenen online bij schoenenwinkel Brantano.', 'https://stadsapprestapi.azurewebsites.net/img/4.png', 5),
 (5, 'Standaard Boekhandel', 'Standaard Boekhandel: Ruim aanbod aan Boeken, E-books, Muziek, Film, Games, Fotos. Altijd een Standaard Boekhandel dicht in je buurt, bestel ook online.', 'https://stadsapprestapi.azurewebsites.net/img/5.jpg', 2),
 (6, 'Tom & Co', 'In onze winkel ontmoet je dynamische en gepassioneerde experts. Ze zullen je helpen het beste te kiezen voor je huisdier of zijn komst voor te bereiden!', 'https://stadsapprestapi.azurewebsites.net/img/6.jpg', 3),
-(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', 'https://stadsapprestapi.azurewebsites.net/img/7.jpg', 4),
+(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', 'https://stadsapprestapi.azurewebsites.net/img/7.jpeg', 4),
 (8, 'Prima Meubelen', 'PRIMA meubelen is gespecialiseerd in het bemeubelen van appartementen en studio’s.', 'https://stadsapprestapi.azurewebsites.net/img/8.png', 6),
 (9, 'Ellis Gourmet Burger', 'Ellis is het concept van een groep enthousiastelingen met één doel voor ogen: betere burgers serveren. Ja, we gebruiken absoluut de beste producten, maar verfijnen onze recepten ook continu met de hulp van bekende productspecialisten en sterrenchefs.', 'https://stadsapprestapi.azurewebsites.net/img/9.png', 1),
 (10, 'Lab9', 'Lab9 is uw Apple Premium Reseller & Service Provider in West-Vlaanderen en Oost-Vlaanderen.', 'https://stadsapprestapi.azurewebsites.net/img/10.png', 4)
