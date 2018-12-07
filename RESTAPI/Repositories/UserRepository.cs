@@ -32,7 +32,8 @@ namespace RESTAPI.Repositories
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) return null;
 
-            var user = _context.User.SingleOrDefault(u => string.CompareOrdinal(u.Username, username) == 0);
+            var user = _context.User.Include(u => u.Subscriptions)
+                .SingleOrDefault(u => string.CompareOrdinal(u.Username, username) == 0);
 
             // user does not exist
             if (user == null) return null;
@@ -139,12 +140,24 @@ namespace RESTAPI.Repositories
                 user.Subscriptions.FirstOrDefault(ue => ue.UserId == userId && ue.EstablishmentId == establishmentId);
 
             // check if user is subscribed
-            if (userEstablishment == null) throw new AuthenticationException("User is not subscribed to this establishment");
+            if (userEstablishment == null)
+                throw new AuthenticationException("User is not subscribed to this establishment");
 
             user.Subscriptions.Remove(userEstablishment);
 
             _context.Update(user);
             _context.SaveChanges();
+        }
+
+        public bool IsSubscribed(int userId, int establishmentId)
+        {
+            var user = _context.User.Include(u => u.Subscriptions).SingleOrDefault(u => userId == u.UserId);
+            var establishment = _context.Establishment.Find(establishmentId);
+
+            if (user == null) throw new AuthenticationException("User does not exist");
+            if (establishment == null) throw new AuthenticationException("Establishment does not exist");
+
+            return user.Subscriptions.Any(ue => ue.EstablishmentId == establishmentId);
         }
 
         #region Helpers

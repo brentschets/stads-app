@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,8 @@ namespace RESTAPI.Controllers
                 user.Username,
                 user.FirstName,
                 user.LastName,
-                Token = tokenString
+                Token = tokenString,
+                Subscriptions = user.Subscriptions.Select(ue => ue.EstablishmentId)
             });
         }
 
@@ -110,10 +112,10 @@ namespace RESTAPI.Controllers
         [HttpPost("Subscribe")]
         public IActionResult Subscribe([FromBody] SubscriptionDto subscriptionDto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var userId = subscriptionDto.UserId;
             var establishmentId = subscriptionDto.EstablishmentId;
-
-            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
@@ -129,10 +131,10 @@ namespace RESTAPI.Controllers
         [HttpPost("Unsubscribe")]
         public IActionResult Unsubscribe([FromBody] SubscriptionDto subscriptionDto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var userId = subscriptionDto.UserId;
             var establishmentId = subscriptionDto.EstablishmentId;
-
-            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {

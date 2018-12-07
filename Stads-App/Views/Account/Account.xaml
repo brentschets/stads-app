@@ -79,7 +79,7 @@
                             <Button Grid.Column="1"
                                     Command="{Binding ElementName=EstablishmentsCollection, Path=DataContext.UnsubscribeCommand}"
                                     CommandParameter="{Binding EstablishmentId}">
-                                <Image Source="../../Assets/delete_icon.png" Width="15" />
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57606;" />
                             </Button>
                         </Grid>
                     </DataTemplate>

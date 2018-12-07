@@ -104,7 +104,11 @@ namespace Stads_App.Utils.Authentication
             if (!IsLoggedIn(userId))
                 throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
 
-            return await StadsAppRestApiClient.Instance.SubscribeAsync(userId, establishmentId);
+            var result = await StadsAppRestApiClient.Instance.SubscribeAsync(userId, establishmentId);
+            
+            if (result.Success) _currentUser.Subscriptions.Add(establishmentId);
+
+            return result;
         }
 
         public async Task<AuthenticationResult> UnsubscribeAsync(int userId, int establishmentId)
@@ -113,7 +117,18 @@ namespace Stads_App.Utils.Authentication
             if (!IsLoggedIn(userId))
                 throw new InvalidOperationException("The logged in user's id does not match the provided user's id");
 
-            return await StadsAppRestApiClient.Instance.UnsubscribeAsync(userId, establishmentId);
+            var result = await StadsAppRestApiClient.Instance.UnsubscribeAsync(userId, establishmentId);
+
+            if (result.Success) _currentUser.Subscriptions.Remove(establishmentId);
+
+            return result;
+        }
+
+        public bool IsSubscribed(int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+
+            return _currentUser.Subscriptions.Contains(establishmentId);
         }
     }
 }
