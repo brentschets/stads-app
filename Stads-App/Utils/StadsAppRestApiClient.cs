@@ -16,17 +16,21 @@ namespace Stads_App.Utils
 
         public static StadsAppRestApiClient Instance => Lazy.Value;
 
+        private readonly UserManager _userManager;
+
         //local
         private StadsAppRestApiClient() : base(new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
         })
         {
+            _userManager = new UserManager();
         }
 
         //deploy
         //private StadsAppRestApiClient()
         //{
+        //  _userManager = new UserManager();
         //}
 
         //deploy
@@ -78,8 +82,8 @@ namespace Stads_App.Utils
         {
             var content = new StringContent(JsonConvert.SerializeObject(o));
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            DefaultRequestHeaders.Authorization = UserManager.IsLoggedIn()
-                ? new AuthenticationHeaderValue("Bearer", UserManager.CurrentUser.Token)
+            DefaultRequestHeaders.Authorization = _userManager.IsLoggedIn()
+                ? new AuthenticationHeaderValue("Bearer", _userManager.CurrentUser.Token)
                 : null;
             return content;
         }

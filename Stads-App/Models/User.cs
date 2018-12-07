@@ -11,7 +11,7 @@ namespace Stads_App.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Token { get; set; }
-        public IList<int> Subscriptions { get; set; }
+        public IList<int> Subscriptions { internal get; set; }
 
         public object Clone()
         {

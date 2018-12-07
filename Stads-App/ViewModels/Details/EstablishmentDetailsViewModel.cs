@@ -13,7 +13,7 @@ namespace Stads_App.ViewModels.Details
         private readonly UserManager _userManager;
 
         public bool IsNotSubscribed =>
-            UserManager.IsLoggedIn() && !_userManager.IsSubscribed(Establishment.EstablishmentId);
+            _userManager.IsLoggedIn() && !_userManager.IsSubscribed(Establishment.EstablishmentId);
 
         public Establishment Establishment { get; }
 
@@ -27,7 +27,7 @@ namespace Stads_App.ViewModels.Details
 
         private async void SubscribeAsync(object args)
         {
-            var result = await _userManager.SubscribeAsync(UserManager.CurrentUser.UserId, Establishment.EstablishmentId);
+            var result = await _userManager.SubscribeAsync(Establishment.EstablishmentId);
             if (result.Success) OnPropertyChanged(nameof(IsNotSubscribed));
         }
 

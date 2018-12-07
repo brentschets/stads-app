@@ -98,7 +98,7 @@ namespace Stads_App.ViewModels.Account
 
         public async Task LoadDataAsync()
         {
-            var user = UserManager.CurrentUser;
+            var user = _userManager.CurrentUser;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.Username;
@@ -116,11 +116,11 @@ namespace Stads_App.ViewModels.Account
 
         private async void UpdateUserAsync()
         {
-            var user = UserManager.CurrentUser;
+            var user = _userManager.CurrentUser;
             user.FirstName = FirstName;
             user.LastName = LastName;
             user.Username = Username;
-            if (user.Equals(UserManager.CurrentUser))
+            if (user.Equals(_userManager.CurrentUser))
             {
                 ErrorMsg = "Geen aanpassingen";
                 return;
@@ -134,9 +134,7 @@ namespace Stads_App.ViewModels.Account
         {
             var establishmentId = (int) args;
 
-            var user = UserManager.CurrentUser;
-
-            var result = await _userManager.UnsubscribeAsync(user.UserId, establishmentId);
+            var result = await _userManager.UnsubscribeAsync(establishmentId);
 
             if (!result.Success)
             {
