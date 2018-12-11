@@ -21,11 +21,14 @@ namespace RESTAPI.Controllers
     {
         private readonly IUserRepository _userRepository;
 
+        private readonly IStoreRepository _storeRepository;
+
         private readonly RESTAPIContext _context;
 
-        public UsersController(IUserRepository userRepository, RESTAPIContext context)
+        public UsersController(IUserRepository userRepository, IStoreRepository storeRepository, RESTAPIContext context)
         {
             _userRepository = userRepository;
+            _storeRepository = storeRepository;
             _context = context;
         }
 
@@ -88,17 +91,17 @@ namespace RESTAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var store = new Store
+            try
             {
-                Name = registerStoreDto.Name,
-                Description = registerStoreDto.Description,
-                Category = _context.Category.Find(registerStoreDto.CategoryId)
-            };
+                _storeRepository.CreateStore(registerStoreDto.Name, registerStoreDto.Description,
+                    registerStoreDto.CategoryId);
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
 
-            _context.Store.Add(store);
-            _context.SaveChanges();
-
-            var storeDb = _context.Store.Single(s => s.Name == store.Name);
+            var storeDb = _context.Store.Single(s => s.Name == registerStoreDto.Name);
 
             var user = new User
             {

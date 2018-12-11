@@ -43,6 +43,7 @@ namespace RESTAPI
                 options.UseSqlServer(Configuration.GetConnectionString("Local")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
 
             AppSettings.Secret = Configuration["JWTSecret"];
             var key = Encoding.ASCII.GetBytes(AppSettings.Secret);
