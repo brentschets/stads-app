@@ -31,16 +31,16 @@ namespace Stads_App.ViewModels.Account
 
         public string Password { get; set; }
 
-        public ICommand LoginCommand => new RelayCommand(o => Login());
+        public ICommand LoginCommand => new RelayCommand(o => LoginAsync());
 
         public LoginViewModel()
         {
             _userManager = new UserManager();
         }
 
-        private void Login()
+        private async void LoginAsync()
         {
-            var result = _userManager.Authenticate(Username, Password);
+            var result = await _userManager.AuthenticateAsync(Username, Password);
             if (result.Success)
             {
                 Frame.Navigate(typeof(Views.Account.Account));

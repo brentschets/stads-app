@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,8 @@ namespace RESTAPI.Controllers
                 user.Username,
                 user.FirstName,
                 user.LastName,
-                Token = tokenString
+                Token = tokenString,
+                Subscriptions = user.Subscriptions.Select(ue => ue.EstablishmentId)
             });
         }
 
@@ -107,6 +109,44 @@ namespace RESTAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("Subscribe")]
+        public IActionResult Subscribe([FromBody] SubscriptionDto subscriptionDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = subscriptionDto.UserId;
+            var establishmentId = subscriptionDto.EstablishmentId;
+
+            try
+            {
+                _userRepository.Subscribe(userId, establishmentId);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        [HttpPost("Unsubscribe")]
+        public IActionResult Unsubscribe([FromBody] SubscriptionDto subscriptionDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = subscriptionDto.UserId;
+            var establishmentId = subscriptionDto.EstablishmentId;
+
+            try
+            {
+                _userRepository.Unsubscribe(userId, establishmentId);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
         #region Helpers
 
         private static User UserFromDto(UserDto dto)
@@ -116,7 +156,7 @@ namespace RESTAPI.Controllers
                 UserId = dto.UserId,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                Username = dto.Username
+                Username = dto.Username,
             };
         }
 
@@ -127,7 +167,8 @@ namespace RESTAPI.Controllers
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.Username
+                Username = user.Username,
+                Subscriptions = user.Subscriptions
             };
         }
 

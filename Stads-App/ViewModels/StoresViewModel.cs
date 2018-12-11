@@ -24,7 +24,7 @@ namespace Stads_App.ViewModels
             }
         }
 
-        private List<Store> AllStores { get; set; }
+        private List<Store> _allStores;
 
         private bool _isLoaded;
 
@@ -50,44 +50,43 @@ namespace Stads_App.ViewModels
             }
         }
 
+        private int? _categoryId;
+
         public ICommand SearchCommand => new RelayCommand(Search);
 
-        public ICommand ShowAllStoresCommand
-        {
-            get { return new RelayCommand(o => ShowAllStores()); }
-        }
-
-        public StoresViewModel()
-        {
-            IsLoaded = false;
-        }
-
-        private async void ShowAllStores()
-        {
-            IsLoaded = false;
-            Stores = null;
-            await LoadDataAsync(null);
-        }
-
-        private static async Task<List<Store>> GetStoresAsync(int? categoryId)
-        {
-            return await StadsAppRestApiClient.Instance.GetListAsync<Store>(categoryId != null
-                ? $"Stores/ByCategory/{categoryId}"
-                : "Stores");
-        }
+        public ICommand ShowAllStoresCommand => new RelayCommand(ShowAllStores);
 
         private void Search(object o)
         {
             var args = o as AutoSuggestBoxQuerySubmittedEventArgs;
-            Stores = AllStores.FindAll(s => args != null && s.Name.ToLower().Contains(args.QueryText.ToLower()));
+            Stores = _allStores.FindAll(s => args != null && s.Name.ToLower().Contains(args.QueryText.ToLower()));
+        }
+
+        private async void ShowAllStores(object o)
+        {
+            _allStores = await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
+            Stores = _allStores;
+            IsLimitedList = false;
         }
 
         public async Task LoadDataAsync(int? categoryId)
         {
-            AllStores = await GetStoresAsync(categoryId);
-            if (Stores == null) Stores = AllStores;
-            IsLimitedList = categoryId != null;
-            IsLoaded = true;
+            if (categoryId != null && categoryId != _categoryId)
+            {
+                _allStores = await StadsAppRestApiClient.Instance.GetListAsync<Store>($"Stores/ByCategory/{categoryId}");
+                Stores = _allStores;
+                _categoryId = categoryId;
+                IsLimitedList = true;
+                IsLoaded = true;
+            }
+            else if (categoryId == null && null != _categoryId || Stores == null)
+            {
+                _allStores = await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
+                Stores = _allStores;
+                _categoryId = null;
+                IsLimitedList = false;
+                IsLoaded = true;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

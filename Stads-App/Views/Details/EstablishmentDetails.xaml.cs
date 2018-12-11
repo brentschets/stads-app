@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
 using Stads_App.Models;
+using Stads_App.ViewModels.Details;
 
 namespace Stads_App.Views.Details
 {
@@ -33,7 +32,7 @@ namespace Stads_App.Views.Details
             if (e.Parameter == null) return;
             if (!(e.Parameter is Establishment establishment)) return;
             Header = establishment.Store.Name;
-            DataContext = establishment;
+            DataContext = new EstablishmentDetailsViewModel(establishment);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
