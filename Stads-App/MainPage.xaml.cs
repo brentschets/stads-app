@@ -21,11 +21,14 @@ namespace Stads_App
         public MainPage()
         {
             InitializeComponent();
+
+            var userManager = new UserManager();
+
             AccountChangedEvent = u =>
             {
                 var loginPage = ("account", typeof(Login));
                 var accountPage = ("account", typeof(Account));
-                if (UserManager.IsLoggedIn())
+                if (userManager.IsLoggedIn())
                 {
                     AccountNavViewItem.Content = u.Username;
                     _pages.Remove(loginPage);
@@ -39,7 +42,7 @@ namespace Stads_App
                 }
             };
             UserUpdateEvent = u => AccountNavViewItem.Content = u.Username;
-            AccountChangedEvent.Invoke(UserManager.CurrentUser);
+            AccountChangedEvent.Invoke(userManager.CurrentUser);
             UserManager.AccountChanged += AccountChangedEvent;
             UserManager.UserUpdated += UserUpdateEvent;
         }

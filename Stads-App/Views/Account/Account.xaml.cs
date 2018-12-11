@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
@@ -29,10 +28,11 @@ namespace Stads_App.Views.Account
             DataContext = _viewModel;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             _viewModel.Frame = Frame;
+            await _viewModel.LoadDataAsync();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

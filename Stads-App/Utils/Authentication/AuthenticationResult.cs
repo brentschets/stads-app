@@ -8,4 +8,9 @@ namespace Stads_App.Utils.Authentication
         public AuthenticationError Error { get; internal set; }
         public User User { get; internal set; }
     }
+
+    public class AuthenticationError
+    {
+        public string Message { get; set; }
+    }
 }

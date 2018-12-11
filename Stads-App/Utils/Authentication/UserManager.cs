@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Stads_App.Models;
 
 namespace Stads_App.Utils.Authentication
@@ -15,7 +16,7 @@ namespace Stads_App.Utils.Authentication
 
         private static User _currentUser;
 
-        public static User CurrentUser
+        public User CurrentUser
         {
             get => _currentUser?.Clone() as User;
             private set
@@ -27,23 +28,28 @@ namespace Stads_App.Utils.Authentication
             }
         }
 
-        public static bool IsLoggedIn()
+        public bool IsLoggedIn()
         {
-            return CurrentUser != null;
+            return _currentUser != null;
         }
 
-        public static bool IsLoggedIn(User user)
+        public bool IsLoggedIn(User user)
         {
             if (user == null) throw new ArgumentException("User cannot be null", nameof(user));
 
-            return CurrentUser?.UserId == user.UserId;
+            return _currentUser?.UserId == user.UserId;
         }
 
-        public AuthenticationResult Authenticate(string username, string password)
+        public bool IsLoggedIn(int userId)
+        {
+            return _currentUser?.UserId == userId;
+        }
+
+        public async Task<AuthenticationResult> AuthenticateAsync(string username, string password)
         {
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
 
-            var result = StadsAppRestApiClient.Instance.AuthenticateUser(username, password);
+            var result = await StadsAppRestApiClient.Instance.AuthenticateUserAsync(username, password);
 
             if (result.Success) CurrentUser = result.User;
 
@@ -57,7 +63,7 @@ namespace Stads_App.Utils.Authentication
             CurrentUser = null;
         }
 
-        public AuthenticationResult Register(string username, string password, string firstName, string lastName)
+        public async Task<AuthenticationResult> RegisterAsync(string username, string password, string firstName, string lastName)
         {
             var user = new User
             {
@@ -67,16 +73,16 @@ namespace Stads_App.Utils.Authentication
                 Password = password
             };
 
-            return StadsAppRestApiClient.Instance.RegisterUser(user);
+            return await StadsAppRestApiClient.Instance.RegisterUserAsync(user);
         }
 
-        public AuthenticationResult Update(User user)
+        public async Task<AuthenticationResult> UpdateAsync(User user)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
             if (!IsLoggedIn(user))
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
-            var result = StadsAppRestApiClient.Instance.UpdateUser(user);
+            var result = await StadsAppRestApiClient.Instance.UpdateUserAsync(user);
             if (result.Success)
             {
                 CurrentUser = user;
@@ -85,10 +91,40 @@ namespace Stads_App.Utils.Authentication
             return result;
         }
 
-        public void Delete(User user)
+        public async void DeleteAsync(int userId)
         {
-            if (!IsLoggedIn(user)) throw new InvalidOperationException("The deleted user must be logged in");
-            StadsAppRestApiClient.Instance.DeleteUser(user.UserId);
+            if (!IsLoggedIn(userId)) throw new InvalidOperationException("The deleted user must be logged in");
+            await StadsAppRestApiClient.Instance.DeleteUserAsync(userId);
+            Logout();
+        }
+
+        public async Task<AuthenticationResult> SubscribeAsync(int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+
+            var result = await StadsAppRestApiClient.Instance.SubscribeAsync(_currentUser.UserId, establishmentId);
+            
+            if (result.Success) _currentUser.Subscriptions.Add(establishmentId);
+
+            return result;
+        }
+
+        public async Task<AuthenticationResult> UnsubscribeAsync(int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+
+            var result = await StadsAppRestApiClient.Instance.UnsubscribeAsync(_currentUser.UserId, establishmentId);
+
+            if (result.Success) _currentUser.Subscriptions.Remove(establishmentId);
+
+            return result;
+        }
+
+        public bool IsSubscribed(int establishmentId)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+
+            return _currentUser.Subscriptions.Contains(establishmentId);
         }
     }
 }

@@ -35,7 +35,7 @@ INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (4, 'Brantano', 'Ruim aanbod schoenen, diverse merken & de nieuwste modetrends. Koop of reserveer je schoenen online bij schoenenwinkel Brantano.', 'https://stadsapprestapi.azurewebsites.net/img/4.png', 5),
 (5, 'Standaard Boekhandel', 'Standaard Boekhandel: Ruim aanbod aan Boeken, E-books, Muziek, Film, Games, Fotos. Altijd een Standaard Boekhandel dicht in je buurt, bestel ook online.', 'https://stadsapprestapi.azurewebsites.net/img/5.jpg', 2),
 (6, 'Tom & Co', 'In onze winkel ontmoet je dynamische en gepassioneerde experts. Ze zullen je helpen het beste te kiezen voor je huisdier of zijn komst voor te bereiden!', 'https://stadsapprestapi.azurewebsites.net/img/6.jpg', 3),
-(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', 'https://stadsapprestapi.azurewebsites.net/img/7.jpg', 4),
+(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', 'https://stadsapprestapi.azurewebsites.net/img/7.jpeg', 4),
 (8, 'Prima Meubelen', 'PRIMA meubelen is gespecialiseerd in het bemeubelen van appartementen en studio’s.', 'https://stadsapprestapi.azurewebsites.net/img/8.png', 6),
 (9, 'Ellis Gourmet Burger', 'Ellis is het concept van een groep enthousiastelingen met één doel voor ogen: betere burgers serveren. Ja, we gebruiken absoluut de beste producten, maar verfijnen onze recepten ook continu met de hulp van bekende productspecialisten en sterrenchefs.', 'https://stadsapprestapi.azurewebsites.net/img/9.png', 1),
 (10, 'Lab9', 'Lab9 is uw Apple Premium Reseller & Service Provider in West-Vlaanderen en Oost-Vlaanderen.', 'https://stadsapprestapi.azurewebsites.net/img/10.png', 4)
@@ -70,3 +70,8 @@ SET IDENTITY_INSERT Promotion OFF
 SET IDENTITY_INSERT [dbo].[User] ON
 INSERT [dbo].[User] ([UserId], [FirstName], [LastName], [UserName], [PasswordHash], [PasswordSalt]) VALUES (1, N'Tiel', N'Van Hecke', N'TielTaxi', 0xF8C714928E0A8248F81010BEBE3E5D97BD1D8AA975E8078ADA4DD151764FE76215105CC127BB7AB6EAD709AEA545D406D12637D86163309CB40410A3C2012F38, 0x154A7F8D231F7E3CB000266A066EEC7D2121A3B341DE1F73B40521A5CBC27AF0D0BF71EACAA192734223298AF9EF1F1568E9CB4D7AE5A0373EC1F40F6706E7B8A82EA840BA785A70611A3914010FBD409EA65CE7BBAEDCFEE88F9B4C8099821F176E6B57AB579D617C1ACE4188C297D331B1C450138FD8AB3740DFD38A88F55B)
 SET IDENTITY_INSERT [dbo].[User] OFF
+
+INSERT INTO UserEstablishment (UserId, EstablishmentId) VALUES
+(1, 3),
+(1, 10),
+(1, 11)

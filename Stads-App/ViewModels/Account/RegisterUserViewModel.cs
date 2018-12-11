@@ -35,7 +35,7 @@ namespace Stads_App.ViewModels.Account
 
         public string ConfirmPassword { get; set; }
 
-        public ICommand RegisterCommand => new RelayCommand(o => RegisterUser());
+        public ICommand RegisterCommand => new RelayCommand(o => RegisterUserAsync());
 
         private readonly UserManager _userManager;
 
@@ -44,7 +44,7 @@ namespace Stads_App.ViewModels.Account
             _userManager = new UserManager();
         }
 
-        private void RegisterUser()
+        private async void RegisterUserAsync()
         {
             if (string.IsNullOrWhiteSpace(Password))
             {
@@ -58,7 +58,7 @@ namespace Stads_App.ViewModels.Account
                 return;
             }
 
-            var result = _userManager.Register(Username, Password, FirstName, LastName);
+            var result = await _userManager.RegisterAsync(Username, Password, FirstName, LastName);
             if (result.Success) Frame.Navigate(typeof(Login));
             else ErrorMsg = result.Error.Message;
         }

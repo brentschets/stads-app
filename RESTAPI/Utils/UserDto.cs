@@ -1,4 +1,7 @@
-﻿namespace RESTAPI.Utils
+﻿using System.Collections.Generic;
+using RESTAPI.Models;
+
+namespace RESTAPI.Utils
 {
     public class UserDto
     {
@@ -7,5 +10,6 @@
         public string LastName { get; set; }
         public string Username { get;set; }
         public string Password { get; set; }
+        public IEnumerable<UserEstablishment> Subscriptions { get; set; }
     }
 }

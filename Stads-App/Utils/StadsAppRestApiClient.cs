@@ -16,55 +16,64 @@ namespace Stads_App.Utils
 
         public static StadsAppRestApiClient Instance => Lazy.Value;
 
-        //local
-        //private StadsAppRestApiClient() : base(new HttpClientHandler
-        //{
-        //    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
-        //})
-        //{
-        //}
+        private readonly UserManager _userManager;
 
-        //deploy
-        private StadsAppRestApiClient()
+        //local
+        private StadsAppRestApiClient() : base(new HttpClientHandler
         {
+            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        })
+        {
+            _userManager = new UserManager();
         }
 
         //deploy
-        private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
+        //private StadsAppRestApiClient()
+        //{
+        //  _userManager = new UserManager();
+        //}
+
+        //deploy
+        //private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
         //local
-        //private const string Host = "https://localhost:44301/api/";
+        private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
             return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
         }
 
-        public AuthenticationResult AuthenticateUser(string username, string password)
+        public async Task<AuthenticationResult> AuthenticateUserAsync(string username, string password)
         {
-            var task = PostAsync($"{Host}Users/Authenticate",
-                PrepareContent(new {Username = username, Password = password}));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Authenticate",
+                PrepareContent(new {username, password})));
         }
 
-        public AuthenticationResult RegisterUser(User user)
+        public async Task<AuthenticationResult> RegisterUserAsync(User user)
         {
-            var task = PostAsync($"{Host}Users/Register", PrepareContent(user));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Register", PrepareContent(user)));
         }
 
-        public AuthenticationResult UpdateUser(User user)
+        public async Task<AuthenticationResult> UpdateUserAsync(User user)
         {
-            var task = PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user));
-            task.Wait();
-            return ProcessResponse(task.Result);
+            return ProcessResponse(await PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user)));
         }
 
-        public void DeleteUser(int userId)
+        public async Task DeleteUserAsync(int userId)
         {
-            var task = DeleteAsync($"{Host}Users/Delete/{userId}");
-            task.Wait();
+            await DeleteAsync($"{Host}Users/Delete/{userId}");
+        }
+
+        public async Task<AuthenticationResult> SubscribeAsync(int userId, int establishmentId)
+        {
+            return ProcessResponse(await PostAsync($"{Host}Users/Subscribe",
+                PrepareContent(new {userId, establishmentId})));
+        }
+
+        public async Task<AuthenticationResult> UnsubscribeAsync(int userId, int establishmentId)
+        {
+            return ProcessResponse(await PostAsync($"{Host}Users/Unsubscribe",
+                PrepareContent(new {userId, establishmentId})));
         }
 
         #region Helpers
@@ -73,8 +82,8 @@ namespace Stads_App.Utils
         {
             var content = new StringContent(JsonConvert.SerializeObject(o));
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            DefaultRequestHeaders.Authorization = UserManager.IsLoggedIn()
-                ? new AuthenticationHeaderValue("Bearer", UserManager.CurrentUser.Token)
+            DefaultRequestHeaders.Authorization = _userManager.IsLoggedIn()
+                ? new AuthenticationHeaderValue("Bearer", _userManager.CurrentUser.Token)
                 : null;
             return content;
         }
