@@ -19,7 +19,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="400" Height="400">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource HeaderTextBlockStyle}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" Style="{StaticResource HeaderTextBlockStyle}" />
                         <Image Source="{Binding ImgPath}" />
                     </StackPanel>
                 </DataTemplate>
