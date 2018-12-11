@@ -6,7 +6,7 @@ namespace RESTAPI.Data
     // ReSharper disable once InconsistentNaming
     public class RESTAPIContext : DbContext
     {
-        public RESTAPIContext (DbContextOptions<RESTAPIContext> options)
+        public RESTAPIContext(DbContextOptions<RESTAPIContext> options)
             : base(options)
         {
         }
@@ -26,6 +26,8 @@ namespace RESTAPI.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Store>().Ignore(s => s.Establishments);
+            modelBuilder.Entity<Store>().HasIndex(s => s.Name).IsUnique();
+
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
 
             modelBuilder.Entity<UserEstablishment>()
