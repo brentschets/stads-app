@@ -11,5 +11,6 @@ namespace RESTAPI.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public IList<UserEstablishment> Subscriptions { get; set; }
+        public int? StoreId { get; set; }
     }
 }

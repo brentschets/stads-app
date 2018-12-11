@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using RESTAPI.Data;
 using RESTAPI.Exceptions;
 using RESTAPI.Models;
 using RESTAPI.Repositories;
@@ -20,9 +21,12 @@ namespace RESTAPI.Controllers
     {
         private readonly IUserRepository _userRepository;
 
-        public UsersController(IUserRepository userRepository)
+        private readonly RESTAPIContext _context;
+
+        public UsersController(IUserRepository userRepository, RESTAPIContext context)
         {
             _userRepository = userRepository;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -56,7 +60,8 @@ namespace RESTAPI.Controllers
                 user.FirstName,
                 user.LastName,
                 Token = tokenString,
-                Subscriptions = user.Subscriptions.Select(ue => ue.EstablishmentId)
+                Subscriptions = user.Subscriptions.Select(ue => ue.EstablishmentId),
+                user.StoreId
             });
         }
 
@@ -73,6 +78,44 @@ namespace RESTAPI.Controllers
             }
             catch (AuthenticationException e)
             {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RegisterStore")]
+        public IActionResult RegisterStore([FromBody] RegisterStoreDto registerStoreDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var store = new Store
+            {
+                Name = registerStoreDto.Name,
+                Description = registerStoreDto.Description,
+                Category = _context.Category.Find(registerStoreDto.CategoryId)
+            };
+
+            _context.Store.Add(store);
+            _context.SaveChanges();
+
+            var storeDb = _context.Store.Single(s => s.Name == store.Name);
+
+            var user = new User
+            {
+                FirstName = registerStoreDto.FirstName,
+                LastName = registerStoreDto.LastName,
+                Username = registerStoreDto.Username,
+                StoreId = storeDb.StoreId
+            };
+
+            try
+            {
+                _userRepository.Create(user, registerStoreDto.Password);
+                return Ok();
+            }
+            catch (AuthenticationException e)
+            {
+                _context.Store.Remove(storeDb);
                 return BadRequest(new {message = e.Message});
             }
         }
@@ -157,6 +200,7 @@ namespace RESTAPI.Controllers
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Username = dto.Username,
+                StoreId = dto.StoreId
             };
         }
 
@@ -168,7 +212,8 @@ namespace RESTAPI.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                Subscriptions = user.Subscriptions
+                Subscriptions = user.Subscriptions,
+                StoreId = user.StoreId
             };
         }
 
