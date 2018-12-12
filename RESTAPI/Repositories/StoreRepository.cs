@@ -1,4 +1,7 @@
-﻿using RESTAPI.Data;
+﻿using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using RESTAPI.Data;
 using RESTAPI.Exceptions;
 using RESTAPI.Models;
 
@@ -6,7 +9,8 @@ namespace RESTAPI.Repositories
 {
     public interface IStoreRepository
     {
-        void CreateStore(string name, string description, int categoryId);
+        Store Create(Store store, int categoryId, IFormFile imageFormFile);
+        void Delete(int storeId);
     }
 
     public class StoreRepository : IStoreRepository
@@ -18,20 +22,41 @@ namespace RESTAPI.Repositories
             _context = context;
         }
 
-        public void CreateStore(string name, string description, int categoryId)
+        public Store Create(Store store, int categoryId, IFormFile imageFormFile)
         {
             var category = _context.Category.Find(categoryId);
-            if (category == null) throw new AuthenticationException($"Category with id {categoryId} does not exist");
+            store.Category = category ?? throw new StoreException($"The category with id {categoryId} does not exist");
 
-            var store = new Store
-            {
-                Name = name,
-                Description = description,
-                Category = category
-            };
+            if (_context.Store.Any(s => s.Name == store.Name))
+                throw new StoreException($"The store with name {store.Name} already exists");
 
             _context.Store.Add(store);
             _context.SaveChanges();
+
+            var newFileName = $"{store.StoreId}{Path.GetExtension(imageFormFile.FileName)}";
+            var imgPath =
+                $"stadsapprestapi.azurewebsites.net/img/{newFileName}";
+            var relPath = $"wwwroot/img/{newFileName}";
+            using (var stream = new FileStream(relPath, FileMode.Create))
+            {
+                imageFormFile.CopyTo(stream);
+            }
+
+            store.ImgPath = imgPath;
+            _context.Store.Update(store);
+            _context.SaveChanges();
+
+            return store;
+        }
+
+        public void Delete(int storeId)
+        {
+            var store = _context.Store.Find(storeId);
+            if (store != null)
+            {
+                _context.Store.Remove(store);
+                _context.SaveChanges();
+            }
         }
     }
 }

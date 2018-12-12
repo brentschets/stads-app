@@ -6,11 +6,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using RESTAPI.Data;
 using RESTAPI.Exceptions;
 using RESTAPI.Models;
 using RESTAPI.Repositories;
 using RESTAPI.Utils;
+using RESTAPI.ViewModels;
 
 namespace RESTAPI.Controllers
 {
@@ -23,20 +23,19 @@ namespace RESTAPI.Controllers
 
         private readonly IStoreRepository _storeRepository;
 
-        private readonly RESTAPIContext _context;
-
-        public UsersController(IUserRepository userRepository, IStoreRepository storeRepository, RESTAPIContext context)
+        public UsersController(IUserRepository userRepository, IStoreRepository storeRepository)
         {
             _userRepository = userRepository;
             _storeRepository = storeRepository;
-            _context = context;
         }
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate([FromBody] UserDto userDto)
+        public IActionResult Authenticate([FromBody] AuthenticateUserViewModel viewModel)
         {
-            var user = _userRepository.Authenticate(userDto.Username, userDto.Password);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = _userRepository.Authenticate(viewModel.Username, viewModel.Password);
 
             if (user == null) return BadRequest(new {message = "Username or password is incorrect"});
 
@@ -70,13 +69,20 @@ namespace RESTAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("Register")]
-        public IActionResult Register([FromBody] UserDto userDto)
+        public IActionResult Register([FromBody] RegisterUserViewModel viewModel)
         {
-            var user = UserFromDto(userDto);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = new User
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Username = viewModel.Username
+            };
 
             try
             {
-                _userRepository.Create(user, userDto.Password);
+                _userRepository.Create(user, viewModel.Password);
                 return Ok();
             }
             catch (AuthenticationException e)
@@ -87,59 +93,62 @@ namespace RESTAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("RegisterStore")]
-        public IActionResult RegisterStore([FromBody] RegisterStoreDto registerStoreDto)
+        public IActionResult RegisterStore([FromForm] RegisterStoreViewModel viewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            try
+            // create store
+            var store = new Store
             {
-                _storeRepository.CreateStore(registerStoreDto.Name, registerStoreDto.Description,
-                    registerStoreDto.CategoryId);
-            }
-            catch (AuthenticationException e)
-            {
-                return BadRequest(new {message = e.Message});
-            }
-
-            var storeDb = _context.Store.Single(s => s.Name == registerStoreDto.Name);
-
-            var user = new User
-            {
-                FirstName = registerStoreDto.FirstName,
-                LastName = registerStoreDto.LastName,
-                Username = registerStoreDto.Username,
-                StoreId = storeDb.StoreId
+                Name = viewModel.StoreName,
+                Description = viewModel.StoreDescription
             };
 
             try
             {
-                _userRepository.Create(user, registerStoreDto.Password);
+                store = _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image);
+            }
+            catch (StoreException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+
+            // create user
+            var user = new User
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Username = viewModel.Username,
+                StoreId = store.StoreId
+            };
+
+            try
+            {
+                _userRepository.Create(user, viewModel.Password);
                 return Ok();
             }
             catch (AuthenticationException e)
             {
-                _context.Store.Remove(storeDb);
+                _storeRepository.Delete(store.StoreId);
                 return BadRequest(new {message = e.Message});
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
-        {
-            var user = _userRepository.GetById(id);
-            var userDto = DtoFromUser(user);
-            return Ok(userDto);
-        }
-
         [HttpPost("Update/{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UserDto userDto)
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateUserViewModel viewModel)
         {
-            var user = UserFromDto(userDto);
-            user.UserId = id;
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = new User
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Username = viewModel.Username
+            };
 
             try
             {
-                _userRepository.Update(user, userDto.Password);
+                _userRepository.Update(user, viewModel.Password);
                 return Ok();
             }
             catch (AuthenticationException e)
@@ -156,16 +165,13 @@ namespace RESTAPI.Controllers
         }
 
         [HttpPost("Subscribe")]
-        public IActionResult Subscribe([FromBody] SubscriptionDto subscriptionDto)
+        public IActionResult Subscribe([FromBody] SubscribeViewModel viewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var userId = subscriptionDto.UserId;
-            var establishmentId = subscriptionDto.EstablishmentId;
-
             try
             {
-                _userRepository.Subscribe(userId, establishmentId);
+                _userRepository.Subscribe(viewModel.UserId, viewModel.EstablishmentId);
                 return Ok();
             }
             catch (AuthenticationException e)
@@ -175,16 +181,13 @@ namespace RESTAPI.Controllers
         }
 
         [HttpPost("Unsubscribe")]
-        public IActionResult Unsubscribe([FromBody] SubscriptionDto subscriptionDto)
+        public IActionResult Unsubscribe([FromBody] SubscribeViewModel viewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var userId = subscriptionDto.UserId;
-            var establishmentId = subscriptionDto.EstablishmentId;
-
             try
             {
-                _userRepository.Unsubscribe(userId, establishmentId);
+                _userRepository.Unsubscribe(viewModel.UserId, viewModel.EstablishmentId);
                 return Ok();
             }
             catch (AuthenticationException e)
@@ -192,34 +195,5 @@ namespace RESTAPI.Controllers
                 return BadRequest(new {message = e.Message});
             }
         }
-
-        #region Helpers
-
-        private static User UserFromDto(UserDto dto)
-        {
-            return new User
-            {
-                UserId = dto.UserId,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Username = dto.Username,
-                StoreId = dto.StoreId
-            };
-        }
-
-        private static UserDto DtoFromUser(User user)
-        {
-            return new UserDto
-            {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.Username,
-                Subscriptions = user.Subscriptions,
-                StoreId = user.StoreId
-            };
-        }
-
-        #endregion
     }
 }
