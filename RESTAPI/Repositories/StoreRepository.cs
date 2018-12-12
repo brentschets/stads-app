@@ -35,7 +35,7 @@ namespace RESTAPI.Repositories
 
             var newFileName = $"{store.StoreId}{Path.GetExtension(imageFormFile.FileName)}";
             var imgPath =
-                $"stadsapprestapi.azurewebsites.net/img/{newFileName}";
+                $"https://stadsapprestapi.azurewebsites.net/img/{newFileName}";
             var relPath = $"wwwroot/img/{newFileName}";
             using (var stream = new FileStream(relPath, FileMode.Create))
             {
