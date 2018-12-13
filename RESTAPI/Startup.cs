@@ -40,7 +40,7 @@ namespace RESTAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<RESTAPIContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Local")));
+                options.UseSqlServer(Configuration.GetConnectionString("Deploy")));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
