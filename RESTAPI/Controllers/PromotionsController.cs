@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RESTAPI.Data;
-using RESTAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RESTAPI.Exceptions;
+using RESTAPI.Repositories;
 
 namespace RESTAPI.Controllers
 {
@@ -11,54 +8,46 @@ namespace RESTAPI.Controllers
     [ApiController]
     public class PromotionsController : ControllerBase
     {
-        private readonly RESTAPIContext _context;
+        private readonly IPromotionRepository _promotionRepository;
 
-        public PromotionsController(RESTAPIContext context)
+        public PromotionsController(IPromotionRepository promotionRepository)
         {
-            _context = context;
+            _promotionRepository = promotionRepository;
         }
 
         // GET: api/Promotions
         [HttpGet]
-        public IEnumerable<Promotion> GetEstablishment()
+        public IActionResult GetAll()
         {
-            return _context.Promotion;
+            return Ok(_promotionRepository.GetAll());
         }
 
         // GET: api/Promotions/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (limit < 0) return BadRequest(new {Message = $"Limit must not be less than 0, got {limit}"});
-
-            var popularPromotions =
-                _context.Promotion.Include(p => p.Store).OrderByDescending(p => p.Visited).Take(limit);
-
-            return Ok(popularPromotions);
+            try
+            {
+                return Ok(_promotionRepository.GetPopular(limit));
+            }
+            catch (PromotionException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
         }
 
         // GET: api/Promotions/ForStore
         [HttpGet("Popular/{storeId}")]
         public IActionResult GetForStore([FromRoute] int storeId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var promotions = _context.Promotion.Include(p => p.Store).Where(p => p.Store.StoreId == storeId);
-
-            return Ok(promotions);
+            return Ok(_promotionRepository.GetForStore(storeId));
         }
 
         // GET: api/Promotions/ForEstablishment
         [HttpGet("ForEstablishment/{establishmentId}")]
         public IActionResult GetForEstablishment([FromRoute] int establishmentId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var promotions = _context.Promotion.Include(p => p.Store).ThenInclude(s => s.Establishments)
-                .Where(p => p.Store.Establishments.Any(e => e.EstablishmentId == establishmentId));
-
-            return Ok(promotions);
+            return Ok(_promotionRepository.GetForEstablishment(establishmentId));
         }
     }
 }
