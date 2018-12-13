@@ -20,6 +20,19 @@ namespace Stads_App.ViewModels.Account
 
         public ICommand CategoryChangedCommand => new RelayCommand(CategoryChanged);
 
+        private bool _isActive = true;
+
+        public bool IsActive
+        {
+            get => _isActive;
+            private set
+            {
+                _isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+        }
+
+
         private string _errorMsg;
 
         public string ErrorMsg
@@ -101,6 +114,8 @@ namespace Stads_App.ViewModels.Account
 
         private async void RegisterEntrepreneur()
         {
+            IsActive = false;
+
             var store = new Store
             {
                 Name = NameEntrepreneur,
@@ -119,6 +134,11 @@ namespace Stads_App.ViewModels.Account
             var result = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, Image, user);
 
             if (result.Success) ErrorMsg = "Geregistreerd";
+            else
+            {
+                ErrorMsg = result.Error?.Message;
+                IsActive = true;
+            }
         }
 
         private async Task<List<Category>> GetCategoriesAsync()

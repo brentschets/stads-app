@@ -84,7 +84,7 @@
                 Command="{Binding FileUpload}" Margin="0, 5, 0, 5" />
 
         <Button Grid.ColumnSpan="4" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Center" Margin="0, 5, 0, 5"
-                Content="Registreer" Command="{Binding RegisterEntrepreneurCommand}" />
+                Content="Registreer" Command="{Binding RegisterEntrepreneurCommand}" IsEnabled="{Binding IsActive}" />
 
     </Grid>
 </views:BasePage>

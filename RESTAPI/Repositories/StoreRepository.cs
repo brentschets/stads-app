@@ -15,7 +15,7 @@ namespace RESTAPI.Repositories
         IEnumerable<Store> GetAll();
         IEnumerable<Store> GetByCategory(int categoryId);
         IEnumerable<Store> GetPopular(int limit);
-        Store Create(Store store, int categoryId, string image, string fileName);
+        Store Create(Store store, int categoryId, string image, string fileName, int userId);
         void Delete(int storeId);
     }
 
@@ -55,7 +55,7 @@ namespace RESTAPI.Repositories
             return list;
         }
 
-        public Store Create(Store store, int categoryId, string image, string fileName)
+        public Store Create(Store store, int categoryId, string image, string fileName, int userId)
         {
             var category = _context.Category.Find(categoryId);
             store.Category = category ?? throw new StoreException($"The category with id {categoryId} does not exist");
@@ -74,6 +74,12 @@ namespace RESTAPI.Repositories
 
             store.ImgPath = imgPath;
             _context.Store.Update(store);
+
+            var user = _context.User.Find(userId);
+            if (user == null) throw new StoreException($"User with id {userId} does not exist");
+            user.StoreId = store.StoreId;
+            _context.Update(user);
+
             _context.SaveChanges();
 
             // stop tracking store to avoid persisting absolute path

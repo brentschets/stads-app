@@ -97,6 +97,23 @@ namespace RESTAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            // create user
+            var user = new User
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Username = viewModel.Username
+            };
+
+            try
+            {
+                user = _userRepository.Create(user, viewModel.Password);
+            }
+            catch (AuthenticationException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+
             // create store
             var store = new Store
             {
@@ -106,30 +123,11 @@ namespace RESTAPI.Controllers
 
             try
             {
-                store = _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image, viewModel.FileName);
+                _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image, viewModel.FileName, user.UserId);
+                return Ok();
             }
             catch (StoreException e)
             {
-                return BadRequest(new {message = e.Message});
-            }
-
-            // create user
-            var user = new User
-            {
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
-                Username = viewModel.Username,
-                StoreId = store.StoreId
-            };
-
-            try
-            {
-                _userRepository.Create(user, viewModel.Password);
-                return Ok();
-            }
-            catch (AuthenticationException e)
-            {
-                _storeRepository.Delete(store.StoreId);
                 return BadRequest(new {message = e.Message});
             }
         }
