@@ -112,6 +112,13 @@ namespace Stads_App.ViewModels.Account
         {
             _userManager.Logout();
             Frame.Navigate(typeof(Login));
+
+            // disable going back to account view
+            foreach (var pageStackEntry in Frame.BackStack)
+            {
+                if (pageStackEntry.SourcePageType == typeof(Views.Account.Account))
+                    Frame.BackStack.Remove(pageStackEntry);
+            }
         }
 
         private async void UpdateUserAsync()
