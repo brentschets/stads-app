@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RESTAPI.Data;
-using RESTAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RESTAPI.Exceptions;
+using RESTAPI.Repositories;
 
 namespace RESTAPI.Controllers
 {
@@ -11,39 +8,39 @@ namespace RESTAPI.Controllers
     [ApiController]
     public class StoresController : ControllerBase
     {
-        private readonly RESTAPIContext _context;
+        private readonly IStoreRepository _storeRepository;
 
-        public StoresController(RESTAPIContext context)
+        public StoresController(IStoreRepository storeRepository)
         {
-            _context = context;
+            _storeRepository = storeRepository;
         }
 
         // GET: api/Stores
         [HttpGet]
-        public IEnumerable<Store> GetStore()
+        public IActionResult GetStore()
         {
-            return _context.Store.Include(s => s.Category);
+            return Ok(_storeRepository.GetAll());
         }
 
         // GET: api/Stores/ByCategory/5
         [HttpGet("ByCategory/{id}")]
         public IActionResult GetByCategory([FromRoute] int id)
         {
-            var res = _context.Store.Include(s => s.Category).Where(s => s.Category.CategoryId == id);
-            return Ok(res);
+            return Ok(_storeRepository.GetByCategory(id));
         }
 
         // GET: api/Stores/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopularStores([FromRoute] int limit)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (limit < 0) return BadRequest(new {Message = $"Limit must not be less than 0, got {limit}"});
-
-            var popularStores = _context.Establishment.OrderByDescending(e => e.Visited).Select(e => e.Store)
-                .Distinct().Take(10);
-
-            return Ok(popularStores);
+            try
+            {
+                return Ok(_storeRepository.GetPopular(limit));
+            }
+            catch (StoreException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
         }
     }
 }

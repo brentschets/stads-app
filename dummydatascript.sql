@@ -29,29 +29,29 @@ SET IDENTITY_INSERT Address OFF
 
 SET IDENTITY_INSERT Store ON
 INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
-(1, 'Mister Spaghetti', 'A Yummy Spaghetti and Pasta Restaurant in Aalst? Dat is onze focus bij Mister Spaghetti Aalst.', 'https://stadsapprestapi.azurewebsites.net/img/1.jpg', 1),
-(2, 'H&M', 'H&M biedt een uitgebreid assortiment mode voor dames, heren, jongeren en kinderen. We bieden mode en kwaliteit tegen de beste prijs op een duurzamere manier.', 'https://stadsapprestapi.azurewebsites.net/img/2.jpg', 5),
-(3, 'Kruidvat', 'Onder het motto ‘Steeds verrassend, altijd voordelig’ is Kruidvat de onbetwiste marktleider binnen de drogisterijbranche. Ook online hanteert Kruidvat lage prijzen en een aantrekkelijk en verrassend assortiment.', 'https://stadsapprestapi.azurewebsites.net/img/3.jpg', 8),
-(4, 'Brantano', 'Ruim aanbod schoenen, diverse merken & de nieuwste modetrends. Koop of reserveer je schoenen online bij schoenenwinkel Brantano.', 'https://stadsapprestapi.azurewebsites.net/img/4.png', 5),
-(5, 'Standaard Boekhandel', 'Standaard Boekhandel: Ruim aanbod aan Boeken, E-books, Muziek, Film, Games, Fotos. Altijd een Standaard Boekhandel dicht in je buurt, bestel ook online.', 'https://stadsapprestapi.azurewebsites.net/img/5.jpg', 2),
-(6, 'Tom & Co', 'In onze winkel ontmoet je dynamische en gepassioneerde experts. Ze zullen je helpen het beste te kiezen voor je huisdier of zijn komst voor te bereiden!', 'https://stadsapprestapi.azurewebsites.net/img/6.jpg', 3),
-(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', 'https://stadsapprestapi.azurewebsites.net/img/7.jpeg', 4),
-(8, 'Prima Meubelen', 'PRIMA meubelen is gespecialiseerd in het bemeubelen van appartementen en studio’s.', 'https://stadsapprestapi.azurewebsites.net/img/8.png', 6),
-(9, 'Ellis Gourmet Burger', 'Ellis is het concept van een groep enthousiastelingen met één doel voor ogen: betere burgers serveren. Ja, we gebruiken absoluut de beste producten, maar verfijnen onze recepten ook continu met de hulp van bekende productspecialisten en sterrenchefs.', 'https://stadsapprestapi.azurewebsites.net/img/9.png', 1),
-(10, 'Lab9', 'Lab9 is uw Apple Premium Reseller & Service Provider in West-Vlaanderen en Oost-Vlaanderen.', 'https://stadsapprestapi.azurewebsites.net/img/10.png', 4)
+(1, 'Mister Spaghetti', 'A Yummy Spaghetti and Pasta Restaurant in Aalst? Dat is onze focus bij Mister Spaghetti Aalst.', '/img/1.jpg', 1),
+(2, 'H&M', 'H&M biedt een uitgebreid assortiment mode voor dames, heren, jongeren en kinderen. We bieden mode en kwaliteit tegen de beste prijs op een duurzamere manier.', '/img/2.jpg', 5),
+(3, 'Kruidvat', 'Onder het motto ‘Steeds verrassend, altijd voordelig’ is Kruidvat de onbetwiste marktleider binnen de drogisterijbranche. Ook online hanteert Kruidvat lage prijzen en een aantrekkelijk en verrassend assortiment.', '/img/3.jpg', 8),
+(4, 'Brantano', 'Ruim aanbod schoenen, diverse merken & de nieuwste modetrends. Koop of reserveer je schoenen online bij schoenenwinkel Brantano.', '/img/4.png', 5),
+(5, 'Standaard Boekhandel', 'Standaard Boekhandel: Ruim aanbod aan Boeken, E-books, Muziek, Film, Games, Fotos. Altijd een Standaard Boekhandel dicht in je buurt, bestel ook online.', '/img/5.jpg', 2),
+(6, 'Tom & Co', 'In onze winkel ontmoet je dynamische en gepassioneerde experts. Ze zullen je helpen het beste te kiezen voor je huisdier of zijn komst voor te bereiden!', '/img/6.jpg', 3),
+(7, 'Krëfel', 'Voor al jouw aankopen van tv, hifi, video, multimedia, fotografie, telecom en elektro is onze befaamde slogan meer geworden dan een belofte: het is een engagement.', '/img/7.jpeg', 4),
+(8, 'Prima Meubelen', 'PRIMA meubelen is gespecialiseerd in het bemeubelen van appartementen en studio’s.', '/img/8.png', 6),
+(9, 'Ellis Gourmet Burger', 'Ellis is het concept van een groep enthousiastelingen met één doel voor ogen: betere burgers serveren. Ja, we gebruiken absoluut de beste producten, maar verfijnen onze recepten ook continu met de hulp van bekende productspecialisten en sterrenchefs.', '/img/9.png', 1),
+(10, 'Lab9', 'Lab9 is uw Apple Premium Reseller & Service Provider in West-Vlaanderen en Oost-Vlaanderen.', '/img/10.png', 4)
 SET IDENTITY_INSERT Store OFF
 
 SET IDENTITY_INSERT Establishment ON
 INSERT INTO Establishment(EstablishmentId, ImgPath, Visited, AddressId, StoreId) VALUES
-(1, 'https://stadsapprestapi.azurewebsites.net/img/establishments/1.jpg', 156, 1, 1),
-(2, 'https://stadsapprestapi.azurewebsites.net/img/establishments/2.jpg', 84, 2, 2),
-(3, 'https://stadsapprestapi.azurewebsites.net/img/establishments/3.png', 25, 3, 3),
-(4, 'https://stadsapprestapi.azurewebsites.net/img/establishments/4.jpg', 13, 4, 3),
-(5, 'https://stadsapprestapi.azurewebsites.net/img/establishments/5.jpg', 136, 5, 4),
-(6, 'https://stadsapprestapi.azurewebsites.net/img/establishments/6.jpg', 87, 6, 5),
-(7, 'https://stadsapprestapi.azurewebsites.net/img/establishments/7.png', 45, 7, 6),
-(8, 'https://stadsapprestapi.azurewebsites.net/img/establishments/8.png', 96, 8, 7),
-(9, 'https://stadsapprestapi.azurewebsites.net/img/establishments/9.JPG', 150, 9, 8),
+(2, '/img/establishments/2.jpg', 84, 2, 2),
+(3, '/img/establishments/3.png', 25, 3, 3),
+(4, '/img/establishments/4.jpg', 13, 4, 3),
+(5, '/img/establishments/5.jpg', 136, 5, 4),
+(6, '/img/establishments/6.jpg', 87, 6, 5),
+(1, '/img/establishments/1.jpg', 156, 1, 1),
+(7, '/img/establishments/7.png', 45, 7, 6),
+(9, '/img/establishments/9.JPG', 150, 9, 8),
+(8, '/img/establishments/8.png', 96, 8, 7),
 (10, 'https://stadsapprestapi.azurewebsites.net/img/establishments/10.jpg', 236, 10, 9),
 (11, 'https://stadsapprestapi.azurewebsites.net/img/establishments/11.jpg', 71, 11, 10)
 SET IDENTITY_INSERT Establishment OFF

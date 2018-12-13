@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Newtonsoft.Json;
 using Stads_App.Models;
 using Stads_App.Utils.Authentication;
@@ -74,6 +76,32 @@ namespace Stads_App.Utils
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Unsubscribe",
                 PrepareContent(new {userId, establishmentId})));
+        }
+
+        public async Task<AuthenticationResult> RegisterStoreAsync(Store store, StorageFile image, User user)
+        {
+            byte[] bytes;
+            using (var stream = await image.OpenStreamForReadAsync())
+            {
+                var binaryReader = new BinaryReader(stream);
+                bytes = binaryReader.ReadBytes((int) stream.Length);
+            }
+
+            return ProcessResponse(await PostAsync($"{Host}Users/RegisterStore", PrepareContent(new
+            {
+                // add store
+                StoreName = store.Name,
+                StoreDescription = store.Description,
+                store.Category.CategoryId,
+                Image = Convert.ToBase64String(bytes),
+                FileName = image.Name,
+
+                // add user
+                user.FirstName,
+                user.LastName,
+                user.Username,
+                user.Password
+            })));
         }
 
         #region Helpers

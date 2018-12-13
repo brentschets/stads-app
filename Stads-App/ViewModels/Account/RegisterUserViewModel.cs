@@ -6,10 +6,6 @@ using Stads_App.Annotations;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
 using Stads_App.Views.Account;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Stads_App.Models;
 
 namespace Stads_App.ViewModels.Account
 {

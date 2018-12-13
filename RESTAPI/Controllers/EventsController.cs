@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RESTAPI.Data;
-using RESTAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RESTAPI.Exceptions;
+using RESTAPI.Repositories;
 
 namespace RESTAPI.Controllers
 {
@@ -11,44 +8,39 @@ namespace RESTAPI.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly RESTAPIContext _context;
+        private readonly IEventRepository _eventRepository;
 
-        public EventsController(RESTAPIContext context)
+        public EventsController(IEventRepository eventRepository)
         {
-            _context = context;
+            _eventRepository = eventRepository;
         }
 
-        // GET: api/Establishments
+        // GET: api/Events
         [HttpGet]
-        public IEnumerable<Event> GetEstablishment()
+        public IActionResult GetAll()
         {
-            return _context.Event;
+            return Ok(_eventRepository.GetAll());
         }
 
         // GET: api/Events/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (limit < 0) return BadRequest(new {Message = $"Limit must not be less than 0, got {limit}"});
-
-            var popularEvents = _context.Event.Include(e => e.Establishment).ThenInclude(e => e.Address)
-                .Include(e => e.Establishment).ThenInclude(e => e.Store)
-                .OrderByDescending(e => e.Visited).Take(limit);
-
-            return Ok(popularEvents);
+            try
+            {
+                return Ok(_eventRepository.GetPopular(limit));
+            }
+            catch (EventException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET: api/Events/ForEstablishment/2
         [HttpGet("ForEstablishment/{estalishmentId}")]
         public IActionResult GetForEstablishment([FromRoute] int establishmentId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var events = _context.Event.Include(e => e.Establishment)
-                .Where(e => e.Establishment.EstablishmentId == establishmentId);
-
-            return Ok(events);
+            return Ok(_eventRepository.GetForEstablishment(establishmentId));
         }
     }
 }
