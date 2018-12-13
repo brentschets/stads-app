@@ -93,7 +93,7 @@ namespace RESTAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("RegisterStore")]
-        public IActionResult RegisterStore([FromForm] RegisterStoreViewModel viewModel)
+        public IActionResult RegisterStore([FromBody] RegisterStoreViewModel viewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -106,7 +106,7 @@ namespace RESTAPI.Controllers
 
             try
             {
-                store = _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image);
+                store = _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image, viewModel.FileName);
             }
             catch (StoreException e)
             {

@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
 using Stads_App.Models;
 using Stads_App.Utils;
 
 namespace Stads_App.ViewModels.Account
 {
-    public sealed class RegisterEntrepreneurViewModel: INotifyPropertyChanged
+    public sealed class RegisterEntrepreneurViewModel : INotifyPropertyChanged
     {
         public ICommand FileUpload => new RelayCommand(o => UploadFile());
+
+        public ICommand RegisterEntrepreneurCommand => new RelayCommand(o => RegisterEntrepreneur());
+
+        public ICommand CategoryChangedCommand => new RelayCommand(CategoryChanged);
 
         private string _errorMsg;
 
@@ -41,9 +46,24 @@ namespace Stads_App.ViewModels.Account
 
         public string NameEntrepreneur { get; set; }
 
+        private StorageFile Image { get; set; }
+
+        private string _pickerButtonText = "Kies een afbeelding";
+
+        public string PickerButtonText
+        {
+            get => _pickerButtonText;
+            private set
+            {
+                _pickerButtonText = value;
+                OnPropertyChanged(nameof(PickerButtonText));
+            }
+        }
+
         private List<Category> _categories;
 
-        public List<Category> Categories {
+        public List<Category> Categories
+        {
             get => _categories;
             private set
             {
@@ -52,37 +72,61 @@ namespace Stads_App.ViewModels.Account
             }
         }
 
-        public async void UploadFile()
+        private Category SelectedCategory { get; set; }
+
+        private async void UploadFile()
         {
-            var folderPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-            folderPicker.FileTypeFilter.Add(".jpg");
-            folderPicker.FileTypeFilter.Add(".jpeg");
-            folderPicker.FileTypeFilter.Add(".png");
-
-            Windows.Storage.StorageFile folder = await folderPicker.PickSingleFileAsync();
-            if (folder != null)
+            var filePicker = new Windows.Storage.Pickers.FileOpenPicker
             {
-                // Application now has read/write access to all contents in the picked folder
-                // (including other sub-folder contents)
-                Windows.Storage.AccessCache.StorageApplicationPermissions.
-                    FutureAccessList.AddOrReplace("PickedFolderToken", folder);
-                Debug.WriteLine("file selected");
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
+            filePicker.FileTypeFilter.Add(".jpg");
+            filePicker.FileTypeFilter.Add(".jpeg");
+            filePicker.FileTypeFilter.Add(".png");
 
+            var file = await filePicker.PickSingleFileAsync();
+            if (file != null)
+            {
+                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace(
+                    "PickedFolderToken", file);
+                PickerButtonText = file.Name;
+                Image = file;
             }
         }
 
-        public RegisterEntrepreneurViewModel()
+        private void CategoryChanged(object o)
         {
-
+            if (o is SelectionChangedEventArgs args) SelectedCategory = args.AddedItems[0] as Category;
         }
 
-        public async Task<List<Category>> GetCategoriesAsync()
+        private async void RegisterEntrepreneur()
+        {
+            var store = new Store
+            {
+                Name = NameEntrepreneur,
+                Description = Description,
+                Category = SelectedCategory
+            };
+
+            var user = new User
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Username = Username,
+                Password = Password
+            };
+
+            var result = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, Image, user);
+
+            if (result.Success) ErrorMsg = "Geregistreerd";
+        }
+
+        private async Task<List<Category>> GetCategoriesAsync()
         {
             return await StadsAppRestApiClient.Instance.GetListAsync<Category>("Categories");
         }
 
-        public async Task LoadData()
+        public async Task LoadDataAsync()
         {
             Categories = await GetCategoriesAsync();
         }
@@ -95,6 +139,4 @@ namespace Stads_App.ViewModels.Account
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-
 }

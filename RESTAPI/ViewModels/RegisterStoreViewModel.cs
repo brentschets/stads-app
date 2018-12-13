@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
 namespace RESTAPI.ViewModels
 {
@@ -27,6 +26,9 @@ namespace RESTAPI.ViewModels
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public IFormFile Image { get;set; }
+        public string Image { get;set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        public string FileName { get; set; }
     }
 }

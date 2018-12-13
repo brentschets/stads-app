@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RESTAPI.Data;
 using RESTAPI.Exceptions;
@@ -15,7 +15,7 @@ namespace RESTAPI.Repositories
         IEnumerable<Store> GetAll();
         IEnumerable<Store> GetByCategory(int categoryId);
         IEnumerable<Store> GetPopular(int limit);
-        Store Create(Store store, int categoryId, IFormFile imageFormFile);
+        Store Create(Store store, int categoryId, string image, string fileName);
         void Delete(int storeId);
     }
 
@@ -55,7 +55,7 @@ namespace RESTAPI.Repositories
             return list;
         }
 
-        public Store Create(Store store, int categoryId, IFormFile imageFormFile)
+        public Store Create(Store store, int categoryId, string image, string fileName)
         {
             var category = _context.Category.Find(categoryId);
             store.Category = category ?? throw new StoreException($"The category with id {categoryId} does not exist");
@@ -66,18 +66,19 @@ namespace RESTAPI.Repositories
             _context.Store.Add(store);
             _context.SaveChanges();
 
-            var newFileName = $"{store.StoreId}{Path.GetExtension(imageFormFile.FileName)}";
+            var newFileName = $"{store.StoreId}{Path.GetExtension(fileName)}";
             var imgPath =
                 $"/img/{newFileName}";
             var relPath = $"wwwroot/img/{newFileName}";
-            using (var stream = new FileStream(relPath, FileMode.Create))
-            {
-                imageFormFile.CopyTo(stream);
-            }
+            File.WriteAllBytes(relPath, Convert.FromBase64String(image));
 
             store.ImgPath = imgPath;
             _context.Store.Update(store);
             _context.SaveChanges();
+
+            // stop tracking store to avoid persisting absolute path
+            var entry = _context.ChangeTracker.Entries().Single(e => e.Entity == store);
+            entry.State = EntityState.Detached;
 
             SetImgPathHostName(store);
 
