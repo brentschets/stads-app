@@ -6,6 +6,10 @@ using Stads_App.Annotations;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
 using Stads_App.Views.Account;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Stads_App.Models;
 
 namespace Stads_App.ViewModels.Account
 {
@@ -37,11 +41,18 @@ namespace Stads_App.ViewModels.Account
 
         public ICommand RegisterCommand => new RelayCommand(o => RegisterUserAsync());
 
+        public ICommand EntrepreneurRegister => new RelayCommand( o => GoToRegisterEntrepeneur());
+
         private readonly UserManager _userManager;
 
         public RegisterUserViewModel()
         {
             _userManager = new UserManager();
+        }
+
+        public void GoToRegisterEntrepeneur()
+        {
+            Frame.Navigate(typeof(EntrepreneurRegister));
         }
 
         private async void RegisterUserAsync()

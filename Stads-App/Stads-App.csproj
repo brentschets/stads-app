@@ -115,6 +115,7 @@
     <Compile Include="Utils\Authentication\UserManager.cs" />
     <Compile Include="ViewModels\Account\AccountViewModel.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Account\RegisterEntrepreneurViewModel.cs" />
     <Compile Include="ViewModels\Account\RegisterUserViewModel.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\Details\EstablishmentDetailsViewModel.cs" />
@@ -124,6 +125,9 @@
     <Compile Include="ViewModels\StoresViewModel.cs" />
     <Compile Include="Views\Account\Account.xaml.cs">
       <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Account\EntrepreneurRegister.xaml.cs">
+      <DependentUpon>EntrepreneurRegister.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Account\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -199,6 +203,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Account\Account.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Account\EntrepreneurRegister.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
