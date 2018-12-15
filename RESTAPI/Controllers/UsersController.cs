@@ -139,6 +139,7 @@ namespace RESTAPI.Controllers
 
             var user = new User
             {
+                UserId = id,
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName,
                 Username = viewModel.Username

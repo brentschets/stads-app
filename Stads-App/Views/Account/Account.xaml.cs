@@ -2,11 +2,13 @@
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Annotations;
+using Stads_App.Utils.Authentication;
 using Stads_App.ViewModels.Account;
+using Stads_App.ViewModels.UserControls;
 
 namespace Stads_App.Views.Account
 {
-    public sealed partial class Account: INotifyPropertyChanged
+    public sealed partial class Account : INotifyPropertyChanged
     {
         private string _header;
         private readonly AccountViewModel _viewModel;
@@ -22,7 +24,7 @@ namespace Stads_App.Views.Account
         }
 
         public Account()
-        {   
+        {
             InitializeComponent();
             _viewModel = new AccountViewModel();
             DataContext = _viewModel;
@@ -31,7 +33,9 @@ namespace Stads_App.Views.Account
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            _viewModel.Frame = Frame;
+            AccountEditUserControl.DataContext = new AccountEditViewModel {Frame = Frame};
+            UserManager.UserUpdated += user => Header = user?.Username;
+            Header = new UserManager().CurrentUser.Username;
             await _viewModel.LoadDataAsync();
         }
 

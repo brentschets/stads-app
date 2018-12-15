@@ -33,6 +33,13 @@ namespace Stads_App.Utils.Authentication
             return _currentUser != null;
         }
 
+        public bool IsEntrepreneur()
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is logged in");
+
+            return _currentUser.StoreId != null;
+        }
+
         public bool IsLoggedIn(User user)
         {
             if (user == null) throw new ArgumentException("User cannot be null", nameof(user));
@@ -63,7 +70,8 @@ namespace Stads_App.Utils.Authentication
             CurrentUser = null;
         }
 
-        public async Task<AuthenticationResult> RegisterAsync(string username, string password, string firstName, string lastName)
+        public async Task<AuthenticationResult> RegisterAsync(string username, string password, string firstName,
+            string lastName)
         {
             var user = new User
             {
@@ -103,7 +111,7 @@ namespace Stads_App.Utils.Authentication
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
 
             var result = await StadsAppRestApiClient.Instance.SubscribeAsync(_currentUser.UserId, establishmentId);
-            
+
             if (result.Success) _currentUser.Subscriptions.Add(establishmentId);
 
             return result;

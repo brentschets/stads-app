@@ -12,6 +12,7 @@ namespace Stads_App.Models
         public string Password { get; set; }
         public string Token { get; set; }
         public IList<int> Subscriptions { internal get; set; }
+        public int? StoreId { get; set; }
 
         public object Clone()
         {
@@ -25,6 +26,11 @@ namespace Stads_App.Models
                 Token = Token,
                 Subscriptions = new List<int>(Subscriptions)
             };
+        }
+        
+        public bool EqualsForUpdate(User user)
+        {
+            return user.FirstName == FirstName && user.LastName == LastName && user.Username == Username;
         }
     }
 }

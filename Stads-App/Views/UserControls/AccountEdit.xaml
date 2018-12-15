@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="Stads_App.Views.UserControls.AccountEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:Stads_App.ViewModels.UserControls"
+    xmlns:converters="using:Stads_App.Utils.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DataContext="{d:DesignInstance userControls:AccountEditViewModel}">
+
+    <UserControl.Resources>
+        <Style x:Key="Spacing" TargetType="FrameworkElement">
+            <Style.Setters>
+                <Setter Property="Margin" Value="0, 20, 0, 0" />
+            </Style.Setters>
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource Spacing}" />
+        <Style TargetType="Button" BasedOn="{StaticResource Spacing}" />
+
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <StackPanel HorizontalAlignment="Stretch">
+        <TextBlock Text="{Binding ErrorMsg}" Foreground="Red"
+                   Visibility="{Binding ErrorMsg, Converter={StaticResource StringToVisibilityConverter}}" />
+
+        <TextBlock Text="Voornaam" />
+        <TextBox Text="{Binding FirstName, Mode=TwoWay}" />
+
+        <TextBlock Text="Achternaam" />
+        <TextBox Text="{Binding LastName, Mode=TwoWay}" />
+
+        <TextBlock Text="Gebruikersnaam" />
+        <TextBox Text="{Binding Username, Mode=TwoWay}" />
+
+        <TextBlock Text="Wachtwoord" />
+        <PasswordBox Password="{Binding Password, Mode=TwoWay}" />
+
+        <Button Content="Bewaren" Command="{Binding UpdateCommand}" HorizontalAlignment="Center"
+                Style="{StaticResource Spacing}" />
+
+        <Button Content="Afmelden" Command="{Binding LogoutCommand}" HorizontalAlignment="Center"
+                Style="{StaticResource Spacing}" />
+    </StackPanel>
+</UserControl>

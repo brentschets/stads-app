@@ -6,85 +6,56 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:account="using:Stads_App.ViewModels.Account"
+    xmlns:userControls="using:Stads_App.Views.UserControls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance account:AccountViewModel}">
 
-    <Grid>
+    <Grid x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <ProgressRing IsActive="{Binding IsLoaded, Converter={StaticResource BoolInvertConverter}}"
-                      VerticalAlignment="Center" Height="200" />
+        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Account" HorizontalAlignment="Center" />
 
-        <Grid Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Voornaam" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Achternaam" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-            <TextBlock Padding="20 0 20 0" Grid.Row="3" Grid.Column="0" Text="Gebruikersnaam"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, Mode=TwoWay}" Margin="0 5 0 5" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding LastName, Mode=TwoWay}" Margin="0 5 0 5" />
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Username, Mode=TwoWay}" Margin="0 5 0 5" />
-            <Button Content="Update" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center"
-                    Margin="0 5 0 5" Command="{Binding UpdateCommand}" />
-            <Button Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center"
-                    Command="{Binding LogoutCommand}" Content="Afmelden" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}" Text="Gevolgde winkels"
+                   HorizontalAlignment="Center" />
 
-            <ListView Grid.Column="2" Grid.Row="1" Grid.RowSpan="5" ItemsSource="{Binding Subscriptions}"
-                      HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                      x:Name="EstablishmentsCollection">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Margin" Value="0, 5, 0, 5" />
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
+        <userControls:AccountEdit Grid.Row="1" Grid.Column="0" x:Name="AccountEditUserControl" />
+
+        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Subscriptions}" SelectionMode="None"
+                  ScrollViewer.HorizontalScrollMode="Disabled" HorizontalAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0" HorizontalAlignment="Stretch">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid>
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding ImgPath}" />
-                                </Grid.Background>
-
-                                <StackPanel>
-                                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                                               Text="{Binding Store.Name}" Foreground="White" />
-                                    <TextBlock Foreground="White" Text="{Binding Address.Street}" />
-                                    <TextBlock Foreground="White" Text="{Binding Address.Number}" />
-                                </StackPanel>
-                            </Grid>
-
-                            <Button Grid.Column="1"
-                                    Command="{Binding ElementName=EstablishmentsCollection, Path=DataContext.UnsubscribeCommand}"
-                                    CommandParameter="{Binding EstablishmentId}">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57606;" />
-                            </Button>
+                            <Image Source="{Binding ImgPath}" HorizontalAlignment="Stretch" MaxHeight="100" />
+                            <StackPanel>
+                                <controls:DropShadowPanel BlurRadius="0.0" OffsetY="1" OffsetX="1.5">
+                                    <TextBlock Text="{Binding Store.Name}" Foreground="White" />
+                                </controls:DropShadowPanel>
+                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                    <TextBlock Text="{Binding Address.Street}" Foreground="White" />
+                                </controls:DropShadowPanel>
+                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                    <TextBlock Text="{Binding Address.Number}" Foreground="White" />
+                                </controls:DropShadowPanel>
+                            </StackPanel>
                         </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+
+                        <Button Command="{Binding ElementName=Grid, Path=DataContext.UnsubscribeCommand}"
+                                CommandParameter="{Binding EstablishmentId}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57665;" />
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </local:BasePage>

@@ -28,21 +28,21 @@ namespace Stads_App
             {
                 var loginPage = ("account", typeof(Login));
                 var accountPage = ("account", typeof(Account));
+                var entrepreneurPage = ("account", typeof(Entrepreneur));
                 if (userManager.IsLoggedIn())
                 {
                     AccountNavViewItem.Content = u.Username;
                     _pages.Remove(loginPage);
-                    _pages.Add(accountPage);
+                    _pages.Add(userManager.IsEntrepreneur() ? entrepreneurPage : accountPage);
                 }
-                else
+                else if (_pages.Contains(entrepreneurPage) || _pages.Contains(accountPage))
                 {
                     AccountNavViewItem.Content = "Aanmelden";
-                    _pages.Remove(accountPage);
-                    _pages.Add(accountPage);
+                    _pages.Remove(_pages.Contains(entrepreneurPage) ? entrepreneurPage : accountPage);
+                    _pages.Add(loginPage);
                 }
             };
             UserUpdateEvent = u => AccountNavViewItem.Content = u.Username;
-            AccountChangedEvent.Invoke(userManager.CurrentUser);
             UserManager.AccountChanged += AccountChangedEvent;
             UserManager.UserUpdated += UserUpdateEvent;
         }

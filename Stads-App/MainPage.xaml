@@ -429,7 +429,7 @@
             </DataTemplate>
         </NavigationView.HeaderTemplate>
         <NavigationView.PaneFooter>
-            <NavigationViewItem Tapped="NavView_FooterItemTapped" Icon="Contact" Tag="account"
+            <NavigationViewItem Tapped="NavView_FooterItemTapped" Icon="Contact" Tag="account" Content="Aanmelden"
                                 x:Name="AccountNavViewItem" />
         </NavigationView.PaneFooter>
 
