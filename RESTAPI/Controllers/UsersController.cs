@@ -194,5 +194,29 @@ namespace RESTAPI.Controllers
                 return BadRequest(new {message = e.Message});
             }
         }
+
+        [HttpPost("UpdateStore/{id}")]
+        public IActionResult UpdateStore([FromRoute] int id, [FromBody] UpdateStoreViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var store = new Store
+            {
+                StoreId = id,
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                Category = viewModel.Category
+            };
+
+            try
+            {
+                _userRepository.UpdateStore(store);
+                return Ok();
+            }
+            catch (StoreException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
     }
 }

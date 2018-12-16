@@ -5,10 +5,92 @@
     xmlns:local="using:Stads_App.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:account="using:Stads_App.ViewModels.Account"
+    xmlns:userControls="using:Stads_App.Views.UserControls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DataContext="{d:DesignInstance account:EntrepreneurViewModel}">
 
-    <Grid>
-    
+    <Grid ColumnSpacing="20" x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Account" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center" />
+
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="Winkel" Style="{StaticResource TitleTextBlockStyle}"
+                   HorizontalAlignment="Center" />
+
+        <userControls:AccountEdit Grid.Row="1" Grid.Column="0" x:Name="AccountEditUserControl" />
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <StackPanel.Resources>
+                <Style TargetType="FrameworkElement" x:Key="Spacing">
+                    <Style.Setters>
+                        <Setter Property="Margin" Value="0, 10, 0, 0" />
+                    </Style.Setters>
+                </Style>
+
+                <Style TargetType="TextBlock" BasedOn="{StaticResource Spacing}" />
+                <Style TargetType="Button" BasedOn="{StaticResource Spacing}" />
+            </StackPanel.Resources>
+
+            <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
+
+            <TextBlock Text="Naam" />
+            <TextBox Text="{Binding StoreName, Mode=TwoWay}" />
+
+            <TextBlock Text="Beschrijving" />
+            <TextBox Text="{Binding StoreDescription, Mode=TwoWay}" />
+
+            <TextBlock Text="Categorie" />
+            <ComboBox ItemsSource="{Binding Categories}" Width="200" DisplayMemberPath="Name">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{Binding CategoryChangedCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </ComboBox>
+
+            <Button Content="Bewaren" Command="{Binding UpdateStoreCommand}" />
+
+            <ListView ItemsSource="{Binding Establishments}" SelectionMode="None"
+                      ScrollViewer.VerticalScrollMode="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Image Source="{Binding ImgPath}" MaxHeight="100" />
+
+                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                    <TextBlock Text="{Binding Address.Street}" Foreground="White" />
+                                </controls:DropShadowPanel>
+                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                    <TextBlock Text="{Binding Address.Number}" Foreground="White" />
+                                </controls:DropShadowPanel>
+                            </Grid>
+
+                            <Button Command="{Binding ElementName=Grid, Path=DataContext.UpdateEstablishmentCommand}"
+                                    CommandParameter="{Binding EstablishmentId}">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57604;" />
+                            </Button>
+
+                            <Button Command="{Binding ElementName=Grid, Path=DataContext.DeleteEstablishmentCommand}"
+                                    CommandParameter="{Binding EstablishmentId}">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </local:BasePage>

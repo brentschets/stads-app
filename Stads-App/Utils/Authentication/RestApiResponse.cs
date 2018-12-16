@@ -2,14 +2,14 @@
 
 namespace Stads_App.Utils.Authentication
 {
-    public class AuthenticationResult
+    public class RestApiResponse
     {
         public bool Success { get; internal set; }
-        public AuthenticationError Error { get; internal set; }
+        public RestApiError Error { get; internal set; }
         public User User { get; internal set; }
     }
 
-    public class AuthenticationError
+    public class RestApiError
     {
         public string Message { get; set; }
     }

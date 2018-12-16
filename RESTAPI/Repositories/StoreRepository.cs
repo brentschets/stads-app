@@ -13,6 +13,7 @@ namespace RESTAPI.Repositories
     public interface IStoreRepository
     {
         IEnumerable<Store> GetAll();
+        Store GetById(int id);
         IEnumerable<Store> GetByCategory(int categoryId);
         IEnumerable<Store> GetPopular(int limit);
         Store Create(Store store, int categoryId, string image, string fileName, int userId);
@@ -34,6 +35,14 @@ namespace RESTAPI.Repositories
             SetImgPathHostName(list);
 
             return list;
+        }
+
+        public Store GetById(int id)
+        {
+            var store = _context.Store.Include(s => s.Category).SingleOrDefault(s => s.StoreId == id);
+            if (store == null) throw new StoreException($"The store with id {id} does not exist");
+            SetImgPathHostName(store);
+            return store;
         }
 
         public IEnumerable<Store> GetByCategory(int categoryId)

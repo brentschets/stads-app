@@ -17,6 +17,7 @@ namespace RESTAPI.Repositories
         void Delete(int id);
         void Subscribe(int userId, int establishmentId);
         void Unsubscribe(int userId, int establishmentId);
+        void UpdateStore(Store storeParam);
     }
 
     public class UserRepository : IUserRepository
@@ -158,6 +159,25 @@ namespace RESTAPI.Repositories
             if (establishment == null) throw new AuthenticationException("Establishment does not exist");
 
             return user.Subscriptions.Any(ue => ue.EstablishmentId == establishmentId);
+        }
+
+        public void UpdateStore(Store storeParam)
+        {
+            var store = _context.Store.Find(storeParam.StoreId);
+            if (store == null) throw new StoreException("Store does not exist");
+
+            if (storeParam.Name != store.Name)
+            {
+                if (_context.Store.Any(s => s.Name == storeParam.Name))
+                    throw new StoreException($"The store with name {storeParam.Name} already exists");
+            }
+
+            store.Name = storeParam.Name;
+            store.Description = storeParam.Description;
+            store.Category = _context.Category.Find(storeParam.Category.CategoryId);
+
+            _context.Store.Update(store);
+            _context.SaveChanges();
         }
 
         #region Helpers

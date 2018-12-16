@@ -45,18 +45,23 @@ namespace Stads_App.Utils
             return JsonConvert.DeserializeObject<List<T>>(await GetStringAsync(Host + relUri));
         }
 
-        public async Task<AuthenticationResult> AuthenticateUserAsync(string username, string password)
+        public async Task<T> GetSingleObjectAsync<T>(string relUri)
+        {
+            return JsonConvert.DeserializeObject<T>(await GetStringAsync(Host + relUri));
+        }
+
+        public async Task<RestApiResponse> AuthenticateUserAsync(string username, string password)
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Authenticate",
                 PrepareContent(new {username, password})));
         }
 
-        public async Task<AuthenticationResult> RegisterUserAsync(User user)
+        public async Task<RestApiResponse> RegisterUserAsync(User user)
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Register", PrepareContent(user)));
         }
 
-        public async Task<AuthenticationResult> UpdateUserAsync(User user)
+        public async Task<RestApiResponse> UpdateUserAsync(User user)
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Update/{user.UserId}", PrepareContent(user)));
         }
@@ -66,19 +71,19 @@ namespace Stads_App.Utils
             await DeleteAsync($"{Host}Users/Delete/{userId}");
         }
 
-        public async Task<AuthenticationResult> SubscribeAsync(int userId, int establishmentId)
+        public async Task<RestApiResponse> SubscribeAsync(int userId, int establishmentId)
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Subscribe",
                 PrepareContent(new {userId, establishmentId})));
         }
 
-        public async Task<AuthenticationResult> UnsubscribeAsync(int userId, int establishmentId)
+        public async Task<RestApiResponse> UnsubscribeAsync(int userId, int establishmentId)
         {
             return ProcessResponse(await PostAsync($"{Host}Users/Unsubscribe",
                 PrepareContent(new {userId, establishmentId})));
         }
 
-        public async Task<AuthenticationResult> RegisterStoreAsync(Store store, StorageFile image, User user)
+        public async Task<RestApiResponse> RegisterStoreAsync(Store store, StorageFile image, User user)
         {
             byte[] bytes;
             using (var stream = await image.OpenStreamForReadAsync())
@@ -104,6 +109,11 @@ namespace Stads_App.Utils
             })));
         }
 
+        public async Task<RestApiResponse> UpdateStoreAsync(Store store)
+        {
+            return ProcessResponse(await PostAsync($"{Host}Users/UpdateStore/{store.StoreId}", PrepareContent(store)));
+        }
+
         #region Helpers
 
         private HttpContent PrepareContent(object o)
@@ -116,9 +126,9 @@ namespace Stads_App.Utils
             return content;
         }
 
-        private static AuthenticationResult ProcessResponse(HttpResponseMessage response)
+        private static RestApiResponse ProcessResponse(HttpResponseMessage response)
         {
-            var result = new AuthenticationResult();
+            var result = new RestApiResponse();
 
             if (response.IsSuccessStatusCode)
             {
@@ -132,7 +142,7 @@ namespace Stads_App.Utils
                 result.Success = false;
                 var task = response.Content.ReadAsStringAsync();
                 task.Wait();
-                result.Error = JsonConvert.DeserializeObject<AuthenticationError>(task.Result);
+                result.Error = JsonConvert.DeserializeObject<RestApiError>(task.Result);
             }
 
             return result;

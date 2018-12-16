@@ -43,7 +43,7 @@ namespace Stads_App.ViewModels.Account
             var result = await _userManager.AuthenticateAsync(Username, Password);
             if (result.Success)
             {
-                Frame.Navigate(typeof(Views.Account.Account));
+                Frame.Navigate(_userManager.IsEntrepreneur() ? typeof(Entrepreneur) : typeof(Views.Account.Account));
                 // disable going back to login page
                 foreach (var pageStackEntry in Frame.BackStack)
                 {

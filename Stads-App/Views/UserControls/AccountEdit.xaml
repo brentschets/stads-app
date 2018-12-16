@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:Stads_App.ViewModels.UserControls"
-    xmlns:converters="using:Stads_App.Utils.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance userControls:AccountEditViewModel}">
@@ -18,13 +17,10 @@
         </Style>
         <Style TargetType="TextBlock" BasedOn="{StaticResource Spacing}" />
         <Style TargetType="Button" BasedOn="{StaticResource Spacing}" />
-
-        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </UserControl.Resources>
 
     <StackPanel HorizontalAlignment="Stretch">
-        <TextBlock Text="{Binding ErrorMsg}" Foreground="Red"
-                   Visibility="{Binding ErrorMsg, Converter={StaticResource StringToVisibilityConverter}}" />
+        <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
 
         <TextBlock Text="Voornaam" />
         <TextBox Text="{Binding FirstName, Mode=TwoWay}" />

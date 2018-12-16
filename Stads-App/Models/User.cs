@@ -24,7 +24,8 @@ namespace Stads_App.Models
                 Password = Password,
                 UserId = UserId,
                 Token = Token,
-                Subscriptions = new List<int>(Subscriptions)
+                Subscriptions = new List<int>(Subscriptions),
+                StoreId = StoreId
             };
         }
         

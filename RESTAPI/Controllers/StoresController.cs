@@ -22,6 +22,20 @@ namespace RESTAPI.Controllers
             return Ok(_storeRepository.GetAll());
         }
 
+        // GET: api/Stores/5
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            try
+            {
+                return Ok(_storeRepository.GetById(id));
+            }
+            catch (StoreException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
         // GET: api/Stores/ByCategory/5
         [HttpGet("ByCategory/{id}")]
         public IActionResult GetByCategory([FromRoute] int id)

@@ -51,7 +51,7 @@
 
                         <Button Command="{Binding ElementName=Grid, Path=DataContext.UnsubscribeCommand}"
                                 CommandParameter="{Binding EstablishmentId}">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57665;" />
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57610;" />
                         </Button>
                     </StackPanel>
                 </DataTemplate>

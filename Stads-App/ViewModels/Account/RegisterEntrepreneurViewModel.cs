@@ -32,7 +32,6 @@ namespace Stads_App.ViewModels.Account
             }
         }
 
-
         private string _errorMsg;
 
         public string ErrorMsg

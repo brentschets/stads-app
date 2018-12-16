@@ -52,7 +52,7 @@ namespace Stads_App.Utils.Authentication
             return _currentUser?.UserId == userId;
         }
 
-        public async Task<AuthenticationResult> AuthenticateAsync(string username, string password)
+        public async Task<RestApiResponse> AuthenticateAsync(string username, string password)
         {
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
 
@@ -70,7 +70,7 @@ namespace Stads_App.Utils.Authentication
             CurrentUser = null;
         }
 
-        public async Task<AuthenticationResult> RegisterAsync(string username, string password, string firstName,
+        public async Task<RestApiResponse> RegisterAsync(string username, string password, string firstName,
             string lastName)
         {
             var user = new User
@@ -84,7 +84,7 @@ namespace Stads_App.Utils.Authentication
             return await StadsAppRestApiClient.Instance.RegisterUserAsync(user);
         }
 
-        public async Task<AuthenticationResult> UpdateAsync(User user)
+        public async Task<RestApiResponse> UpdateAsync(User user)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
             if (!IsLoggedIn(user))
@@ -106,7 +106,7 @@ namespace Stads_App.Utils.Authentication
             Logout();
         }
 
-        public async Task<AuthenticationResult> SubscribeAsync(int establishmentId)
+        public async Task<RestApiResponse> SubscribeAsync(int establishmentId)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
 
@@ -117,7 +117,7 @@ namespace Stads_App.Utils.Authentication
             return result;
         }
 
-        public async Task<AuthenticationResult> UnsubscribeAsync(int establishmentId)
+        public async Task<RestApiResponse> UnsubscribeAsync(int establishmentId)
         {
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
 
@@ -133,6 +133,16 @@ namespace Stads_App.Utils.Authentication
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
 
             return _currentUser.Subscriptions.Contains(establishmentId);
+        }
+
+        public async Task<RestApiResponse> UpdateStoreAsync(Store store)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+            if (_currentUser.StoreId != store.StoreId)
+                throw new InvalidOperationException(
+                    "The user to which this store belongs is not the user that is logged in");
+
+            return await StadsAppRestApiClient.Instance.UpdateStoreAsync(store);
         }
     }
 }
