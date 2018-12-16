@@ -55,9 +55,7 @@ namespace RESTAPI.Controllers
                 }
             };
 
-            _establishmentRepository.Update(establishment);
-
-            return Ok();
+            return Ok(_establishmentRepository.Update(establishment));
         }
 
         // DELETE: api/Establishments/7

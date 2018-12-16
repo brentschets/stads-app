@@ -15,6 +15,10 @@ namespace Stads_App.Utils.Authentication
 
         public static event UserUpdateEvent UserUpdated;
 
+        public delegate void StoresUpdatedEvent();
+
+        public static event StoresUpdatedEvent StoresUpdated;
+
         private static User _currentUser;
 
         public User CurrentUser
@@ -92,10 +96,7 @@ namespace Stads_App.Utils.Authentication
                 throw new InvalidOperationException("The logged in user's id does not match the provided users's id");
 
             var result = await StadsAppRestApiClient.Instance.UpdateUserAsync(user);
-            if (result.Success)
-            {
-                CurrentUser = user;
-            }
+            if (result.Success) CurrentUser = user;
 
             return result;
         }
@@ -134,6 +135,13 @@ namespace Stads_App.Utils.Authentication
             if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
 
             return _currentUser.Subscriptions.Contains(establishmentId);
+        }
+
+        public async Task<RestApiResponse> RegisterStoreAsync(Store store, StorageFile image, User user)
+        {
+            var res = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, image, user);
+            if (res.Success) StoresUpdated?.Invoke();
+            return res;
         }
 
         public async Task<RestApiResponse> UpdateStoreAsync(Store store)

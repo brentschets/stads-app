@@ -29,7 +29,7 @@ INSERT INTO Address(AddressId, Street, Number) VALUES
 (13, 'Kerkstraat','1'),
 (14, 'Sint Jansstraat', '44'),
 (15, 'Kerkstraat','9'),
-(16, 'kattesstraat', '31'),
+(16, 'Kattestraat', '31'),
 (17, 'Kattestraat', '35'),
 (18, 'Lange Zoutstraat','21'),
 (19, 'Kerkstraat', '4'),

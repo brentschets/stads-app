@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Stads_App.Models;
 using Stads_App.Annotations;
 using Stads_App.Utils;
+using Stads_App.Utils.Authentication;
 
 namespace Stads_App.ViewModels
 {
@@ -61,9 +62,11 @@ namespace Stads_App.ViewModels
         public HomeViewModel()
         {
             IsLoaded = false;
+            UserManager.StoresUpdated += () => LoadDataAsync().Wait();
         }
 
         #region Data loaders
+
         private static async Task<List<Store>> GetPopularStoresAsync()
         {
             return await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores/Popular/10");
@@ -78,6 +81,7 @@ namespace Stads_App.ViewModels
         {
             return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>("Promotions/Popular/10");
         }
+
         #endregion
 
         public async Task LoadDataAsync()
