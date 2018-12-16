@@ -97,7 +97,7 @@
                         </Button>
 
                         <Button Command="{Binding ElementName=Grid, Path=DataContext.DeleteEstablishmentCommand}"
-                                CommandParameter="{Binding EstablishmentId}">
+                                CommandParameter="{Binding}">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
                         </Button>
                     </StackPanel>

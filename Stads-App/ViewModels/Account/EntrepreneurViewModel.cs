@@ -128,7 +128,11 @@ namespace Stads_App.ViewModels.Account
 
         private void DeleteEstablishment(object args)
         {
-
+            if (args is Establishment establishment)
+            {
+                StadsAppRestApiClient.Instance.DeleteEstablishmentAsync(establishment.EstablishmentId);
+                Establishments.Remove(establishment);
+            }
         }
 
         public ICommand AddEstablishmentCommand => new RelayCommand(o => AddEstablishment());

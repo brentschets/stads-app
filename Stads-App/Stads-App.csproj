@@ -110,7 +110,6 @@
     <Compile Include="Utils\Authentication\RestApiResponse.cs" />
     <Compile Include="Utils\Converters\BoolInvertConverter.cs" />
     <Compile Include="Utils\Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Utils\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\StadsAppRestApiClient.cs" />
     <Compile Include="Utils\Authentication\UserManager.cs" />

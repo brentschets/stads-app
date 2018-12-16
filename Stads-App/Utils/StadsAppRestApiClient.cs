@@ -136,6 +136,13 @@ namespace Stads_App.Utils
             }));
         }
 
+        // not async because task is awaited indefinitely for some reason thanks obama :(
+        public void DeleteEstablishmentAsync(int establishmentId)
+        {
+            var task = DeleteAsync($"{Host}Establishments/{establishmentId}");
+            task.Wait();
+        }
+
         #region Helpers
 
         private HttpContent PrepareContent(object o)

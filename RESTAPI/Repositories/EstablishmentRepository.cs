@@ -89,6 +89,8 @@ namespace RESTAPI.Repositories
             var establishment = _context.Establishment.Find(id);
             if (establishment != null)
             {
+                var imgPath = establishment.ImgPath;
+                File.Delete($"wwwroot{imgPath}");
                 _context.Establishment.Remove(establishment);
                 _context.SaveChanges();
             }
