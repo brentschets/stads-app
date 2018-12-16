@@ -98,12 +98,13 @@ namespace RESTAPI.Repositories
 
         public void Delete(int id)
         {
-            var establishment = _context.Establishment.Find(id);
+            var establishment = _context.Establishment.Include(e => e.Address).Single(e => e.EstablishmentId == id);
             if (establishment != null)
             {
                 var imgPath = establishment.ImgPath;
                 File.Delete($"wwwroot{imgPath}");
                 _context.Establishment.Remove(establishment);
+                _context.Address.Remove(establishment.Address);
                 _context.SaveChanges();
             }
         }

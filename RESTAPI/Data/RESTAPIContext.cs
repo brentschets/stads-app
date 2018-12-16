@@ -41,5 +41,7 @@ namespace RESTAPI.Data
         }
 
         public DbSet<Establishment> Establishment { get; set; }
+
+        public DbSet<Address> Address { get; set; }
     }
 }
