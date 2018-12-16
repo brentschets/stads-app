@@ -21,7 +21,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Account" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center" />
@@ -29,7 +32,7 @@
         <TextBlock Grid.Column="1" Grid.Row="0" Text="Winkel" Style="{StaticResource TitleTextBlockStyle}"
                    HorizontalAlignment="Center" />
 
-        <userControls:AccountEdit Grid.Row="1" Grid.Column="0" x:Name="AccountEditUserControl" />
+        <userControls:AccountEdit Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" x:Name="AccountEditUserControl" />
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel.Resources>
@@ -61,36 +64,48 @@
             </ComboBox>
 
             <Button Content="Bewaren" Command="{Binding UpdateStoreCommand}" />
-
-            <ListView ItemsSource="{Binding Establishments}" SelectionMode="None"
-                      ScrollViewer.VerticalScrollMode="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                <Image Source="{Binding ImgPath}" MaxHeight="100" />
-
-                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
-                                    <TextBlock Text="{Binding Address.Street}" Foreground="White" />
-                                </controls:DropShadowPanel>
-                                <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
-                                    <TextBlock Text="{Binding Address.Number}" Foreground="White" />
-                                </controls:DropShadowPanel>
-                            </Grid>
-
-                            <Button Command="{Binding ElementName=Grid, Path=DataContext.UpdateEstablishmentCommand}"
-                                    CommandParameter="{Binding EstablishmentId}">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57604;" />
-                            </Button>
-
-                            <Button Command="{Binding ElementName=Grid, Path=DataContext.DeleteEstablishmentCommand}"
-                                    CommandParameter="{Binding EstablishmentId}">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
-                            </Button>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
         </StackPanel>
+
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="Vestigingen" Style="{StaticResource TitleTextBlockStyle}"
+                   HorizontalAlignment="Center" Margin="0, 20, 0, 0" />
+
+        <ListView Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Establishments}" SelectionMode="None"
+                  ScrollViewer.HorizontalScrollMode="Disabled" Margin="0, 10, 0, 0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0, 10, 0, 0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Image Source="{Binding ImgPath}" MaxHeight="100" />
+
+                            <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                <TextBlock Text="{Binding Address.Street}" Foreground="White" />
+                            </controls:DropShadowPanel>
+                            <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                <TextBlock Text="{Binding Address.Number}" Foreground="White" />
+                            </controls:DropShadowPanel>
+                        </Grid>
+
+                        <Button Command="{Binding ElementName=Grid, Path=DataContext.UpdateEstablishmentCommand}"
+                                CommandParameter="{Binding EstablishmentId}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57604;" />
+                        </Button>
+
+                        <Button Command="{Binding ElementName=Grid, Path=DataContext.DeleteEstablishmentCommand}"
+                                CommandParameter="{Binding EstablishmentId}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Grid.Column="1" Grid.Row="4" Content="Vestiging toevoegen" Margin="0, 10, 0, 10"
+                HorizontalAlignment="Center" Command="{Binding AddEstablishmentCommand}" />
     </Grid>
 </local:BasePage>

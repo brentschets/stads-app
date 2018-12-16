@@ -150,17 +150,6 @@ namespace RESTAPI.Repositories
             _context.SaveChanges();
         }
 
-        public bool IsSubscribed(int userId, int establishmentId)
-        {
-            var user = _context.User.Include(u => u.Subscriptions).SingleOrDefault(u => userId == u.UserId);
-            var establishment = _context.Establishment.Find(establishmentId);
-
-            if (user == null) throw new AuthenticationException("User does not exist");
-            if (establishment == null) throw new AuthenticationException("Establishment does not exist");
-
-            return user.Subscriptions.Any(ue => ue.EstablishmentId == establishmentId);
-        }
-
         public void UpdateStore(Store storeParam)
         {
             var store = _context.Store.Find(storeParam.StoreId);

@@ -9,11 +9,13 @@ using Stads_App.Annotations;
 using Stads_App.Models;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
+using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
     public sealed class EntrepreneurViewModel : INotifyPropertyChanged
     {
+        public Frame Frame { private get; set; }
         private readonly UserManager _userManager;
         private Store Store { get; set; }
 
@@ -127,6 +129,13 @@ namespace Stads_App.ViewModels.Account
         private void DeleteEstablishment(object args)
         {
 
+        }
+
+        public ICommand AddEstablishmentCommand => new RelayCommand(o => AddEstablishment());
+
+        private void AddEstablishment()
+        {
+            Frame.Navigate(typeof(AddEstablishment), Store.StoreId);
         }
 
         public EntrepreneurViewModel()

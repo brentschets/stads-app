@@ -13,7 +13,8 @@ namespace Stads_App.ViewModels.Details
         private readonly UserManager _userManager;
 
         public bool IsNotSubscribed =>
-            _userManager.IsLoggedIn() && !_userManager.IsSubscribed(Establishment.EstablishmentId);
+            _userManager.IsLoggedIn() && !_userManager.IsEntrepreneur() &&
+            !_userManager.IsSubscribed(Establishment.EstablishmentId);
 
         public Establishment Establishment { get; }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using RESTAPI.Data;
@@ -10,9 +12,11 @@ namespace RESTAPI.Repositories
 {
     public interface IEstablishmentRepository
     {
+        Establishment Create(Establishment establishment, int storeId, string image, string fileName);
         IEnumerable<Establishment> GetPopular(int limit);
         IEnumerable<Establishment> GetForStore(int storeId);
         IEnumerable<Establishment> GetForUser(int userId);
+        void Delete(int id);
     }
 
     public class EstablishmentRepository : IEstablishmentRepository
@@ -22,6 +26,33 @@ namespace RESTAPI.Repositories
         public EstablishmentRepository(RESTAPIContext context)
         {
             _context = context;
+        }
+
+        public Establishment Create(Establishment establishment, int storeId, string image, string fileName)
+        {
+            var store = _context.Store.Find(storeId);
+            establishment.Store =
+                store ?? throw new EstablishmentException($"The store with id {storeId} does not exist");
+
+            _context.Establishment.Add(establishment);
+            _context.SaveChanges();
+
+            var newFileName = $"{establishment.EstablishmentId}{Path.GetExtension(fileName)}";
+            var imgPath = $"/img/establishments/{newFileName}";
+            var relPath = $"wwwroot/img/establishments/{newFileName}";
+            File.WriteAllBytes(relPath, Convert.FromBase64String(image));
+
+            establishment.ImgPath = imgPath;
+            _context.Establishment.Update(establishment);
+            _context.SaveChanges();
+
+            // stop tracking establishment to avoid persisting absolute path
+            var entry = _context.ChangeTracker.Entries().Single(e => e.Entity == establishment);
+            entry.State = EntityState.Detached;
+
+            SetImgPathHostName(establishment);
+
+            return establishment;
         }
 
         public IEnumerable<Establishment> GetPopular(int limit)
@@ -53,6 +84,16 @@ namespace RESTAPI.Repositories
             return list;
         }
 
+        public void Delete(int id)
+        {
+            var establishment = _context.Establishment.Find(id);
+            if (establishment != null)
+            {
+                _context.Establishment.Remove(establishment);
+                _context.SaveChanges();
+            }
+        }
+
         #region Helpers
 
         private void SetImgPathHostName(IEnumerable<Establishment> list)
@@ -64,6 +105,15 @@ namespace RESTAPI.Repositories
                 {
                     establishment.Store.ImgPath = $"{AppSettings.HostName}{establishment.Store.ImgPath}";
                 }
+            }
+        }
+
+        private void SetImgPathHostName(Establishment establishment)
+        {
+            establishment.ImgPath = $"{AppSettings.HostName}{establishment.ImgPath}";
+            if (establishment.Store != null)
+            {
+                establishment.Store.ImgPath = $"{AppSettings.HostName}{establishment.Store.ImgPath}";
             }
         }
 

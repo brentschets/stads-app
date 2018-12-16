@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Exceptions;
+using RESTAPI.Models;
 using RESTAPI.Repositories;
+using RESTAPI.ViewModels;
 
 namespace RESTAPI.Controllers
 {
@@ -15,7 +17,39 @@ namespace RESTAPI.Controllers
             _establishmentRepository = establishmentRepository;
         }
 
-        // GET: api/Popular/10
+        // POST: api/Establishments
+        [HttpPost]
+        public IActionResult AddEstablishment([FromBody] AddEstablishmentViewModel viewModel)
+        {
+            var address = new Address
+            {
+                Street = viewModel.Street,
+                Number = viewModel.Number
+            };
+
+            var establishment = new Establishment {Address = address};
+
+            try
+            {
+                var ret = _establishmentRepository.Create(establishment, viewModel.StoreId, viewModel.Image,
+                    viewModel.FileName);
+                return Ok(ret);
+            }
+            catch (EstablishmentException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        // DELETE: api/Establishments/7
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEstablishment([FromRoute] int id)
+        {
+            _establishmentRepository.Delete(id);
+            return Ok();
+        }
+
+        // GET: api/Establishments/Popular/10
         [HttpGet("Popular/{limit}")]
         public IActionResult GetPopular([FromRoute] int limit)
         {

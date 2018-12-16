@@ -37,6 +37,7 @@ namespace Stads_App.Views.Account
             AccountEditUserControl.DataContext = new AccountEditViewModel {Frame = Frame};
             UserManager.UserUpdated += user => Header = user?.Username;
             Header = new UserManager().CurrentUser.Username;
+            _viewModel.Frame = Frame;
             await _viewModel.LoadDataAsync();
         }
 

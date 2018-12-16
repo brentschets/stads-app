@@ -114,6 +114,28 @@ namespace Stads_App.Utils
             return ProcessResponse(await PostAsync($"{Host}Users/UpdateStore/{store.StoreId}", PrepareContent(store)));
         }
 
+        public async Task AddEstablishmentAsync(Establishment establishment, StorageFile image)
+        {
+            byte[] bytes;
+            using (var stream = await image.OpenStreamForReadAsync())
+            {
+                var binaryReader = new BinaryReader(stream);
+                bytes = binaryReader.ReadBytes((int) stream.Length);
+            }
+
+            await PostAsync($"{Host}Establishments", PrepareContent(new
+            {
+                // add establishment
+                establishment.Address.Street,
+                establishment.Address.Number,
+                establishment.Store.StoreId,
+
+                // add image
+                Image = Convert.ToBase64String(bytes),
+                FileName = image.Name
+            }));
+        }
+
         #region Helpers
 
         private HttpContent PrepareContent(object o)

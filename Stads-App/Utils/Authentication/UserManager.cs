@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Stads_App.Models;
 
 namespace Stads_App.Utils.Authentication
@@ -143,6 +144,16 @@ namespace Stads_App.Utils.Authentication
                     "The user to which this store belongs is not the user that is logged in");
 
             return await StadsAppRestApiClient.Instance.UpdateStoreAsync(store);
+        }
+
+        public async Task AddEstablishmentAsync(Establishment establishment, StorageFile image)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+            if (_currentUser.StoreId != establishment.Store.StoreId)
+                throw new InvalidOperationException(
+                    "The user to which this store belongs is not the user that is logged in");
+
+            await StadsAppRestApiClient.Instance.AddEstablishmentAsync(establishment, image);
         }
     }
 }
