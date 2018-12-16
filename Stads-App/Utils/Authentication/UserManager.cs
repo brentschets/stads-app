@@ -155,5 +155,15 @@ namespace Stads_App.Utils.Authentication
 
             await StadsAppRestApiClient.Instance.AddEstablishmentAsync(establishment, image);
         }
+
+        public async Task UpdateEstablishmentAsync(Establishment establishment)
+        {
+            if (!IsLoggedIn()) throw new InvalidOperationException("No user is currently logged in");
+            if (_currentUser.StoreId != establishment.Store.StoreId)
+                throw new InvalidOperationException(
+                    "The user to which this store belongs is not the user that is logged in");
+
+            await StadsAppRestApiClient.Instance.UpdateEstablishmentAsync(establishment);
+        }
     }
 }

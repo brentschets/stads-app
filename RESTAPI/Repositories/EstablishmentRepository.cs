@@ -13,6 +13,7 @@ namespace RESTAPI.Repositories
     public interface IEstablishmentRepository
     {
         Establishment Create(Establishment establishment, int storeId, string image, string fileName);
+        Establishment Update(Establishment establishmentParam);
         IEnumerable<Establishment> GetPopular(int limit);
         IEnumerable<Establishment> GetForStore(int storeId);
         IEnumerable<Establishment> GetForUser(int userId);
@@ -52,6 +53,17 @@ namespace RESTAPI.Repositories
 
             SetImgPathHostName(establishment);
 
+            return establishment;
+        }
+
+        public Establishment Update(Establishment establishmentParam)
+        {
+            var establishment = _context.Establishment.Include(e => e.Address)
+                .Single(e => e.EstablishmentId == establishmentParam.EstablishmentId);
+            establishment.Address.Street = establishmentParam.Address.Street;
+            establishment.Address.Number = establishmentParam.Address.Number;
+            _context.Update(establishment);
+            _context.SaveChanges();
             return establishment;
         }
 

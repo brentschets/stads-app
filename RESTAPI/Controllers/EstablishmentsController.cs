@@ -41,6 +41,25 @@ namespace RESTAPI.Controllers
             }
         }
 
+        // POST: api/Establishments/Update
+        [HttpPost("Update")]
+        public IActionResult UpdateEstablishment([FromBody] UpdateEstablishmentViewModel viewModel)
+        {
+            var establishment = new Establishment
+            {
+                EstablishmentId = viewModel.EstablishmentId,
+                Address = new Address
+                {
+                    Street = viewModel.Street,
+                    Number = viewModel.Number
+                }
+            };
+
+            _establishmentRepository.Update(establishment);
+
+            return Ok();
+        }
+
         // DELETE: api/Establishments/7
         [HttpDelete("{id}")]
         public IActionResult DeleteEstablishment([FromRoute] int id)

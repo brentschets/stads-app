@@ -115,6 +115,10 @@
     <Compile Include="Utils\Authentication\UserManager.cs" />
     <Compile Include="ViewModels\Account\AccountViewModel.cs" />
     <Compile Include="ViewModels\Account\AddEstablishmentViewModel.cs" />
+    <Compile Include="ViewModels\Account\EditEstablishmentViewModel.cs" />
+    <Compile Include="Views\Account\EditEstablishment.xaml.cs">
+      <DependentUpon>EditEstablishment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Account\EntrepreneurViewModel.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="ViewModels\Account\RegisterEntrepreneurViewModel.cs" />
@@ -213,6 +217,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Account\EditEstablishment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Account\Account.xaml">
       <SubType>Designer</SubType>

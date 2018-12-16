@@ -136,6 +136,16 @@ namespace Stads_App.Utils
             }));
         }
 
+        public async Task UpdateEstablishmentAsync(Establishment establishment)
+        {
+            await PostAsync($"{Host}Establishments/Update", PrepareContent(new
+            {
+                establishment.EstablishmentId,
+                establishment.Address.Street,
+                establishment.Address.Number
+            }));
+        }
+
         // not async because task is awaited indefinitely for some reason thanks obama :(
         public void DeleteEstablishmentAsync(int establishmentId)
         {

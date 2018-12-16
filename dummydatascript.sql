@@ -109,10 +109,11 @@ INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (37, 'Modelbouw', 'Enkel en alleen de gevel is prachtig! Binnen is het een waar paradijs voor de modelbouwers.','/img/37.png',7),
 (38, 'Fox & Cie Aalst', 'Fox & Cie is de beste speelgoed winkel in Aalst.','/img/38.png',7),
 
-(39, 'Eurotuin', 'Eurotuin biedt je in 3 vestigingen en in de webshop een groot assortiment voor huis, tuin en dier. ','/img/39.png',8),
-(40, 'Action', 'Welkom bij Action in Aalst. In onze winkel vind je een uitgebreid assortiment aan woonartikelen, decoratie, kantoorartikelen, gereedschap, accessoires, ...','/img/40.png',8),
-(41, 'Veritas', 'Voor al uw naaigerief kom bij ons!','/img/41.png',8),
-(42, 'Zeeman', 'Alles voor de feestdagen vindt u bij ons!','/img/42.png',8)
+(39, 'Eurotuin', 'Eurotuin biedt je in 3 vestigingen en in de webshop een groot assortiment voor huis, tuin en dier. ','/img/39.jpg',8),
+(40, 'Action', 'Welkom bij Action in Aalst. In onze winkel vind je een uitgebreid assortiment aan woonartikelen, decoratie, kantoorartikelen, gereedschap, accessoires, ...','/img/40.jpg',8),
+(41, 'Veritas', 'Voor al uw naaigerief kom bij ons!','/img/41.jpg',8),
+(42, 'Zeeman', 'Alles voor de feestdagen vindt u bij ons!','/img/42.jpg',8)
+SET IDENTITY_INSERT Store OFF
 
 SET IDENTITY_INSERT Establishment ON
 INSERT INTO Establishment(EstablishmentId, ImgPath, Visited, AddressId, StoreId) VALUES
@@ -138,7 +139,7 @@ INSERT INTO Establishment(EstablishmentId, ImgPath, Visited, AddressId, StoreId)
 (18, '/img/establishments/18.jpg', 45, 18,17),
 (19, '/img/establishments/19.jpg', 45, 19,18),
 
-(20, '/img/establishments/20.jpg', 45, 20, 19),
+(20, '/img/establishments/20.png', 45, 20, 19),
 (21, '/img/establishments/21.jpg', 45, 21, 20),
 (22, '/img/establishments/22.jpg', 45, 22, 21),
 (23, '/img/establishments/23.jpg', 45, 23, 22),

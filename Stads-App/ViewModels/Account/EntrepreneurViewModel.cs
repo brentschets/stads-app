@@ -121,7 +121,7 @@ namespace Stads_App.ViewModels.Account
 
         private void UpdateEstablishment(object args)
         {
-
+            Frame.Navigate(typeof(EditEstablishment), args as Establishment);
         }
 
         public ICommand DeleteEstablishmentCommand => new RelayCommand(DeleteEstablishment);

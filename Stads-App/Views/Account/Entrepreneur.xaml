@@ -12,100 +12,97 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DataContext="{d:DesignInstance account:EntrepreneurViewModel}">
+    d:DataContext="{d:DesignInstance account:EntrepreneurViewModel}"
+    x:Name="Page">
 
-    <Grid ColumnSpacing="20" x:Name="Grid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Pivot>
+        <PivotItem Header="Account">
+            <userControls:AccountEdit x:Name="AccountEditUserControl" />
+        </PivotItem>
 
-        <TextBlock Text="Account" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center" />
+        <PivotItem Header="Winkel">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="FrameworkElement" x:Key="Spacing">
+                        <Style.Setters>
+                            <Setter Property="Margin" Value="0, 10, 0, 0" />
+                        </Style.Setters>
+                    </Style>
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="Winkel" Style="{StaticResource TitleTextBlockStyle}"
-                   HorizontalAlignment="Center" />
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource Spacing}" />
+                    <Style TargetType="Button" BasedOn="{StaticResource Spacing}" />
+                </StackPanel.Resources>
 
-        <userControls:AccountEdit Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" x:Name="AccountEditUserControl" />
+                <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <StackPanel.Resources>
-                <Style TargetType="FrameworkElement" x:Key="Spacing">
-                    <Style.Setters>
-                        <Setter Property="Margin" Value="0, 10, 0, 0" />
-                    </Style.Setters>
-                </Style>
+                <TextBlock Text="Naam" />
+                <TextBox Text="{Binding StoreName, Mode=TwoWay}" />
 
-                <Style TargetType="TextBlock" BasedOn="{StaticResource Spacing}" />
-                <Style TargetType="Button" BasedOn="{StaticResource Spacing}" />
-            </StackPanel.Resources>
+                <TextBlock Text="Beschrijving" />
+                <TextBox Text="{Binding StoreDescription, Mode=TwoWay}" />
 
-            <TextBlock Text="{Binding ErrorMsg}" Foreground="Red" />
+                <TextBlock Text="Categorie" />
+                <ComboBox ItemsSource="{Binding Categories}" Width="200" DisplayMemberPath="Name">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="SelectionChanged">
+                            <core:InvokeCommandAction Command="{Binding CategoryChangedCommand}" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </ComboBox>
 
-            <TextBlock Text="Naam" />
-            <TextBox Text="{Binding StoreName, Mode=TwoWay}" />
+                <Button Content="Bewaren" Command="{Binding UpdateStoreCommand}" />
+            </StackPanel>
+        </PivotItem>
 
-            <TextBlock Text="Beschrijving" />
-            <TextBox Text="{Binding StoreDescription, Mode=TwoWay}" />
+        <PivotItem Header="Vestigingen">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="Categorie" />
-            <ComboBox ItemsSource="{Binding Categories}" Width="200" DisplayMemberPath="Name">
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="SelectionChanged">
-                        <core:InvokeCommandAction Command="{Binding CategoryChangedCommand}" />
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </ComboBox>
+                <ListView ItemsSource="{Binding Establishments}" SelectionMode="None"
+                          ScrollViewer.HorizontalScrollMode="Disabled" Margin="0, 10, 0, 0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0, 10, 0, 0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
-            <Button Content="Bewaren" Command="{Binding UpdateStoreCommand}" />
-        </StackPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Image Source="{Binding ImgPath}" MaxHeight="100" />
 
-        <TextBlock Grid.Column="1" Grid.Row="2" Text="Vestigingen" Style="{StaticResource TitleTextBlockStyle}"
-                   HorizontalAlignment="Center" Margin="0, 20, 0, 0" />
+                                    <StackPanel>
+                                        <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                            <TextBlock Text="{Binding Address.Street}" Foreground="White" />
+                                        </controls:DropShadowPanel>
+                                        <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
+                                            <TextBlock Text="{Binding Address.Number}" Foreground="White" />
+                                        </controls:DropShadowPanel>
+                                    </StackPanel>
+                                </Grid>
 
-        <ListView Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Establishments}" SelectionMode="None"
-                  ScrollViewer.HorizontalScrollMode="Disabled" Margin="0, 10, 0, 0">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="0, 10, 0, 0" />
-                </Style>
-            </ListView.ItemContainerStyle>
+                                <Button
+                                    Command="{Binding ElementName=Page, Path=DataContext.UpdateEstablishmentCommand}"
+                                    CommandParameter="{Binding}">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57604;" />
+                                </Button>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Grid>
-                            <Image Source="{Binding ImgPath}" MaxHeight="100" />
+                                <Button Command="{Binding ElementName=Page, Path=DataContext.DeleteEstablishmentCommand}"
+                                    CommandParameter="{Binding}">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-                            <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
-                                <TextBlock Text="{Binding Address.Street}" Foreground="White" />
-                            </controls:DropShadowPanel>
-                            <controls:DropShadowPanel BlurRadius="0" OffsetY="1" OffsetX="1.5">
-                                <TextBlock Text="{Binding Address.Number}" Foreground="White" />
-                            </controls:DropShadowPanel>
-                        </Grid>
-
-                        <Button Command="{Binding ElementName=Grid, Path=DataContext.UpdateEstablishmentCommand}"
-                                CommandParameter="{Binding EstablishmentId}">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57604;" />
-                        </Button>
-
-                        <Button Command="{Binding ElementName=Grid, Path=DataContext.DeleteEstablishmentCommand}"
-                                CommandParameter="{Binding}">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
-                        </Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Button Grid.Column="1" Grid.Row="4" Content="Vestiging toevoegen" Margin="0, 10, 0, 10"
-                HorizontalAlignment="Center" Command="{Binding AddEstablishmentCommand}" />
-    </Grid>
+                <Button Grid.Row="1" Content="Vestiging toevoegen" Margin="0, 10, 0, 10" HorizontalAlignment="Center"
+                        Command="{Binding AddEstablishmentCommand}" />
+            </Grid>
+        </PivotItem>
+    </Pivot>
 </local:BasePage>
