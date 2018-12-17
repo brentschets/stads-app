@@ -180,7 +180,7 @@ namespace Stads_App.Utils.Authentication
             StoresUpdated?.Invoke();
         }
 
-        public async Task AddPromotionAsync(Event @event)
+        public async Task AddEventAsync(Event @event)
         {
             await StadsAppRestApiClient.Instance.AddEventAsync(@event);
             StoresUpdated?.Invoke();
