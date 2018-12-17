@@ -26,7 +26,9 @@ namespace RESTAPI.Repositories
 
         public IEnumerable<Event> GetAll()
         {
-            return _context.Event;
+            var list = _context.Event.Include(e => e.Establishment).ThenInclude(e => e.Address);
+            SetImgPathHostName(list);
+            return list;
         }
 
         public IEnumerable<Event> GetPopular(int limit)
