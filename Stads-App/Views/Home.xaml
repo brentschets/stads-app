@@ -55,7 +55,7 @@
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="175" ItemClick="EventDetails" IsItemClickEnabled="True" x:Name="PopularEventsCollection"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
-                      Margin="0, 10, 0, 10">
+                      Margin="0, 10, 0, 10" SelectionMode="None">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -84,7 +84,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       Height="175" ItemClick="PromotionDetails" IsItemClickEnabled="True"
-                      x:Name="PopularPromotionsCollection"
+                      x:Name="PopularPromotionsCollection" SelectionMode="None"
                       Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"
                       Margin="0, 10, 0, 10">
                 <ListView.ItemsPanel>
