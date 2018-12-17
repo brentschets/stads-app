@@ -14,6 +14,8 @@ namespace RESTAPI.Repositories
         IEnumerable<Promotion> GetPopular(int limit);
         IEnumerable<Promotion> GetForStore(int storeId);
         IEnumerable<Promotion> GetForEstablishment(int establishmentId);
+        void DeletePromotionForStore(int promotionId);
+        Promotion AddPromotion(Promotion promotion, int storeId);
     }
 
     public class PromotionRepository : IPromotionRepository
@@ -56,6 +58,31 @@ namespace RESTAPI.Repositories
 
             return list;
         }
+
+        public void DeletePromotionForStore(int promotionId)
+        {
+            var promotion = _context.Promotion.Find(promotionId);
+            if (promotion != null)
+            {
+                _context.Promotion.Remove(promotion);
+                _context.SaveChanges();
+            }
+        }
+
+        public Promotion AddPromotion(Promotion promotion, int storeId)
+        {
+            var store = _context.Store.Single(s => s.StoreId == storeId);
+            if (store == null)
+            {
+                throw new PromotionException("Store does not exist");
+            }
+
+            promotion.Store = store;
+            _context.Promotion.Add(promotion);
+            _context.SaveChanges();
+            return promotion;
+
+        } 
 
         #region Helpers
 
