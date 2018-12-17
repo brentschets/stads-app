@@ -31,6 +31,16 @@ Opdat de Rest API correct zou werken, moet men het backend geheim instellen. Dit
     {
         "JWTSecret":  "DE KAT KRABT DE KROLLEN VAN DE TRAP"
     }
+
+## Deploy app
+
+Ga met de rechtermuisklik op de solution in Visual Studio naar de Configuration Manager en vink 'Build' en 'Deploy' aan bij het Stads-App project.
+
+## Volgorde van uitvoeren
+
+Voor een goed verloop moet de Rest API voor de app opgestart worden. Dit kan handmatig door de eerst de Rest API uit te voeren in Debug mode (dit is noodzakelijk) en daarna de app. Het is makkelijker om de startup sequentie in de solution aan te passen.
+
+Dat kan door in Visual Studio met de rechtermuisknop op de solution te klikken en 'Properties' te selecteren. Onder 'Common Properties' -> 'Startup Project' selecteert u dan 'Multiple startup projects' en zet voor beide projecten 'Action' op 'Start'. Zorg er ook voor dat het RESTAPI project boven het Stads-App project staat in de lijst. Start dan beide projecten met de 'Start' knop bovenaan in Visual Studio.
     
 # Online uitvoeren
 

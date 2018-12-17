@@ -34,6 +34,11 @@ Schets Brent<br>
     "JWTSecret":  "DE KAT KRABT DE KROLLEN VAN DE TRAP"
 }
 </code></pre>
+<h2 id="deploy-app">Deploy app</h2>
+<p>Ga met de rechtermuisklik op de solution in Visual Studio naar de Configuration Manager en vink ‘Build’ en ‘Deploy’ aan bij het Stads-App project.</p>
+<h2 id="volgorde-van-uitvoeren">Volgorde van uitvoeren</h2>
+<p>Voor een goed verloop moet de Rest API voor de app opgestart worden. Dit kan handmatig door de eerst de Rest API uit te voeren in Debug mode (dit is noodzakelijk) en daarna de app. Het is makkelijker om de startup sequentie in de solution aan te passen.</p>
+<p>Dat kan door in Visual Studio met de rechtermuisknop op de solution te klikken en ‘Properties’ te selecteren. Onder ‘Common Properties’ -&gt; ‘Startup Project’ selecteert u dan ‘Multiple startup projects’ en zet voor beide projecten ‘Action’ op ‘Start’. Zorg er ook voor dat het RESTAPI project boven het Stads-App project staat in de lijst. Start dan beide projecten met de ‘Start’ knop bovenaan in Visual Studio.</p>
 <h1 id="online-uitvoeren">Online uitvoeren</h1>
 <p>Alternatief kan de app via de online Rest API gebruikt worden. Hiervoor is geen lokale database nodig. Ga daarvoor naar de website <a href="https://stadsappinstall.azurewebsites.net">https://stadsappinstall.azurewebsites.net</a>.</p>
 <h2 id="certificaat-installeren">Certificaat installeren</h2>
