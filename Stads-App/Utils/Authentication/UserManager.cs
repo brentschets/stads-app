@@ -173,5 +173,19 @@ namespace Stads_App.Utils.Authentication
 
             await StadsAppRestApiClient.Instance.UpdateEstablishmentAsync(establishment);
         }
+
+        public async Task AddPromotionAsync(Promotion promotion)
+        {
+            await StadsAppRestApiClient.Instance.AddPromotionAsync(promotion);
+            StoresUpdated?.Invoke();
+        }
+
+        public async Task AddPromotionAsync(Event @event)
+        {
+            await StadsAppRestApiClient.Instance.AddEventAsync(@event);
+            StoresUpdated?.Invoke();
+        }
+
+
     }
 }
