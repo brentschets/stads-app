@@ -29,7 +29,9 @@ namespace RESTAPI.Repositories
 
         public IEnumerable<Promotion> GetAll()
         {
-            return _context.Promotion;
+            var list = _context.Promotion.Include(p => p.Store);
+            SetImgPathHostName(list);
+            return list;
         }
 
         public IEnumerable<Promotion> GetPopular(int limit)
