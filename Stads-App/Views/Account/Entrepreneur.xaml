@@ -105,5 +105,34 @@
                         Command="{Binding AddEstablishmentCommand}" />
             </Grid>
         </PivotItem>
+        <PivotItem Header="Promoties">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0 25 0 0">
+                <TextBox PlaceholderText="Naam" Text="{Binding PromotionName, Mode=TwoWay}" Width="400"></TextBox>
+                <Button Content="Toevoegen" Command="{Binding AddPromotionCommand}" ></Button>
+            </StackPanel>
+                <ListView Grid.Row="1" Margin="0 25 0 0" ItemsSource="{Binding Promotions}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0, 10, 0, 0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
+                                <Button Command="{Binding ElementName=Page, Path=DataContext.DeletePromotionCommand}" CommandParameter="{Binding}">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#57607;" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+        </Grid>
+        </PivotItem>
     </Pivot>
 </local:BasePage>

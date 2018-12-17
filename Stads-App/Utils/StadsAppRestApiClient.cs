@@ -153,6 +153,19 @@ namespace Stads_App.Utils
             task.Wait();
         }
 
+        public async Task DeletepromotionAsync(int promotionId)
+        {
+            await DeleteAsync($"{Host}promotions/{promotionId}");
+        }
+
+        public async Task AddPromotionAsync(Promotion promotion)
+        {
+            await PostAsync($"{Host}promotions", PrepareContent(new
+            {
+                promotion.Name, promotion.Store.StoreId
+            }));
+        }
+
         #region Helpers
 
         private HttpContent PrepareContent(object o)

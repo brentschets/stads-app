@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance models:Store}">
 
-    <Grid Height="220">
+    <Grid Height="220" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <!-- ReSharper disable once NotAccessedField.Local -->
             <ColumnDefinition Width="300" x:Name="MainCol" />
@@ -17,11 +17,11 @@
             <ColumnDefinition Width="*" x:Name="DescriptionCol" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
+        <StackPanel HorizontalAlignment="Stretch">
             <!-- ReSharper disable once NotAccessedField.Local -->
             <TextBlock x:Name="StoreName" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Name}" />
             <!-- ReSharper disable once NotAccessedField.Local -->
-            <Image x:Name="StoreImg" HorizontalAlignment="Left" Source="{Binding ImgPath}"
+            <Image x:Name="StoreImg" HorizontalAlignment="Center" Source="{Binding ImgPath}"
                    MaxWidth="200" />
         </StackPanel>
         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}"

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -78,6 +79,19 @@ namespace Stads_App.ViewModels.Account
 
         public ICommand UpdateStoreCommand => new RelayCommand(o => UpdateStore());
 
+        private ObservableCollection<Promotion> _promotions;
+
+        public ObservableCollection<Promotion> Promotions
+        {
+            get => _promotions;
+            private set
+            {
+                _promotions = value;
+                OnPropertyChanged(nameof(Promotions));
+            }
+        }
+
+
         private async void UpdateStore()
         {
             var store = new Store
@@ -152,6 +166,33 @@ namespace Stads_App.ViewModels.Account
             Categories = await GetCategoriesAsync();
             Store = await GetStoreAsync();
             Establishments = new ObservableCollection<Establishment>(await GetEstablishmentsAsync());
+            Promotions = new ObservableCollection<Promotion>(await GetPromotionsAsync());
+        }
+
+        public ICommand DeletePromotionCommand => new RelayCommand(DeletePromotion);
+
+        private async void DeletePromotion(object args)
+        {
+            if (args is Promotion promotion)
+            {
+                await StadsAppRestApiClient.Instance.DeletepromotionAsync(promotion.PromotionId);
+                Promotions.Remove(promotion);
+            }
+        }
+
+        public string PromotionName { get; set; }
+
+        public ICommand AddPromotionCommand => new RelayCommand(AddPromotion);
+
+        private async void AddPromotion(object args)
+        {
+            var promotion = new Promotion
+            {
+                Name = PromotionName,
+                Store = Store
+            };
+            await StadsAppRestApiClient.Instance.AddPromotionAsync(promotion);
+            Promotions.Add(promotion);
         }
 
         #region Data Loaders
@@ -175,6 +216,12 @@ namespace Stads_App.ViewModels.Account
         {
             return await StadsAppRestApiClient.Instance.GetListAsync<Establishment>(
                 $"Establishments/ForStore/{Store.StoreId}");
+        }
+
+        private async Task<List<Promotion>> GetPromotionsAsync()
+        {
+            return await StadsAppRestApiClient.Instance.GetListAsync<Promotion>(
+                $"Promotions/Forstore/{Store.StoreId}");
         }
 
         #endregion
