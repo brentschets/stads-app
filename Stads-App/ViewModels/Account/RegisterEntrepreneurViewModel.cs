@@ -5,13 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
 using Stads_App.Models;
 using Stads_App.Utils;
 using Stads_App.Utils.Authentication;
-using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
@@ -139,10 +137,7 @@ namespace Stads_App.ViewModels.Account
 
             if (result.Success)
             {
-                if (Window.Current.Content is Frame frame)
-                {
-                    frame.Navigate(typeof(Entrepreneur));
-                }
+                ErrorMsg = "Geregistreerd";
             }
             else
             {

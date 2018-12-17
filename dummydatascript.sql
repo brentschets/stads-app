@@ -1,6 +1,330 @@
+USE [master]
+GO
+
+CREATE DATABASE [StadsApp]
+ CONTAINMENT = NONE
+GO
+ALTER DATABASE [StadsApp] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [StadsApp].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [StadsApp] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [StadsApp] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [StadsApp] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [StadsApp] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [StadsApp] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [StadsApp] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [StadsApp] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [StadsApp] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [StadsApp] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [StadsApp] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [StadsApp] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [StadsApp] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [StadsApp] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [StadsApp] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [StadsApp] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [StadsApp] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [StadsApp] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [StadsApp] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [StadsApp] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [StadsApp] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [StadsApp] SET READ_COMMITTED_SNAPSHOT ON 
+GO
+ALTER DATABASE [StadsApp] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [StadsApp] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [StadsApp] SET  MULTI_USER 
+GO
+ALTER DATABASE [StadsApp] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [StadsApp] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [StadsApp] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [StadsApp] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [StadsApp] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [StadsApp] SET QUERY_STORE = OFF
+GO
+USE [StadsApp]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[__EFMigrationsHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Address](
+	[AddressId] [int] IDENTITY(1,1) NOT NULL,
+	[Street] [nvarchar](max) NULL,
+	[Number] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Address] PRIMARY KEY CLUSTERED 
+(
+	[AddressId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[CategoryId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED 
+(
+	[CategoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Establishment](
+	[EstablishmentId] [int] IDENTITY(1,1) NOT NULL,
+	[ImgPath] [nvarchar](max) NULL,
+	[Visited] [int] NOT NULL,
+	[AddressId] [int] NULL,
+	[StoreId] [int] NULL,
+ CONSTRAINT [PK_Establishment] PRIMARY KEY CLUSTERED 
+(
+	[EstablishmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Event](
+	[EventId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[Description] [nvarchar](max) NULL,
+	[EstablishmentId] [int] NULL,
+	[Visited] [int] NOT NULL,
+ CONSTRAINT [PK_Event] PRIMARY KEY CLUSTERED 
+(
+	[EventId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Promotion](
+	[PromotionId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[StoreId] [int] NULL,
+	[Visited] [int] NOT NULL,
+ CONSTRAINT [PK_Promotion] PRIMARY KEY CLUSTERED 
+(
+	[PromotionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Store](
+	[StoreId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[ImgPath] [nvarchar](max) NULL,
+	[Description] [nvarchar](max) NULL,
+	[CategoryId] [int] NULL,
+ CONSTRAINT [PK_Store] PRIMARY KEY CLUSTERED 
+(
+	[StoreId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[UserId] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](max) NULL,
+	[LastName] [nvarchar](max) NULL,
+	[UserName] [nvarchar](450) NULL,
+	[PasswordHash] [varbinary](max) NULL,
+	[PasswordSalt] [varbinary](max) NULL,
+	[StoreId] [int] NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserEstablishment](
+	[UserId] [int] NOT NULL,
+	[EstablishmentId] [int] NOT NULL,
+ CONSTRAINT [PK_UserEstablishment] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC,
+	[EstablishmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Establishment_AddressId] ON [dbo].[Establishment]
+(
+	[AddressId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Establishment_StoreId] ON [dbo].[Establishment]
+(
+	[StoreId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Event_EstablishmentId] ON [dbo].[Event]
+(
+	[EstablishmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Promotion_StoreId] ON [dbo].[Promotion]
+(
+	[StoreId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Store_CategoryId] ON [dbo].[Store]
+(
+	[CategoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_User_StoreId] ON [dbo].[User]
+(
+	[StoreId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [IX_User_Username] ON [dbo].[User]
+(
+	[UserName] ASC
+)
+WHERE ([Username] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+CREATE NONCLUSTERED INDEX [IX_UserEstablishment_EstablishmentId] ON [dbo].[UserEstablishment]
+(
+	[EstablishmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Event] ADD  DEFAULT ((0)) FOR [Visited]
+GO
+ALTER TABLE [dbo].[Promotion] ADD  DEFAULT ((0)) FOR [Visited]
+GO
+ALTER TABLE [dbo].[Establishment]  WITH CHECK ADD  CONSTRAINT [FK_Establishment_Address_AddressId] FOREIGN KEY([AddressId])
+REFERENCES [dbo].[Address] ([AddressId])
+GO
+ALTER TABLE [dbo].[Establishment] CHECK CONSTRAINT [FK_Establishment_Address_AddressId]
+GO
+ALTER TABLE [dbo].[Establishment]  WITH CHECK ADD  CONSTRAINT [FK_Establishment_Store_StoreId] FOREIGN KEY([StoreId])
+REFERENCES [dbo].[Store] ([StoreId])
+GO
+ALTER TABLE [dbo].[Establishment] CHECK CONSTRAINT [FK_Establishment_Store_StoreId]
+GO
+ALTER TABLE [dbo].[Event]  WITH CHECK ADD  CONSTRAINT [FK_Event_Establishment_EstablishmentId] FOREIGN KEY([EstablishmentId])
+REFERENCES [dbo].[Establishment] ([EstablishmentId])
+GO
+ALTER TABLE [dbo].[Event] CHECK CONSTRAINT [FK_Event_Establishment_EstablishmentId]
+GO
+ALTER TABLE [dbo].[Promotion]  WITH CHECK ADD  CONSTRAINT [FK_Promotion_Store_StoreId] FOREIGN KEY([StoreId])
+REFERENCES [dbo].[Store] ([StoreId])
+GO
+ALTER TABLE [dbo].[Promotion] CHECK CONSTRAINT [FK_Promotion_Store_StoreId]
+GO
+ALTER TABLE [dbo].[Store]  WITH CHECK ADD  CONSTRAINT [FK_Store_Category_CategoryId] FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Category] ([CategoryId])
+GO
+ALTER TABLE [dbo].[Store] CHECK CONSTRAINT [FK_Store_Category_CategoryId]
+GO
+ALTER TABLE [dbo].[User]  WITH CHECK ADD  CONSTRAINT [FK_User_Store_StoreId] FOREIGN KEY([StoreId])
+REFERENCES [dbo].[Store] ([StoreId])
+GO
+ALTER TABLE [dbo].[User] CHECK CONSTRAINT [FK_User_Store_StoreId]
+GO
+ALTER TABLE [dbo].[UserEstablishment]  WITH CHECK ADD  CONSTRAINT [FK_UserEstablishment_Establishment_EstablishmentId] FOREIGN KEY([EstablishmentId])
+REFERENCES [dbo].[Establishment] ([EstablishmentId])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[UserEstablishment] CHECK CONSTRAINT [FK_UserEstablishment_Establishment_EstablishmentId]
+GO
+ALTER TABLE [dbo].[UserEstablishment]  WITH CHECK ADD  CONSTRAINT [FK_UserEstablishment_User_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([UserId])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[UserEstablishment] CHECK CONSTRAINT [FK_UserEstablishment_User_UserId]
+GO
+USE [master]
+GO
+ALTER DATABASE [StadsApp] SET  READ_WRITE 
+GO
+
 USE StadsApp
+GO
 
 SET IDENTITY_INSERT Category ON
+GO
 INSERT INTO Category(CategoryId, Name) VALUES
 (1, 'Eten & Drinken'),
 (2, 'Boeken'),
@@ -10,9 +334,12 @@ INSERT INTO Category(CategoryId, Name) VALUES
 (6, 'Wonen'),
 (7, 'Speelgoed'),
 (8, 'Andere')
+GO
 SET IDENTITY_INSERT Category OFF
+GO
 
 SET IDENTITY_INSERT Address ON
+GO
 INSERT INTO Address(AddressId, Street, Number) VALUES
 (1, 'Hopmarkt', '33'),
 (2, 'Nieuwstraat', '27/29'),
@@ -56,12 +383,14 @@ INSERT INTO Address(AddressId, Street, Number) VALUES
 (40, 'Moorselbaan', '39'),
 (41, 'Kapiteintjesstraat', '11/4'),
 (42, 'Nieuwstraat', '53/55'),
-(43, 'Grote Markt', '23/25')
-
-
+(43, 'Grote Markt', '23/25'),
+(44, 'Albrechtlaan', '58')
+GO
 SET IDENTITY_INSERT Address OFF
+GO
 
 SET IDENTITY_INSERT Store ON
+GO
 INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (1, 'Mister Spaghetti', 'A Yummy Spaghetti and Pasta Restaurant in Aalst? Dat is onze focus bij Mister Spaghetti Aalst.', '/img/1.jpg', 1),
 (2, 'H&M', 'H&M biedt een uitgebreid assortiment mode voor dames, heren, jongeren en kinderen. We bieden mode en kwaliteit tegen de beste prijs op een duurzamere manier.', '/img/2.jpg', 5),
@@ -112,10 +441,14 @@ INSERT INTO Store(StoreId, Name, Description, ImgPath, CategoryId) VALUES
 (39, 'Eurotuin', 'Eurotuin biedt je in 3 vestigingen en in de webshop een groot assortiment voor huis, tuin en dier. ','/img/39.jpg',8),
 (40, 'Action', 'Welkom bij Action in Aalst. In onze winkel vind je een uitgebreid assortiment aan woonartikelen, decoratie, kantoorartikelen, gereedschap, accessoires, ...','/img/40.jpg',8),
 (41, 'Veritas', 'Voor al uw naaigerief kom bij ons!','/img/41.jpg',8),
-(42, 'Zeeman', 'Alles voor de feestdagen vindt u bij ons!','/img/42.jpg',8)
+(42, 'Zeeman', 'Alles voor de feestdagen vindt u bij ons!','/img/42.jpg',8),
+(48, 'ALDI', 'Ontdek nieuwe aanbiedingen van betrouwbare ALDI-kwaliteit tegen scherpe prijzen. Verantwoordelijk. Eenvoudig. Betrouwbaar.', '/img/48.jpg', 8)
+GO
 SET IDENTITY_INSERT Store OFF
+Go
 
 SET IDENTITY_INSERT Establishment ON
+GO
 INSERT INTO Establishment(EstablishmentId, ImgPath, Visited, AddressId, StoreId) VALUES
 (2, '/img/establishments/2.jpg', 84, 2, 2),
 (3, '/img/establishments/3.PNG', 25, 3, 3),
@@ -167,21 +500,44 @@ INSERT INTO Establishment(EstablishmentId, ImgPath, Visited, AddressId, StoreId)
 (40, '/img/establishments/40.jpg', 45, 40, 39),
 (41, '/img/establishments/41.jpg', 45, 41, 40),
 (42, '/img/establishments/42.jpg', 45, 42, 41),
-(43, '/img/establishments/43.jpg', 45, 43, 42)
-
+(43, '/img/establishments/43.jpg', 45, 43, 42),
+(44, '/img/establishments/44.PNG', 0, 44, 48)
+GO
 SET IDENTITY_INSERT Establishment OFF
+GO
 
 SET IDENTITY_INSERT Event ON
+GO
 INSERT INTO Event(EventId, Name, Description, Visited, EstablishmentId) VALUES
 (1, 'Opendeurdag Lab9', 'Neem een kijkje achter de schermen in Lab9', 12, 11),
 (2, 'Opendeurdag Maxi Zoo', 'Kom eens kijken naar hoe wij instaan voor alle dieren', 9, 20),
 (3, 'Openbedrijvendag', 'Kom een kijkje nemen naar hoe wij achter de schermen werken', 13, 34)
+GO
 SET IDENTITY_INSERT Event OFF
+GO
 
 SET IDENTITY_INSERT Promotion ON
+GO
 INSERT INTO Promotion(PromotionId, Name, Visited, StoreId) VALUES
 (1, '3 DVD''s kopen, een vierde gratis', 80, 3),
 (2, '10% korting op alle damesschoenen', 43, 4),
 (3, 'T-Shirts voor maar 2 euro', 50, 42),
 (4, '2 zakken hondenbrokken en een gratis speeltje', 60, 19)
+GO
 SET IDENTITY_INSERT Promotion OFF
+GO
+
+SET IDENTITY_INSERT [dbo].[User] ON
+GO
+INSERT [dbo].[User] ([UserId], [FirstName], [LastName], [UserName], [PasswordHash], [PasswordSalt], [StoreId]) VALUES (1, N'Brent', N'Schets', N'Brent', 0xF3CAF0F28B42859560B7599C9B48C31B426A82441AB0E0FD666D47821A00D35A5156AE5B7EB9C9AFFAEC325351CBB0E0A820023C270D7B2D67E5FE59F9B30A06, 0x847FCE7A44ACC2E2DC3F4C537F192D6A686ED686A63B4C8B1CD0DBF8A4F37A40F412898147332D09DE6A4CF32BE368295B775EACAB2FFC7456608D31768C95AE258B26C1AFDB273E5D7294221176660DF02A3690A83082C72F09076A012F61EEF5ED5DD13E4234915DAD772D1CC0027B7CAB66D528E9713EA518EB0AC136BAF2, NULL)
+GO
+INSERT [dbo].[User] ([UserId], [FirstName], [LastName], [UserName], [PasswordHash], [PasswordSalt], [StoreId]) VALUES (7, N'Tiel', N'Van Hecke', N'Tiel', 0xBB517A7F4544086130CD5FAFD1F9FBA73BD5106323522B83ABBB063392D7A725E3C1CFF59D44FA697EE42B1E2A359F18632C4B71FB36474C4C9B08A2E57FEFD7, 0x41EA44D9E3000021120CACF99E2776AA56C025585E5E7589D8EA90068E652CBBEA0A52E06AA07952228E36AB97DF50E473ED029ACF9739483ABB51FFA3109D763569839D5AD6D624DDDEAAF4B0D974DAB3EF45459B79EF1868EC42277F020064B4CDA624A9EC2564D2A88D87DF84A55D82C4C8C284AD551A933C095A5649A084, 48)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+
+INSERT INTO UserEstablishment(UserId, EstablishmentId) VALUES
+(1, 1),
+(1, 3),
+(1, 36)
+GO

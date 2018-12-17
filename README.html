@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stads-App groep A2</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="stads-app-groep-a2">Stads-App groep A2</h1>
+<p>Van Hecke Tiel<br>
+Schets Brent<br>
+<a href="https://stadsappinstall.azurewebsites.net">https://stadsappinstall.azurewebsites.net</a></p>
+<h1 id="offline-uitvoeren">Offline uitvoeren</h1>
+<h2 id="database-aanmaken">Database aanmaken</h2>
+<p>Om de app offline te kunnen uitvoeren, moet eerst de database aangemaakt worden. Hiervoor is een named instance (SQLSERVER) van Microsoft SQL Server nodig. Verbind met de SQL server via SQL Server Management Studio of een andere IDE. Voer het bijgeleverde SQL script ‘dummydatascript.sql’ uit.</p>
+<h2 id="broncode-aanpassen">Broncode aanpassen</h2>
+<p>De broncode van dit project is ingesteld om de offline database te gebruiken. Controleer dit vooralleer het project uit te voeren.</p>
+<h3 id="restapi">RESTAPI</h3>
+<ul>
+<li>‘Startup.cs’: De connectionstring ‘Local’ moet gebruikt worden</li>
+<li>‘Utils/Appsettings.cs’: De URL voor localhost moet gebruikt worden. Zorg ervoor dat deze niet in commentaar staat en de URL voor de Azure website in commentaar staat.</li>
+</ul>
+<h3 id="stads-app">Stads-App</h3>
+<ul>
+<li>‘Utils/StadsAppRestApiClient.cs’: De constructor die aangeduid staat met ‘local’ moet gebruikt worden. De constructor die met ‘deploy’ aangeduid is moet in commentaar staan.</li>
+<li>‘Utils/StadsAppRestApiClient.cs’: De URL voor localhost moet gebruikt worden, deze staat aangeduid met ‘local’. De URL voor de online Rest API moet in commentaar staan.</li>
+</ul>
+<h2 id="user-secret">User Secret</h2>
+<p>Opdat de Rest API correct zou werken, moet men het backend geheim instellen. Dit kan door in Visual Studio met de rechtermuisknop op het project ‘RESTAPI’ te klikken en ‘Manage User Secrets’ te selecteren. Plaats daar vervolgens deze tekst:</p>
+<pre><code>{
+    "JWTSecret":  "DE KAT KRABT DE KROLLEN VAN DE TRAP"
+}
+</code></pre>
+<h1 id="online-uitvoeren">Online uitvoeren</h1>
+<p>Alternatief kan de app via de online Rest API gebruikt worden. Hiervoor is geen lokale database nodig. Ga daarvoor naar de website <a href="https://stadsappinstall.azurewebsites.net">https://stadsappinstall.azurewebsites.net</a>.</p>
+<h2 id="certificaat-installeren">Certificaat installeren</h2>
+<p>Vooralleer de app geïnstalleerd kan worden, moet men eerst het certificaat downloaden. Dit kan via het menu ‘Additional links’ -&gt; ‘Publisher Certificate’. Installeer het certificaat in de ‘Trusted Root Certification Authorities’ store.</p>
+<h2 id="app-installeren">App installeren</h2>
+<p>Als het certificaat geïnstalleerd is, kan men de app downloaden. Klik op ‘Get the app’. Dit is een magnet link. Eventueel vraagt uw browser u om bevestiging om App Installer to openen. Bevestig dat u de app wilt installeren.</p>
+<h2 id="automatische-updates">Automatische updates</h2>
+<p>Wanneer u de app via de online website installeert, worden eventuele toekomstige updates automatsich geïnstalleerd. U hoeft de app dus niet steeds opnieuw te installeren.</p>
+<h1 id="accounts">Accounts</h1>
+<p>Om de functionaliteit van de app uit te testen, bevat het dummydata script twee accounts: één normale gebruiker en één handelaar.</p>
+<h2 id="bezoeker">Bezoeker</h2>
+<p>De logingegevens van de normale gebruiker zijn:</p>
+<ul>
+<li>Gebruikersnaam: Brent</li>
+<li>Wachtwoord: Brent</li>
+</ul>
+<p>Deze gebruiker is al geabonneerd op drie winkels.</p>
+<h2 id="handelaar">Handelaar</h2>
+<p>De logingegevens van de handelaar zijn:</p>
+<ul>
+<li>Gebruikersnaam: Tiel</li>
+<li>Wachtwoord: Tiel</li>
+</ul>
+<p>Deze gebruiker is de eigenaar van ALDI. Deze winkel heeft momenteel één vestiging, maar men kan er meer toevoegen (er zijn drie ALDI’s in Aalst).</p>
+</div>
+</body>
+
+</html>

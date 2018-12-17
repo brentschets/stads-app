@@ -138,7 +138,6 @@ namespace Stads_App.Utils.Authentication
             if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
 
             var res = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, image, user);
-            if (res.Success && res.User != null) CurrentUser = res.User;
             return res;
         }
 
