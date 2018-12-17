@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Exceptions;
+using RESTAPI.Models;
 using RESTAPI.Repositories;
+using RESTAPI.ViewModels;
 
 namespace RESTAPI.Controllers
 {
@@ -37,10 +39,38 @@ namespace RESTAPI.Controllers
         }
 
         // GET: api/Events/ForEstablishment/2
-        [HttpGet("ForEstablishment/{estalishmentId}")]
+        [HttpGet("ForEstablishment/{establishmentId}")]
         public IActionResult GetForEstablishment([FromRoute] int establishmentId)
         {
             return Ok(_eventRepository.GetForEstablishment(establishmentId));
+        }
+
+        // POST: api/Events
+        [HttpPost]
+        public IActionResult AddEvent([FromBody] AddEventViewModel viewModel)
+        {
+            var @event = new Event
+            {
+                Name = viewModel.Name,
+                Description = viewModel.Description
+            };
+
+            try
+            {
+                return Ok(_eventRepository.Add(@event, viewModel.EstablishmentId));
+            }
+            catch (EventException e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
+        // DELETE: api/Events/3
+        [HttpDelete("{eventId}")]
+        public IActionResult DeleteEvent([FromRoute] int eventId)
+        {
+            _eventRepository.Delete(eventId);
+            return Ok();
         }
     }
 }

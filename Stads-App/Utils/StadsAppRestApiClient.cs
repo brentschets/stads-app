@@ -160,10 +160,32 @@ namespace Stads_App.Utils
 
         public async Task AddPromotionAsync(Promotion promotion)
         {
-            await PostAsync($"{Host}promotions", PrepareContent(new
+            var res = await PostAsync($"{Host}promotions", PrepareContent(new
             {
-                promotion.Name, promotion.Store.StoreId
+                promotion.Name,
+                promotion.Store.StoreId
             }));
+
+            var dbPromotion = JsonConvert.DeserializeObject<Promotion>(await res.Content.ReadAsStringAsync());
+            promotion.PromotionId = dbPromotion.PromotionId;
+        }
+
+        public async Task DeleteEventAsync(int eventId)
+        {
+            await DeleteAsync($"{Host}Events/{eventId}");
+        }
+
+        public async Task AddEventAsync(Event @event)
+        {
+            var res = await PostAsync($"{Host}Events", PrepareContent(new
+            {
+                @event.Name,
+                @event.Description,
+                @event.Establishment.EstablishmentId
+            }));
+
+            var dbEvent = JsonConvert.DeserializeObject<Event>(await res.Content.ReadAsStringAsync());
+            @event.EventId = dbEvent.EventId;
         }
 
         #region Helpers

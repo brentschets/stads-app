@@ -13,6 +13,8 @@ namespace RESTAPI.Repositories
         IEnumerable<Event> GetAll();
         IEnumerable<Event> GetPopular(int limit);
         IEnumerable<Event> GetForEstablishment(int establishmentId);
+        Event Add(Event @event, int establishmentId);
+        void Delete(int eventId);
     }
 
     public class EventRepository : IEventRepository
@@ -49,6 +51,31 @@ namespace RESTAPI.Repositories
             SetImgPathHostName(list);
 
             return list;
+        }
+
+        public Event Add(Event @event, int establishmentId)
+        {
+            var establishment = _context.Establishment.Find(establishmentId);
+            if (establishment == null)
+            {
+                throw new EventException($"The establishment with id {establishmentId} does not exist");
+            }
+
+            @event.Establishment = establishment;
+            _context.Event.Add(@event);
+            _context.SaveChanges();
+            
+            return @event;
+        }
+
+        public void Delete(int eventId)
+        {
+            var @event = _context.Event.Find(eventId);
+            if (@event != null)
+            {
+                _context.Event.Remove(@event);
+                _context.SaveChanges();
+            }
         }
 
         #region Helpers

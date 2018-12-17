@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI.Exceptions;
 using RESTAPI.Models;
 using RESTAPI.Repositories;

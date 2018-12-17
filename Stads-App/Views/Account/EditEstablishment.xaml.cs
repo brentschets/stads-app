@@ -24,6 +24,7 @@ namespace Stads_App.Views.Account
             {
                 _viewModel.Establishment = establishment;
                 _viewModel.Frame = Frame;
+                _viewModel.LoadDataAsync();
             }
         }
     }
