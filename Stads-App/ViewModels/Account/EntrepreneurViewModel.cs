@@ -190,7 +190,7 @@ namespace Stads_App.ViewModels.Account
                 Name = PromotionName,
                 Store = Store
             };
-            await _userManager.AddPromotionAsync(promotion);
+            await StadsAppRestApiClient.Instance.AddPromotionAsync(promotion);
             Promotions.Add(promotion);
         }
 

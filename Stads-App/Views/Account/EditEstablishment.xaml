@@ -11,7 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance account:EditEstablishmentViewModel}">
 
-    <ScrollViewer>
+    <ScrollViewer HorizontalScrollMode="Disabled">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

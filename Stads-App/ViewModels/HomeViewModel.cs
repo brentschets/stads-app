@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Stads_App.Models;
 using Stads_App.Annotations;
 using Stads_App.Utils;
-using Stads_App.Utils.Authentication;
 
 namespace Stads_App.ViewModels
 {
@@ -62,7 +61,6 @@ namespace Stads_App.ViewModels
         public HomeViewModel()
         {
             IsLoaded = false;
-            UserManager.StoresUpdated += () => LoadDataAsync().Wait();
         }
 
         #region Data loaders

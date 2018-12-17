@@ -13,6 +13,10 @@ namespace Stads_App.Utils
 {
     public class StadsAppRestApiClient : HttpClient
     {
+        public delegate void UpdateEvent();
+
+        public event UpdateEvent Updated;
+
         private static readonly Lazy<StadsAppRestApiClient> Lazy =
             new Lazy<StadsAppRestApiClient>(() => new StadsAppRestApiClient());
 
@@ -92,7 +96,7 @@ namespace Stads_App.Utils
                 bytes = binaryReader.ReadBytes((int) stream.Length);
             }
 
-            return ProcessResponse(await PostAsync($"{Host}Users/RegisterStore", PrepareContent(new
+            var res =  ProcessResponse(await PostAsync($"{Host}Users/RegisterStore", PrepareContent(new
             {
                 // add store
                 StoreName = store.Name,
@@ -107,6 +111,9 @@ namespace Stads_App.Utils
                 user.Username,
                 user.Password
             })));
+
+            if (res.Success) Updated?.Invoke();
+            return res;
         }
 
         public async Task<RestApiResponse> UpdateStoreAsync(Store store)
@@ -156,6 +163,7 @@ namespace Stads_App.Utils
         public async Task DeletepromotionAsync(int promotionId)
         {
             await DeleteAsync($"{Host}promotions/{promotionId}");
+            Updated?.Invoke();
         }
 
         public async Task AddPromotionAsync(Promotion promotion)
@@ -168,11 +176,14 @@ namespace Stads_App.Utils
 
             var dbPromotion = JsonConvert.DeserializeObject<Promotion>(await res.Content.ReadAsStringAsync());
             promotion.PromotionId = dbPromotion.PromotionId;
+
+            Updated?.Invoke();
         }
 
         public async Task DeleteEventAsync(int eventId)
         {
             await DeleteAsync($"{Host}Events/{eventId}");
+            Updated?.Invoke();
         }
 
         public async Task AddEventAsync(Event @event)
@@ -186,6 +197,8 @@ namespace Stads_App.Utils
 
             var dbEvent = JsonConvert.DeserializeObject<Event>(await res.Content.ReadAsStringAsync());
             @event.EventId = dbEvent.EventId;
+
+            Updated?.Invoke();
         }
 
         #region Helpers

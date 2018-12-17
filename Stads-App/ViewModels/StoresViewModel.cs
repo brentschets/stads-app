@@ -7,7 +7,6 @@ using Windows.UI.Xaml.Controls;
 using Stads_App.Models;
 using Stads_App.Annotations;
 using Stads_App.Utils;
-using Stads_App.Utils.Authentication;
 
 namespace Stads_App.ViewModels
 {
@@ -68,11 +67,6 @@ namespace Stads_App.ViewModels
             _allStores = await StadsAppRestApiClient.Instance.GetListAsync<Store>("Stores");
             Stores = _allStores;
             IsLimitedList = false;
-        }
-
-        public StoresViewModel()
-        {
-            UserManager.StoresUpdated += () => LoadDataAsync(null).Wait();
         }
 
         public async Task LoadDataAsync(int? categoryId)

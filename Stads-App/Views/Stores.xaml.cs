@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Stads_App.Models;
+using Stads_App.Utils;
 using Stads_App.ViewModels;
 using Stads_App.Views.Details;
 
@@ -24,6 +25,11 @@ namespace Stads_App.Views
             NavigationCacheMode = NavigationCacheMode.Enabled;
             _viewModel = new StoresViewModel();
             DataContext = _viewModel;
+            StadsAppRestApiClient.Instance.Updated += () =>
+            {
+                NavigationCacheMode = NavigationCacheMode.Disabled;
+                NavigationCacheMode = NavigationCacheMode.Enabled;
+            };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

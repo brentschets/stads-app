@@ -5,15 +5,20 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Stads_App.Annotations;
 using Stads_App.Models;
 using Stads_App.Utils;
+using Stads_App.Utils.Authentication;
+using Stads_App.Views.Account;
 
 namespace Stads_App.ViewModels.Account
 {
     public sealed class RegisterEntrepreneurViewModel : INotifyPropertyChanged
     {
+        private readonly UserManager _userManager;
+
         public ICommand FileUpload => new RelayCommand(o => UploadFile());
 
         public ICommand RegisterEntrepreneurCommand => new RelayCommand(o => RegisterEntrepreneur());
@@ -130,14 +135,25 @@ namespace Stads_App.ViewModels.Account
                 Password = Password
             };
 
-            var result = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, Image, user);
+            var result = await _userManager.RegisterStoreAsync(store, Image, user);
 
-            if (result.Success) ErrorMsg = "Geregistreerd";
+            if (result.Success)
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    frame.Navigate(typeof(Entrepreneur));
+                }
+            }
             else
             {
                 ErrorMsg = result.Error?.Message;
                 IsActive = true;
             }
+        }
+
+        public RegisterEntrepreneurViewModel()
+        {
+            _userManager = new UserManager();
         }
 
         private async Task<List<Category>> GetCategoriesAsync()

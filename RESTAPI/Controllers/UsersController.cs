@@ -123,9 +123,9 @@ namespace RESTAPI.Controllers
 
             try
             {
-                var retStore = _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image, viewModel.FileName,
+                _storeRepository.Create(store, viewModel.CategoryId, viewModel.Image, viewModel.FileName,
                     user.UserId);
-                return Ok(retStore);
+                return Ok(user);
             }
             catch (StoreException e)
             {

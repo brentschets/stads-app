@@ -149,7 +149,7 @@ namespace Stads_App.ViewModels.Account
                 Establishment = Establishment
             };
 
-            await _userManager.AddEventAsync(@event);
+            await StadsAppRestApiClient.Instance.AddEventAsync(@event);
             Events.Add(@event);
         }
 

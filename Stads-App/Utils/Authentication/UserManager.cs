@@ -15,10 +15,6 @@ namespace Stads_App.Utils.Authentication
 
         public static event UserUpdateEvent UserUpdated;
 
-        public delegate void StoresUpdatedEvent();
-
-        public static event StoresUpdatedEvent StoresUpdated;
-
         private static User _currentUser;
 
         public User CurrentUser
@@ -139,8 +135,10 @@ namespace Stads_App.Utils.Authentication
 
         public async Task<RestApiResponse> RegisterStoreAsync(Store store, StorageFile image, User user)
         {
+            if (IsLoggedIn()) throw new InvalidOperationException("Another user is already logged in");
+
             var res = await StadsAppRestApiClient.Instance.RegisterStoreAsync(store, image, user);
-            if (res.Success) StoresUpdated?.Invoke();
+            if (res.Success && res.User != null) CurrentUser = res.User;
             return res;
         }
 
@@ -173,19 +171,5 @@ namespace Stads_App.Utils.Authentication
 
             await StadsAppRestApiClient.Instance.UpdateEstablishmentAsync(establishment);
         }
-
-        public async Task AddPromotionAsync(Promotion promotion)
-        {
-            await StadsAppRestApiClient.Instance.AddPromotionAsync(promotion);
-            StoresUpdated?.Invoke();
-        }
-
-        public async Task AddEventAsync(Event @event)
-        {
-            await StadsAppRestApiClient.Instance.AddEventAsync(@event);
-            StoresUpdated?.Invoke();
-        }
-
-
     }
 }
