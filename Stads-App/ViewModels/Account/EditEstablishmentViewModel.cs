@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
@@ -9,7 +11,7 @@ using Stads_App.Utils.Authentication;
 
 namespace Stads_App.ViewModels.Account
 {
-    public class EditEstablishmentViewModel : INotifyPropertyChanged
+    public sealed class EditEstablishmentViewModel : INotifyPropertyChanged
     {
         public Establishment Establishment
         {
@@ -110,15 +112,63 @@ namespace Stads_App.ViewModels.Account
             Frame.GoBack();
         }
 
+        private ObservableCollection<Event> _events;
+
+        public ObservableCollection<Event> Events
+        {
+            get => _events;
+            private set
+            {
+                _events = value;
+                OnPropertyChanged(nameof(Events));
+            }
+        }
+
+        public ICommand RemoveEventCommand => new RelayCommand(RemoveEvent);
+
+        private async void RemoveEvent(object args)
+        {
+            var eventId = (int) args;
+            await StadsAppRestApiClient.Instance.DeleteEventAsync(eventId);
+            var @event = Events.Single(e => e.EventId == eventId);
+            Events.Remove(@event);
+        }
+
+        public string EventName { get; set; }
+
+        public string EventDescription { get; set; }
+
+        public ICommand AddEventCommand => new RelayCommand(o => AddEvent());
+
+        private async void AddEvent()
+        {
+            var @event = new Event
+            {
+                Name = EventName,
+                Description = EventDescription,
+                Establishment = Establishment
+            };
+
+            await StadsAppRestApiClient.Instance.AddEventAsync(@event);
+            Events.Add(@event);
+        }
+
         public EditEstablishmentViewModel()
         {
             _userManager = new UserManager();
         }
 
+        public async void LoadDataAsync()
+        {
+            Events = new ObservableCollection<Event>(
+                await StadsAppRestApiClient.Instance.GetListAsync<Event>(
+                    $"Events/ForEstablishment/{Establishment.EstablishmentId}"));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

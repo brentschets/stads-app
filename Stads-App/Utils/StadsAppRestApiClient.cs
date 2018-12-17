@@ -21,24 +21,24 @@ namespace Stads_App.Utils
         private readonly UserManager _userManager;
 
         //local
-        //private StadsAppRestApiClient() : base(new HttpClientHandler
-        //{
-        //    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
-        //})
-        //{
-        //    _userManager = new UserManager();
-        //}
-
-        //deploy
-        private StadsAppRestApiClient()
+        private StadsAppRestApiClient() : base(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        })
         {
             _userManager = new UserManager();
         }
 
         //deploy
-        private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
+        //private StadsAppRestApiClient()
+        //{
+        //    _userManager = new UserManager();
+        //}
+
+        //deploy
+        //private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
         //local
-        //private const string Host = "https://localhost:44301/api/";
+        private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
@@ -160,10 +160,32 @@ namespace Stads_App.Utils
 
         public async Task AddPromotionAsync(Promotion promotion)
         {
-            await PostAsync($"{Host}promotions", PrepareContent(new
+            var res = await PostAsync($"{Host}promotions", PrepareContent(new
             {
-                promotion.Name, promotion.Store.StoreId
+                promotion.Name,
+                promotion.Store.StoreId
             }));
+
+            var dbPromotion = JsonConvert.DeserializeObject<Promotion>(await res.Content.ReadAsStringAsync());
+            promotion.PromotionId = dbPromotion.PromotionId;
+        }
+
+        public async Task DeleteEventAsync(int eventId)
+        {
+            await DeleteAsync($"{Host}Events/{eventId}");
+        }
+
+        public async Task AddEventAsync(Event @event)
+        {
+            var res = await PostAsync($"{Host}Events", PrepareContent(new
+            {
+                @event.Name,
+                @event.Description,
+                @event.Establishment.EstablishmentId
+            }));
+
+            var dbEvent = JsonConvert.DeserializeObject<Event>(await res.Content.ReadAsStringAsync());
+            @event.EventId = dbEvent.EventId;
         }
 
         #region Helpers
