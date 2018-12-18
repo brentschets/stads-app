@@ -25,24 +25,24 @@ namespace Stads_App.Utils
         private readonly UserManager _userManager;
 
         //local
-        private StadsAppRestApiClient() : base(new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
-        })
-        {
-            _userManager = new UserManager();
-        }
-
-        //deploy
-        //private StadsAppRestApiClient()
+        //private StadsAppRestApiClient() : base(new HttpClientHandler
+        //{
+        //    ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+        //})
         //{
         //    _userManager = new UserManager();
         //}
 
         //deploy
-        //private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
+        private StadsAppRestApiClient()
+        {
+            _userManager = new UserManager();
+        }
+
+        //deploy
+        private const string Host = "https://stadsapprestapi.azurewebsites.net/api/";
         //local
-        private const string Host = "https://localhost:44301/api/";
+        //private const string Host = "https://localhost:44301/api/";
 
         public async Task<List<T>> GetListAsync<T>(string relUri)
         {
